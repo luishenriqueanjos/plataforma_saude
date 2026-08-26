@@ -10,7 +10,7 @@ O acompanhamento de metodologias de treino estruturadas em blocos de notas gené
 
 ## Composição do Time
 - **Priorização do Backlog & Arquitetura:** Luis Henrique Anjos de Oliveira
-- **Desenvolvimento (Banco de Dados & API):** Arthur
+- **Desenvolvimento (Banco de Dados & API):** Arthur Sidarta Fernandes de Souza Lima
 - **Desenvolvimento (Lógica Estatística de Progressão):** Samuel Silva Andrade
 - **Desenvolvimento (Front-end & Visualização de Gráficos):** Ayrton Miranda Pimenta da Silva
 
@@ -18,9 +18,15 @@ O acompanhamento de metodologias de treino estruturadas em blocos de notas gené
 
 1. Certifique-se de ter o Python 3 instalado no seu sistema.
 2. Clone o repositório e acesse a pasta do projeto:
+```bash
    git clone https://github.com/luishenriqueanjos/plataforma_saude
    cd plataforma_saude
+```
 3. Instale as dependências:
+```bash
    pip install -r requirements.txt
+```
 4. Execute a aplicação:
+```bash   
    python main.py
+```
