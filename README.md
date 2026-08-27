@@ -11,7 +11,7 @@ O acompanhamento de metodologias de treino estruturadas em blocos de notas gené
 ## Composição do Time
 - **Priorização do Backlog & Arquitetura:** Luis Henrique Anjos de Oliveira
 - **Desenvolvimento (Banco de Dados & API):** Arthur Sidarta Fernandes de Souza Lima.
-- **Desenvolvimento (Lógica Estatística de Progressão):** Samuel Silva Andrade
+- **Desenvolvimento (Lógica Estatística de Progressão):** Samuel Silva Andrade.
 - **Desenvolvimento (Front-end & Visualização de Gráficos):** Ayrton Miranda Pimenta da Silva.
 
 ## Como Executar
