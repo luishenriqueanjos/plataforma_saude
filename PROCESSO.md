@@ -22,7 +22,7 @@ Compensação para o fator "pessoal": artefatos escritos a cada marco e revisão
 
 ## Papéis
 - Prioriza o backlog: Luis Henrique Anjos de Oliveira
-- Conduz a demonstração: Arthur
+- Conduz a demonstração: Arthur Sidarta Fernandes de Sousa Lima..
 - Revisa privacidade e dados de saúde: Ayrton Miranda Pimenta da Silva
 - Demais decisões técnicas: quem estiver na tarefa, conforme CONTRIBUTING.md
 
