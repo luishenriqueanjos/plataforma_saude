@@ -1,0 +1,32 @@
+classDiagram
+
+    class Usuario {
+        +id: int
+    }
+
+    class Treino {
+        +id: int
+        +data: date
+    }
+
+    class Exercicio {
+        +id: int
+        +nome: string
+    }
+
+    class Serie {
+        +id: int
+        +repeticoes: int
+        +carga: decimal
+    }
+
+    class Meta {
+        +id: int
+        +tipo: string
+        +valorDiario: decimal
+    }
+
+    Usuario "1" --> "0..*" Treino : registra
+    Treino "1" --> "1..*" Exercicio : possui
+    Exercicio "1" --> "1..*" Serie : possui
+    Usuario "1" --> "0..*" Meta : define
