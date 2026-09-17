@@ -1,0 +1,36 @@
+erDiagram
+
+    USUARIO {
+        int id PK
+    }
+
+    TREINO {
+        int id PK
+        int usuario_id FK
+        date data
+    }
+
+    EXERCICIO {
+        int id PK
+        int treino_id FK
+        string nome
+    }
+
+    SERIE {
+        int id PK
+        int exercicio_id FK
+        int repeticoes
+        decimal carga
+    }
+
+    META {
+        int id PK
+        int usuario_id FK
+        string tipo
+        decimal valor_diario
+    }
+
+    USUARIO ||--o{ TREINO : registra
+    TREINO ||--|{ EXERCICIO : possui
+    EXERCICIO ||--|{ SERIE : possui
+    USUARIO ||--o{ META : define

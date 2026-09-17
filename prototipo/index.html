@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Protótipo - Registro de Treino</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f4f4f5;color:#18181b}
+.app{width:390px;min-height:844px;margin:30px auto;background:white;border:1px solid #ddd;border-radius:28px;overflow:hidden;box-shadow:0 8px 30px #0002}
+header{padding:24px 22px 12px;border-bottom:1px solid #eee}
+header h1{margin:0 0 6px;font-size:24px}
+header p{margin:0;color:#71717a;font-size:14px}
+main{padding:22px}
+.screen{display:none}
+.screen.active{display:block}
+.card{border:1px solid #e4e4e7;border-radius:16px;padding:18px;margin-bottom:14px}
+.card h2{font-size:18px;margin:0 0 8px}
+.card p{color:#52525b;line-height:1.45}
+button{width:100%;border:0;border-radius:12px;padding:14px;margin-top:10px;font-size:15px;font-weight:600;cursor:pointer;background:#18181b;color:white}
+button.secondary{background:#e4e4e7;color:#18181b}
+button.danger{background:#fee2e2;color:#991b1b}
+label{display:block;font-size:13px;font-weight:600;margin:14px 0 6px}
+input,select{width:100%;padding:12px;border:1px solid #d4d4d8;border-radius:10px;font-size:15px}
+.row{display:flex;gap:10px}
+.row>div{flex:1}
+.exercise{border:1px solid #e4e4e7;border-radius:14px;padding:14px;margin-top:14px}
+.exercise h3{margin:0 0 10px;font-size:16px}
+.serie{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.alert{background:#fef2f2;border:1px solid #fecaca;color:#991b1b;padding:13px;border-radius:12px;margin-bottom:14px;font-size:14px;line-height:1.4}
+.success{background:#f4f4f5;border-radius:14px;padding:16px;margin:15px 0}
+.volume{font-size:30px;font-weight:700;margin:4px 0}
+.back{background:transparent;color:#52525b;padding:8px 0;text-align:left;width:auto;margin:0 0 12px}
+.badge{display:inline-block;padding:5px 9px;border-radius:999px;background:#e4e4e7;font-size:12px}
+footer{padding:14px 22px;border-top:1px solid #eee;color:#71717a;font-size:12px;text-align:center}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <h1>Treinos</h1>
+  <p>Protótipo navegável — fluxo principal</p>
+</header>
+
+<main>
+<section id="home" class="screen active">
+  <div class="card">
+    <span class="badge">Treino</span>
+    <h2>Novo treino</h2>
+    <p>Registre exercícios, séries, repetições e cargas para acompanhar sua evolução.</p>
+    <button onclick="show('novo')">Iniciar novo treino</button>
+  </div>
+  <div class="card">
+    <h2>Último treino</h2>
+    <p>Supino reto · 3 séries · 20 kg</p>
+    <button class="secondary" onclick="show('resumo')">Ver resumo</button>
+  </div>
+</section>
+
+<section id="novo" class="screen">
+  <button class="back" onclick="show('home')">← Voltar</button>
+  <h2>Novo treino</h2>
+  <label>Data</label>
+  <input type="date" value="2026-09-17">
+  <div class="exercise">
+    <h3>Exercício</h3>
+    <label>Nome</label>
+    <select>
+      <option>Supino reto</option>
+      <option>Agachamento</option>
+      <option>Remada</option>
+      <option>Desenvolvimento</option>
+    </select>
+    <label>Séries</label>
+    <div class="serie">
+      <input id="rep1" type="number" placeholder="Repetições" value="10">
+      <input id="carga1" type="number" placeholder="Carga (kg)" value="20">
+    </div>
+    <div class="serie">
+      <input type="number" placeholder="Repetições" value="10">
+      <input type="number" placeholder="Carga (kg)" value="20">
+    </div>
+    <div class="serie">
+      <input type="number" placeholder="Repetições" value="10">
+      <input type="number" placeholder="Carga (kg)" value="20">
+    </div>
+  </div>
+  <button onclick="show('resumo')">Salvar treino</button>
+  <button class="danger" onclick="show('erro')">Testar recusa: carga ausente</button>
+</section>
+
+<section id="erro" class="screen">
+  <button class="back" onclick="show('novo')">← Voltar ao treino</button>
+  <h2>Não foi possível salvar</h2>
+  <div class="alert">
+    <strong>Dados incompletos.</strong><br>
+    Informe a carga de todas as séries antes de salvar o treino.
+  </div>
+  <button onclick="show('novo')">Corrigir dados</button>
+  <button class="secondary" onclick="show('home')">Cancelar treino</button>
+</section>
+
+<section id="resumo" class="screen">
+  <button class="back" onclick="show('home')">← Voltar</button>
+  <h2>Treino salvo</h2>
+  <div class="success">
+    <span class="badge">Finalizado</span>
+    <p>Supino reto</p>
+    <div class="volume">600 kg</div>
+    <small>Volume total do exercício</small>
+  </div>
+  <div class="card">
+    <h2>Resumo da sessão</h2>
+    <p>3 séries × 10 repetições × 20 kg</p>
+    <p>O treino foi registrado com sucesso e pode ser consultado no histórico.</p>
+  </div>
+  <button onclick="show('home')">Voltar para treinos</button>
+</section>
+</main>
+<footer>Fluxo: Novo treino → Dados → Salvar → Resumo / Recusa</footer>
+</div>
+
+<script>
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+</script>
+</body>
+</html>

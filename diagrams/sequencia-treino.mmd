@@ -1,0 +1,24 @@
+sequenceDiagram
+
+    actor Usuario
+    participant App as Sistema
+    participant Banco as Banco de Dados
+
+    Usuario->>App: Seleciona "Novo treino"
+    App-->>Usuario: Exibe formulário de novo treino
+
+    Usuario->>App: Informa exercício, séries, repetições e cargas
+    App-->>Usuario: Exibe dados preenchidos
+
+    Usuario->>App: Confirma salvamento
+
+    App->>App: Valida os dados informados
+
+    alt Dados válidos
+        App->>Banco: Salva treino, exercícios e séries
+        Banco-->>App: Confirma salvamento
+        App->>App: Calcula volume do treino
+        App-->>Usuario: Exibe resumo do treino e volume total
+    else Dados incompletos
+        App-->>Usuario: Destaca campos obrigatórios
+    end
