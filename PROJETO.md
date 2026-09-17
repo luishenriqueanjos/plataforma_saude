@@ -105,15 +105,6 @@ O fluxo principal contempla o cadastro de um treino, a inclusão de exercícios,
 
 As telas de recusa devem contemplar situações em que o sistema não permite o avanço do fluxo, como a tentativa de salvar um treino sem informar dados obrigatórios.
 
-## Conferência cruzada
-
-A conferência cruzada deve verificar a correspondência entre o `REQUISITOS.md`, o modelo de domínio, o modelo de dados e os diagramas de comportamento.
-
-Registro da conferência:
-
-* Data: a preencher.
-* Responsável pela conferência: a preencher.
-* Correções realizadas: a preencher.
 
 ## Histórico de revisão
 
