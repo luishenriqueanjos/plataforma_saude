@@ -1,0 +1,13 @@
+{
+  "id": 1,
+  "data": "2026-10-15",
+  "exercicio": "Supino reto",
+  "total_series": 3,
+  "volume_total": 600.0,
+  "series": [
+    { "repeticoes": 10, "carga": 20.0 },
+    { "repeticoes": 10, "carga": 20.0 },
+    { "repeticoes": 10, "carga": 20.0 }
+  ],
+  "mensagem": "Treino registrado com sucesso."
+}
