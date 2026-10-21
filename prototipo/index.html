@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Protótipo - Registro de Treino</title>
+<title>Plataforma de Saúde - Registro de Treino</title>
 <style>
 *{box-sizing:border-box}
 body{margin:0;font-family:Arial,sans-serif;background:#f4f4f5;color:#18181b}
@@ -16,7 +16,7 @@ main{padding:22px}
 .screen.active{display:block}
 .card{border:1px solid #e4e4e7;border-radius:16px;padding:18px;margin-bottom:14px}
 .card h2{font-size:18px;margin:0 0 8px}
-.card p{color:#52525b;line-height:1.45}
+.card p{color:#52525b;line-height:1.45;margin:4px 0}
 button{width:100%;border:0;border-radius:12px;padding:14px;margin-top:10px;font-size:15px;font-weight:600;cursor:pointer;background:#18181b;color:white}
 button.secondary{background:#e4e4e7;color:#18181b}
 button.danger{background:#fee2e2;color:#991b1b}
@@ -39,7 +39,7 @@ footer{padding:14px 22px;border-top:1px solid #eee;color:#71717a;font-size:12px;
 <div class="app">
 <header>
   <h1>Treinos</h1>
-  <p>Protótipo navegável — fluxo principal</p>
+  <p>Fluxo principal — Registro e Volume</p>
 </header>
 
 <main>
@@ -52,7 +52,7 @@ footer{padding:14px 22px;border-top:1px solid #eee;color:#71717a;font-size:12px;
   </div>
   <div class="card">
     <h2>Último treino</h2>
-    <p>Supino reto · 3 séries · 20 kg</p>
+    <p id="ultimo-treino-texto">Supino reto · 3 séries · Volume: 600 kg</p>
     <button class="secondary" onclick="show('resumo')">Ver resumo</button>
   </div>
 </section>
@@ -61,40 +61,40 @@ footer{padding:14px 22px;border-top:1px solid #eee;color:#71717a;font-size:12px;
   <button class="back" onclick="show('home')">← Voltar</button>
   <h2>Novo treino</h2>
   <label>Data</label>
-  <input type="date" value="2026-09-17">
+  <input id="data-treino" type="date" value="2026-10-15">
   <div class="exercise">
     <h3>Exercício</h3>
     <label>Nome</label>
-    <select>
-      <option>Supino reto</option>
-      <option>Agachamento</option>
-      <option>Remada</option>
-      <option>Desenvolvimento</option>
+    <select id="nome-exercicio">
+      <option value="Supino reto">Supino reto</option>
+      <option value="Agachamento">Agachamento</option>
+      <option value="Remada">Remada</option>
+      <option value="Desenvolvimento">Desenvolvimento</option>
     </select>
-    <label>Séries</label>
+    <label>Séries (Repetições e Carga em kg)</label>
     <div class="serie">
       <input id="rep1" type="number" placeholder="Repetições" value="10">
       <input id="carga1" type="number" placeholder="Carga (kg)" value="20">
     </div>
     <div class="serie">
-      <input type="number" placeholder="Repetições" value="10">
-      <input type="number" placeholder="Carga (kg)" value="20">
+      <input id="rep2" type="number" placeholder="Repetições" value="10">
+      <input id="carga2" type="number" placeholder="Carga (kg)" value="20">
     </div>
     <div class="serie">
-      <input type="number" placeholder="Repetições" value="10">
-      <input type="number" placeholder="Carga (kg)" value="20">
+      <input id="rep3" type="number" placeholder="Repetições" value="10">
+      <input id="carga3" type="number" placeholder="Carga (kg)" value="20">
     </div>
   </div>
-  <button onclick="show('resumo')">Salvar treino</button>
-  <button class="danger" onclick="show('erro')">Testar recusa: carga ausente</button>
+  <button onclick="salvarTreino()">Salvar treino</button>
+  <button class="danger" onclick="testarRecusa()">Testar recusa: carga ausente</button>
 </section>
 
 <section id="erro" class="screen">
   <button class="back" onclick="show('novo')">← Voltar ao treino</button>
   <h2>Não foi possível salvar</h2>
   <div class="alert">
-    <strong>Dados incompletos.</strong><br>
-    Informe a carga de todas as séries antes de salvar o treino.
+    <strong id="erro-titulo">Dados incompletos.</strong><br>
+    <span id="erro-detalhe">Informe a carga de todas as séries antes de salvar o treino.</span>
   </div>
   <button onclick="show('novo')">Corrigir dados</button>
   <button class="secondary" onclick="show('home')">Cancelar treino</button>
@@ -105,13 +105,13 @@ footer{padding:14px 22px;border-top:1px solid #eee;color:#71717a;font-size:12px;
   <h2>Treino salvo</h2>
   <div class="success">
     <span class="badge">Finalizado</span>
-    <p>Supino reto</p>
-    <div class="volume">600 kg</div>
+    <p id="resumo-exercicio">Supino reto</p>
+    <div id="resumo-volume" class="volume">600 kg</div>
     <small>Volume total do exercício</small>
   </div>
   <div class="card">
     <h2>Resumo da sessão</h2>
-    <p>3 séries × 10 repetições × 20 kg</p>
+    <p id="resumo-detalhe">3 séries × 10 repetições × 20 kg</p>
     <p>O treino foi registrado com sucesso e pode ser consultado no histórico.</p>
   </div>
   <button onclick="show('home')">Voltar para treinos</button>
@@ -125,6 +125,76 @@ function show(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
 }
+
+function atualizarTelaComTreino(t) {
+  document.getElementById('resumo-exercicio').textContent = t.exercicio + ' (' + t.data + ')';
+  document.getElementById('resumo-volume').textContent = t.volume_total + ' kg';
+  const descSeries = t.series.map((s, i) => `Série ${i+1}: ${s.repeticoes} reps × ${s.carga} kg`).join(' | ');
+  document.getElementById('resumo-detalhe').textContent = descSeries;
+  document.getElementById('ultimo-treino-texto').textContent =
+    `${t.exercicio} (${t.data}) · ${t.total_series} séries · Volume: ${t.volume_total} kg`;
+}
+
+async function carregarHistorico() {
+  try {
+    const resp = await fetch('/api/treinos');
+    if (resp.ok) {
+      const lista = await resp.json();
+      if (lista.length > 0) {
+        atualizarTelaComTreino(lista[0]);
+      }
+    }
+  } catch (e) {
+    // Modo prototipo offline (aberto direto como arquivo local)
+  }
+}
+
+async function salvarTreino() {
+  const data = document.getElementById('data-treino').value;
+  const exercicio = document.getElementById('nome-exercicio').value;
+  const series = [
+    { repeticoes: document.getElementById('rep1').value, carga: document.getElementById('carga1').value },
+    { repeticoes: document.getElementById('rep2').value, carga: document.getElementById('carga2').value },
+    { repeticoes: document.getElementById('rep3').value, carga: document.getElementById('carga3').value }
+  ];
+
+  // Tenta enviar para o backend Flask (/api/treinos)
+  try {
+    const resp = await fetch('/api/treinos', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ data, exercicio, series })
+    });
+    const resultado = await resp.json();
+    if (!resp.ok) {
+      document.getElementById('erro-titulo').textContent = resultado.erro || 'Dados incompletos.';
+      document.getElementById('erro-detalhe').textContent = resultado.detalhe || 'Informe a carga de todas as séries antes de salvar o treino.';
+      show('erro');
+      return;
+    }
+    atualizarTelaComTreino(resultado);
+    show('resumo');
+  } catch (e) {
+    // Fallback caso o HTML seja aberto sem o servidor Python
+    for (const s of series) {
+      if (!s.repeticoes || !s.carga || Number(s.repeticoes) <= 0 || Number(s.carga) <= 0) {
+        show('erro');
+        return;
+      }
+    }
+    const seriesNum = series.map(s => ({ repeticoes: Number(s.repeticoes), carga: Number(s.carga) }));
+    const volume = seriesNum.reduce((acc, s) => acc + (s.repeticoes * s.carga), 0);
+    atualizarTelaComTreino({ data, exercicio, total_series: 3, volume_total: volume, series: seriesNum });
+    show('resumo');
+  }
+}
+
+function testarRecusa() {
+  document.getElementById('carga3').value = '';
+  salvarTreino();
+}
+
+carregarHistorico();
 </script>
 </body>
 </html>
