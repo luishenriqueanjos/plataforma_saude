@@ -1,0 +1,11 @@
+flowchart LR
+    subgraph Navegador
+        F["Frontend (HTML/JS)"]
+    end
+    subgraph Backend["Backend (Python / main.py)"]
+        direction TB
+        R["Rotas da API (/api/treinos)"] --> D["Domínio (Validação e Cálculo de Volume)"] --> P["Persistência (SQLite)"]
+    end
+    B[("Banco de Dados (treinos.db)")]
+    Navegador <-->|"Requisição e Resposta (JSON)"| Backend
+    Backend <-->|"Consultas e Gravações SQL"| B

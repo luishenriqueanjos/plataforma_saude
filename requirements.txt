@@ -1,0 +1,1 @@
+# Sem dependências externas obrigatórias (utiliza biblioteca padrão do Python 3: http.server, sqlite3 e json)

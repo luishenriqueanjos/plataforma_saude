@@ -4,7 +4,7 @@
 
 Diagrama em `diagrams/dominio.mmd`.
 
-| Classe    | Origem no REQUISITOS.md | Observação                                                                       |
+| Classe    | Origem no Requisitos.md | Observação                                                                       |
 | --------- | ----------------------- | -------------------------------------------------------------------------------- |
 | Usuário   | HU-01, HU-03, HU-04     | Representa a pessoa que utiliza o sistema para registrar e acompanhar seus dados |
 | Treino    | HU-01, HU-02, HU-04     | Representa uma sessão de treinamento realizada pelo usuário                      |
@@ -35,7 +35,7 @@ Os registros poderão ser excluídos conforme as regras definidas na implementa�
 
 ### Representação de tempo
 
-As datas dos treinos serão armazenadas como informação de data, permitindo identificar quando cada sessão foi realizada e consultar o histórico.
+As datas dos treinos serão armazenadas como informação de data (`YYYY-MM-DD`), permitindo identificar quando cada sessão foi realizada e consultar o histórico.
 
 ### Armazenamento de arquivos
 
@@ -105,7 +105,18 @@ O fluxo principal contempla o cadastro de um treino, a inclusão de exercícios,
 
 As telas de recusa devem contemplar situações em que o sistema não permite o avanço do fluxo, como a tentativa de salvar um treino sem informar dados obrigatórios.
 
+## Conferência cruzada
+
+Conferência realizada em 2026-10-15 pela equipe, comparando `Requisitos.md`, `PROJETO.md`, `ARQUITETURA.md` e o código do fluxo principal:
+
+| Critério / Item | O que foi conferido | Resultado / Correção |
+| --- | --- | --- |
+| `CA-01.1` e `CA-02.1` | Campos de data, exercício, repetições, carga e cálculo de volume ($\sum \text{rep} \times \text{carga}$) | Formulário, endpoint `POST /api/treinos` e banco SQLite alinhados |
+| `CA-01.2` (Recusa) | Recusa ao tentar salvar série sem carga ou com valor inválido | Frontend destaca o alerta e o backend responde `400 Bad Request` |
+| `CA-01.3` (Persistência) | Consulta ao histórico de treinos salvos após recarregar a página | Endpoint `GET /api/treinos` retorna as sessões gravadas no SQLite |
+| `UC-01` e `estados-treino.mmd` | Estado `Cancelado` previsto no diagrama de estados | Fluxo alternativo `4b` incluído no `UC-01` do `Requisitos.md` |
 
 ## Histórico de revisão
 
 * 2026-09-17: primeira versão do `PROJETO.md`.
+* 2026-10-15: adicionada seção de conferência cruzada.

@@ -1,0 +1,8 @@
+flowchart LR
+    subgraph MaquinaLocal["Ambiente Local da Equipe"]
+        Nav["Navegador Web"]
+        Srv["Processo Python (main.py :5000)"]
+        DB[("Arquivo SQLite (treinos.db)")]
+        Nav <-->|"HTTP (localhost:5000)"| Srv
+        Srv <-->|"Leitura / Escrita em disco"| DB
+    end
