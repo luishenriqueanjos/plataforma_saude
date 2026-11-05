@@ -188,6 +188,83 @@ def salvar_novo_treino(dados):
     }
 
 
+# ==========================================
+# NOVAS FUNÇÕES PARA IMPLEMENTAR METAS
+# ==========================================
+
+def obter_metas():
+    conn = get_connection()
+    cur = conn.cursor()
+    # Busca todas as metas do usuário (ex: sono, agua)
+    metas_rows = cur.execute(
+        "SELECT id, tipo, valor_diario FROM META WHERE usuario_id = 1"
+    ).fetchall()
+
+    resultado = [
+        {"id": m["id"], "tipo": m["tipo"], "valor_diario": m["valor_diario"]} 
+        for m in metas_rows
+    ]
+    
+    conn.close()
+    return resultado
+
+
+def salvar_nova_meta(dados):
+    tipo_meta = (dados.get("tipo") or "").strip().lower()
+    valor_diario = dados.get("valor_diario")
+
+    if not tipo_meta or valor_diario is None:
+        return 400, {
+            "erro": "Dados incompletos.",
+            "detalhe": "Informe o tipo de meta (ex: sono, agua) e o valor diário.",
+        }
+
+    try:
+        valor_diario = float(valor_diario)
+        if valor_diario <= 0:
+            raise ValueError
+    except (TypeError, ValueError):
+        return 400, {
+            "erro": "Dados inválidos.",
+            "detalhe": "O valor diário deve ser um número maior que zero.",
+        }
+
+    conn = get_connection()
+    cur = conn.cursor()
+    
+    # Verifica se já existe uma meta desse tipo para o usuário para atualizar em vez de duplicar
+    meta_existente = cur.execute(
+        "SELECT id FROM META WHERE usuario_id = 1 AND tipo = ?", (tipo_meta,)
+    ).fetchone()
+
+    if meta_existente:
+        cur.execute(
+            "UPDATE META SET valor_diario = ? WHERE id = ?",
+            (valor_diario, meta_existente["id"]),
+        )
+        meta_id = meta_existente["id"]
+        status = 200
+        mensagem = f"Meta de {tipo_meta} atualizada com sucesso."
+    else:
+        cur.execute(
+            "INSERT INTO META (usuario_id, tipo, valor_diario) VALUES (1, ?, ?)",
+            (tipo_meta, valor_diario),
+        )
+        meta_id = cur.lastrowid
+        status = 201
+        mensagem = f"Nova meta de {tipo_meta} criada com sucesso."
+
+    conn.commit()
+    conn.close()
+
+    return status, {
+        "id": meta_id,
+        "tipo": tipo_meta,
+        "valor_diario": valor_diario,
+        "mensagem": mensagem,
+    }
+
+
 class PlataformaHandler(BaseHTTPRequestHandler):
     def _send_json(self, status, payload):
         body = json.dumps(payload, ensure_ascii=False).encode("utf-8")
@@ -208,6 +285,8 @@ class PlataformaHandler(BaseHTTPRequestHandler):
             self.wfile.write(content)
         elif self.path == "/api/treinos":
             self._send_json(200, obter_treinos())
+        elif self.path == "/api/metas": # <--- NOVA ROTA GET
+            self._send_json(200, obter_metas())
         else:
             self._send_json(404, {"erro": "Rota não encontrada."})
 
@@ -221,6 +300,17 @@ class PlataformaHandler(BaseHTTPRequestHandler):
                 dados = {}
             status, resposta = salvar_novo_treino(dados)
             self._send_json(status, resposta)
+            
+        elif self.path == "/api/metas": # <--- NOVA ROTA POST
+            length = int(self.headers.get("Content-Length", 0))
+            raw = self.rfile.read(length).decode("utf-8") if length > 0 else "{}"
+            try:
+                dados = json.loads(raw)
+            except json.JSONDecodeError:
+                dados = {}
+            status, resposta = salvar_nova_meta(dados)
+            self._send_json(status, resposta)
+            
         else:
             self._send_json(404, {"erro": "Rota não encontrada."})
 
