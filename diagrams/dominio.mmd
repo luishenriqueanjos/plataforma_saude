@@ -1,5 +1,4 @@
 classDiagram
-
     class Usuario {
         +id: int
     }
@@ -23,10 +22,10 @@ classDiagram
     class Meta {
         +id: int
         +tipo: string
-        +valorDiario: decimal
+        +valor_diario: decimal
     }
 
     Usuario "1" --> "0..*" Treino : registra
-    Treino "1" --> "1..*" Exercicio : possui
-    Exercicio "1" --> "1..*" Serie : possui
+    Treino "1" *-- "1..*" Exercicio : contem
+    Exercicio "1" *-- "1..*" Serie : contem
     Usuario "1" --> "0..*" Meta : define
