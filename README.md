@@ -1,76 +1,76 @@
-﻿# ðŸ‹ï¸ Plataforma de HÃ¡bitos SaudÃ¡veis e Performance de Treinos
+# 🏋️ Plataforma de Hábitos Saudáveis e Performance de Treinos
 
-A **Plataforma de HÃ¡bitos SaudÃ¡veis e Performance de Treinos** Ã© um projeto desenvolvido para auxiliar usuÃ¡rios no acompanhamento de hÃ¡bitos saudÃ¡veis e na organizaÃ§Ã£o e anÃ¡lise de seus treinos.
+A **Plataforma de Hábitos Saudáveis e Performance de Treinos** é um projeto desenvolvido para auxiliar usuários no acompanhamento de hábitos saudáveis e na organização e análise de seus treinos.
 
-A plataforma busca centralizar informaÃ§Ãµes sobre hÃ¡bitos, metas, exercÃ­cios e desempenho, permitindo que o usuÃ¡rio acompanhe sua evoluÃ§Ã£o ao longo do tempo.
+A plataforma busca centralizar informações sobre hábitos, metas, exercícios e desempenho, permitindo que o usuário acompanhe sua evolução ao longo do tempo.
 
-# ðŸ“Œ Problema
+# 📌 Problema
 
-Manter hÃ¡bitos saudÃ¡veis no dia a dia pode ser difÃ­cil devido Ã  falta de acompanhamento, organizaÃ§Ã£o e lembretes consistentes.
+Manter hábitos saudáveis no dia a dia pode ser difícil devido à falta de acompanhamento, organização e lembretes consistentes.
 
-AlÃ©m disso, pessoas que realizam treinos estruturados muitas vezes registram informaÃ§Ãµes como exercÃ­cios, sÃ©ries, repetiÃ§Ãµes e cargas em anotaÃ§Ãµes ou planilhas genÃ©ricas, dificultando o acompanhamento da progressÃ£o e da evoluÃ§Ã£o do desempenho.
+Além disso, pessoas que realizam treinos estruturados muitas vezes registram informações como exercícios, séries, repetições e cargas em anotações ou planilhas genéricas, dificultando o acompanhamento da progressão e da evolução do desempenho.
 
-A plataforma busca centralizar essas informaÃ§Ãµes em um Ãºnico sistema, facilitando o acompanhamento dos hÃ¡bitos e a anÃ¡lise da performance dos treinos.
+A plataforma busca centralizar essas informações em um único sistema, facilitando o acompanhamento dos hábitos e a análise da performance dos treinos.
 
-# ðŸŽ¯ PÃºblico-alvo
+# 🎯 Público-alvo
 
-O projeto Ã© destinado principalmente a pessoas que desejam acompanhar seus hÃ¡bitos saudÃ¡veis e sua evoluÃ§Ã£o nos treinos, como:
+O projeto é destinado principalmente a pessoas que desejam acompanhar seus hábitos saudáveis e sua evolução nos treinos, como:
 
-ðŸ¥— Pessoas que desejam melhorar seus hÃ¡bitos;
+🥗 Pessoas que desejam melhorar seus hábitos;
 
-ðŸƒ Pessoas que praticam atividades fÃ­sicas;
+🏃 Pessoas que praticam atividades físicas;
 
-ðŸ‹ï¸ Pessoas que realizam treinamentos estruturados;
+🏋️ Pessoas que realizam treinamentos estruturados;
 
-ðŸ“ˆ Pessoas interessadas em acompanhar sua evoluÃ§Ã£o e desempenho;
+📈 Pessoas interessadas em acompanhar sua evolução e desempenho;
 
-ðŸ’ª Praticantes de musculaÃ§Ã£o e outros tipos de treinamento.
+💪 Praticantes de musculação e outros tipos de treinamento.
 
-# ðŸš€ Funcionalidades previstas
+# 🚀 Funcionalidades previstas
 
-* ðŸ¥— **Cadastro e acompanhamento de hÃ¡bitos**
+* 🥗 **Cadastro e acompanhamento de hábitos**
 
-  O usuÃ¡rio poderÃ¡ cadastrar hÃ¡bitos saudÃ¡veis, como consumo de Ã¡gua, sono, exercÃ­cios e alimentaÃ§Ã£o, definindo metas para acompanhar seu progresso.
+  O usuário poderá cadastrar hábitos saudáveis, como consumo de água, sono, exercícios e alimentação, definindo metas para acompanhar seu progresso.
 
-* ðŸŽ¯ **Metas diÃ¡rias**
+* 🎯 **Metas diárias**
 
-  O usuÃ¡rio poderÃ¡ definir metas para seus hÃ¡bitos e registrar diariamente seu cumprimento.
+  O usuário poderá definir metas para seus hábitos e registrar diariamente seu cumprimento.
 
-* ðŸ“… **HistÃ³rico de hÃ¡bitos**
+* 📅 **Histórico de hábitos**
 
-  O sistema poderÃ¡ armazenar o histÃ³rico dos hÃ¡bitos registrados, permitindo acompanhar a evoluÃ§Ã£o ao longo do tempo.
+  O sistema poderá armazenar o histórico dos hábitos registrados, permitindo acompanhar a evolução ao longo do tempo.
 
-* ðŸ‹ï¸ **Cadastro de treinos**
+* 🏋️ **Cadastro de treinos**
 
-  O usuÃ¡rio poderÃ¡ cadastrar seus treinos e organizar os exercÃ­cios realizados em cada sessÃ£o.
+  O usuário poderá cadastrar seus treinos e organizar os exercícios realizados em cada sessão.
 
-* ðŸ“ **Registro de exercÃ­cios**
+* 📝 **Registro de exercícios**
 
-  O sistema permitirÃ¡ registrar informaÃ§Ãµes como exercÃ­cios, sÃ©ries, repetiÃ§Ãµes e cargas utilizadas.
+  O sistema permitirá registrar informações como exercícios, séries, repetições e cargas utilizadas.
 
-* ðŸ“Š **CÃ¡lculo de volume de treino**
+* 📊 **Cálculo de volume de treino**
 
-  A partir dos registros realizados, o sistema poderÃ¡ calcular o volume dos exercÃ­cios para auxiliar no acompanhamento da performance.
+  A partir dos registros realizados, o sistema poderá calcular o volume dos exercícios para auxiliar no acompanhamento da performance.
 
-* ðŸ“ˆ **Acompanhamento da progressÃ£o**
+* 📈 **Acompanhamento da progressão**
 
-  O usuÃ¡rio poderÃ¡ visualizar a evoluÃ§Ã£o das cargas e do desempenho nos exercÃ­cios ao longo do tempo.
+  O usuário poderá visualizar a evolução das cargas e do desempenho nos exercícios ao longo do tempo.
 
-* ðŸ—“ï¸ **PeriodizaÃ§Ã£o de treinos**
+* 🗓️ **Periodização de treinos**
 
-  O sistema poderÃ¡ organizar os treinos em diferentes perÃ­odos e blocos, permitindo acompanhar uma estrutura de treinamento.
+  O sistema poderá organizar os treinos em diferentes períodos e blocos, permitindo acompanhar uma estrutura de treinamento.
 
-* ðŸ“‰ **GrÃ¡ficos de evoluÃ§Ã£o**
+* 📉 **Gráficos de evolução**
 
-  A plataforma poderÃ¡ apresentar grÃ¡ficos com informaÃ§Ãµes sobre a progressÃ£o de cargas, volume de treino e evoluÃ§Ã£o dos hÃ¡bitos.
+  A plataforma poderá apresentar gráficos com informações sobre a progressão de cargas, volume de treino e evolução dos hábitos.
 
-# ðŸŒŸ Diferencial
+# 🌟 Diferencial
 
-A plataforma busca reunir, em um Ãºnico sistema, o acompanhamento de **hÃ¡bitos saudÃ¡veis e performance de treinos**, evitando que o usuÃ¡rio precise utilizar diferentes ferramentas para registrar essas informaÃ§Ãµes.
+A plataforma busca reunir, em um único sistema, o acompanhamento de **hábitos saudáveis e performance de treinos**, evitando que o usuário precise utilizar diferentes ferramentas para registrar essas informações.
 
-O sistema tambÃ©m busca transformar os registros em informaÃ§Ãµes Ãºteis para o acompanhamento da evoluÃ§Ã£o, utilizando histÃ³ricos, cÃ¡lculos e grÃ¡ficos para facilitar a visualizaÃ§Ã£o do progresso.
+O sistema também busca transformar os registros em informações úteis para o acompanhamento da evolução, utilizando históricos, cálculos e gráficos para facilitar a visualização do progresso.
 
-# ðŸ‘¥ Membros da equipe
+# 👥 Membros da equipe
 
 | Nome                                    | GitHub                                                                                |
 | :-------------------------------------- | :------------------------------------------------------------------------------------ |
@@ -78,25 +78,38 @@ O sistema tambÃ©m busca transformar os registros em informaÃ§Ãµes Ãºteis
 | Arthur Sidarta Fernandes de Souza Lima  | [Sidrata](https://github.com/Sidrata)                                                 |
 | Samuel Silva Andrade                    | [samuelsilvaandrade262-rgb](https://github.com/samuelsilvaandrade262-rgb)             |
 
-## ComposiÃ§Ã£o do Time
-- **PriorizaÃ§Ã£o do Backlog & Arquitetura:** Luis Henrique Anjos de Oliveira
+## Composição do Time
+- **Priorização do Backlog & Arquitetura:** Luis Henrique Anjos de Oliveira
 - **Desenvolvimento (Banco de Dados & API):** Arthur Sidarta Fernandes de Souza Lima.
-- **Desenvolvimento (LÃ³gica EstatÃ­stica de ProgressÃ£o):** Samuel Silva Andrade.
-- **Desenvolvimento (Front-end & VisualizaÃ§Ã£o de GrÃ¡ficos):** Ayrton Miranda Pimenta da Silva.
+- **Desenvolvimento (Lógica Estatística, Front-end & Qualidade):** Samuel Silva Andrade.
+
+## Documentação e Artefatos do Projeto
+- [Quadro de Tarefas (`QUADRO_TAREFAS.md`)](QUADRO_TAREFAS.md)
+- [Estratégia e Casos de Teste (`TESTES.md`)](TESTES.md)
+- [Requisitos (`Requisitos.md`)](Requisitos.md)
+- [Projeto e Modelagem (`PROJETO.md`)](PROJETO.md)
+- [Arquitetura (`ARQUITETURA.md`)](ARQUITETURA.md)
+- [Iterações e Dívida Técnica (`ITERACOES.md`)](ITERACOES.md)
 
 ## Como Executar
 
 1. Certifique-se de ter o Python 3 instalado no seu sistema.
-2. Clone o repositÃ³rio e acesse a pasta do projeto:
+2. Clone o repositório e acesse a pasta do projeto:
 ```bash
    git clone https://github.com/luishenriqueanjos/plataforma_saude
    cd plataforma_saude
 ```
-3. Instale as dependÃªncias:
+3. Instale as dependências:
 ```bash
    pip install -r requirements.txt
 ```
-4. Execute a aplicaÃ§Ã£o:
-```bash   
+4. Execute a aplicação:
+```bash
    python main.py
+```
+5. Para rodar os testes automatizados e o verificador de estilo (Cap. 12):
+```bash
+   pip install -r requirements-dev.txt
+   python -m pytest -v
+   python -m ruff check .
 ```
