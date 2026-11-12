@@ -55,10 +55,18 @@ def init_db(reset=False):
             usuario_id INTEGER NOT NULL,
             tipo TEXT NOT NULL,
             valor_diario REAL NOT NULL,
+            progresso_atual REAL NOT NULL DEFAULT 0,
             FOREIGN KEY (usuario_id) REFERENCES USUARIO(id)
         );
         """
     )
+
+    # Garante a coluna progresso_atual caso o banco tenha sido criado na versao anterior
+    colunas = [row["name"] for row in cur.execute("PRAGMA table_info(META)").fetchall()]
+    if "progresso_atual" not in colunas:
+        cur.execute(
+            "ALTER TABLE META ADD COLUMN progresso_atual REAL NOT NULL DEFAULT 0"
+        )
 
     user = cur.execute("SELECT id FROM USUARIO WHERE id = 1").fetchone()
     if not user:
@@ -78,6 +86,15 @@ def init_db(reset=False):
                 "INSERT INTO SERIE (exercicio_id, repeticoes, carga) VALUES (?, 10, 20.0)",
                 (exercicio_id,),
             )
+
+    count_metas = cur.execute("SELECT COUNT(*) as total FROM META").fetchone()["total"]
+    if count_metas == 0:
+        cur.execute(
+            "INSERT INTO META (usuario_id, tipo, valor_diario, progresso_atual) VALUES (1, 'agua', 2000.0, 0.0)"
+        )
+        cur.execute(
+            "INSERT INTO META (usuario_id, tipo, valor_diario, progresso_atual) VALUES (1, 'sono', 8.0, 0.0)"
+        )
 
     conn.commit()
     conn.close()
@@ -188,6 +205,124 @@ def salvar_novo_treino(dados):
     }
 
 
+def obter_metas():
+    conn = get_connection()
+    cur = conn.cursor()
+    rows = cur.execute(
+        "SELECT id, tipo, valor_diario, progresso_atual FROM META WHERE usuario_id = 1"
+    ).fetchall()
+    conn.close()
+
+    metas = {}
+    for r in rows:
+        valor = float(r["valor_diario"])
+        progresso = float(r["progresso_atual"])
+        percentual = min(100, round((progresso / valor) * 100)) if valor > 0 else 0
+        metas[r["tipo"]] = {
+            "id": r["id"],
+            "tipo": r["tipo"],
+            "valor_diario": valor,
+            "progresso_atual": progresso,
+            "percentual": percentual,
+        }
+    return metas
+
+
+def salvar_metas(dados):
+    """CA-03.1 e CA-03.3: Cadastra ou atualiza metas diarias de agua (ml) e sono (horas)."""
+    try:
+        meta_agua = float(dados.get("agua_ml"))
+        meta_sono = float(dados.get("sono_horas"))
+    except (TypeError, ValueError):
+        return 400, {
+            "erro": "Meta inválida.",
+            "detalhe": "Informe valores numéricos para a meta de água e horas de sono.",
+        }
+
+    if meta_agua <= 0 or meta_sono <= 0:
+        return 400, {
+            "erro": "Meta inválida.",
+            "detalhe": "As metas de consumo de água e horas de sono devem ser maiores que zero.",
+        }
+
+    conn = get_connection()
+    cur = conn.cursor()
+
+    for tipo, valor in (("agua", meta_agua), ("sono", meta_sono)):
+        existente = cur.execute(
+            "SELECT id FROM META WHERE usuario_id = 1 AND tipo = ?", (tipo,)
+        ).fetchone()
+        if existente:
+            cur.execute(
+                "UPDATE META SET valor_diario = ?, progresso_atual = 0 WHERE id = ?",
+                (valor, existente["id"]),
+            )
+        else:
+            cur.execute(
+                "INSERT INTO META (usuario_id, tipo, valor_diario, progresso_atual) VALUES (1, ?, ?, 0)",
+                (tipo, valor),
+            )
+
+    conn.commit()
+    conn.close()
+
+    return 201, {
+        "mensagem": "Metas diárias registradas com sucesso.",
+        "metas": obter_metas(),
+    }
+
+
+def registrar_progresso_meta(dados):
+    """CA-03.2: Atualiza o progresso diario de agua ou sono em direcao a meta."""
+    tipo = (dados.get("tipo") or "").strip().lower()
+    if tipo not in ("agua", "sono"):
+        return 400, {
+            "erro": "Tipo inválido.",
+            "detalhe": "O tipo de meta deve ser 'agua' ou 'sono'.",
+        }
+
+    try:
+        quantidade = float(dados.get("quantidade"))
+    except (TypeError, ValueError):
+        return 400, {
+            "erro": "Valor inválido.",
+            "detalhe": "Informe uma quantidade numérica para atualizar o progresso.",
+        }
+
+    if quantidade <= 0:
+        return 400, {
+            "erro": "Valor inválido.",
+            "detalhe": "A quantidade adicionada ao progresso deve ser maior que zero.",
+        }
+
+    conn = get_connection()
+    cur = conn.cursor()
+    meta = cur.execute(
+        "SELECT id, progresso_atual FROM META WHERE usuario_id = 1 AND tipo = ?",
+        (tipo,),
+    ).fetchone()
+
+    if not meta:
+        conn.close()
+        return 404, {
+            "erro": "Meta não encontrada.",
+            "detalhe": "Cadastre a meta diária antes de registrar o progresso.",
+        }
+
+    novo_progresso = float(meta["progresso_atual"]) + quantidade
+    cur.execute(
+        "UPDATE META SET progresso_atual = ? WHERE id = ?",
+        (novo_progresso, meta["id"]),
+    )
+    conn.commit()
+    conn.close()
+
+    return 200, {
+        "mensagem": "Progresso atualizado com sucesso.",
+        "metas": obter_metas(),
+    }
+
+
 class PlataformaHandler(BaseHTTPRequestHandler):
     def _send_json(self, status, payload):
         body = json.dumps(payload, ensure_ascii=False).encode("utf-8")
@@ -196,6 +331,14 @@ class PlataformaHandler(BaseHTTPRequestHandler):
         self.send_header("Content-Length", str(len(body)))
         self.end_headers()
         self.wfile.write(body)
+
+    def _read_json(self):
+        length = int(self.headers.get("Content-Length", 0))
+        raw = self.rfile.read(length).decode("utf-8") if length > 0 else "{}"
+        try:
+            return json.loads(raw)
+        except json.JSONDecodeError:
+            return {}
 
     def do_GET(self):
         if self.path in ("/", "/index.html"):
@@ -208,18 +351,21 @@ class PlataformaHandler(BaseHTTPRequestHandler):
             self.wfile.write(content)
         elif self.path == "/api/treinos":
             self._send_json(200, obter_treinos())
+        elif self.path == "/api/metas":
+            self._send_json(200, obter_metas())
         else:
             self._send_json(404, {"erro": "Rota não encontrada."})
 
     def do_POST(self):
+        dados = self._read_json()
         if self.path == "/api/treinos":
-            length = int(self.headers.get("Content-Length", 0))
-            raw = self.rfile.read(length).decode("utf-8") if length > 0 else "{}"
-            try:
-                dados = json.loads(raw)
-            except json.JSONDecodeError:
-                dados = {}
             status, resposta = salvar_novo_treino(dados)
+            self._send_json(status, resposta)
+        elif self.path == "/api/metas":
+            status, resposta = salvar_metas(dados)
+            self._send_json(status, resposta)
+        elif self.path == "/api/metas/progresso":
+            status, resposta = registrar_progresso_meta(dados)
             self._send_json(status, resposta)
         else:
             self._send_json(404, {"erro": "Rota não encontrada."})
