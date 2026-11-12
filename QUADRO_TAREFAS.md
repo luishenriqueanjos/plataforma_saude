@@ -45,7 +45,6 @@ flowchart LR
 | `Cap. 10` | Checklist de revisão de código, template de PR e métricas GQM | Luis Henrique | 2 pts | **Concluído (Done)** | `CONTRIBUTING.md`, `.github/pull_request_template.md` e `PROCESSO.md` |
 | `Cap. 10` | Mapeamento de dívida técnica (5 campos + estimativa em pontos) | Samuel Andrade | 1 pt | **Concluído (Done)** | Seção "Dívidas Técnicas Registradas" em `ITERACOES.md` (`DT-01` a `DT-03`) |
 | `Cap. 11` | Inspeção de requisitos e estratégia de testes com partições e valores limite | Samuel Andrade | 2 pts | **Concluído (Done)** | `TESTES.md` (4 níveis, omissões e casos `TC-01` a `TC-03`) e `Requisitos.md` |
-| `Cap. 12` | Testes automatizados de unidade (`calcular_volume`) e integração da API (`pytest`) | Arthur Sidarta | 3 pts | **Concluído (Done)** | `tests/test_unidade.py` e `tests/test_api_treinos.py` (19 testes passando) |
 | `Cap. 12` | Verificador de estilo (`ruff`) e Integração Contínua no GitHub Actions | Luis Henrique | 2 pts | **Concluído (Done)** | `.github/workflows/verificacao.yml` e `requirements-dev.txt` |
 | `Cap. 12` | Atualização do `TESTES.md` vinculando cada `TC` ao teste automatizado ou manual | Samuel Andrade | 1 pt | **Em Revisão (In Review)** | Seção "5. Automação e Integração Contínua" no `TESTES.md` |
 | `HU-04` | Preparar agregação de cargas por data para os gráficos de evolução | Samuel Andrade | 2 pts | **Em Andamento (In Progress)** | Planejado para fechar a `HU-04` na sequência |
