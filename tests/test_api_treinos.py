@@ -174,3 +174,15 @@ def test_recusa_meta_invalida_zero_ou_negativa(agua_ml, sono_horas):
     # Conferir
     assert status == 400
     assert resposta["erro"] == "Meta inválida."
+
+
+def test_obter_metas_retorna_agua_e_sono_padrao():
+    """CA-03.1: Consulta GET /api/metas retorna as metas iniciais cadastradas."""
+    # Preparar / Agir
+    metas = main.obter_metas()
+
+    # Conferir
+    assert "agua" in metas
+    assert "sono" in metas
+    assert metas["agua"]["valor_diario"] == 2000.0
+    assert metas["sono"]["valor_diario"] == 8.0
