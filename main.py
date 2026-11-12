@@ -62,9 +62,7 @@ def init_db(reset=False):
     )
 
     # Garante a coluna progresso_atual caso o banco tenha sido criado na versao anterior
-    colunas = [
-        row["name"] for row in cur.execute("PRAGMA table_info(META)").fetchall()
-    ]
+    colunas = [row["name"] for row in cur.execute("PRAGMA table_info(META)").fetchall()]
     if "progresso_atual" not in colunas:
         cur.execute(
             "ALTER TABLE META ADD COLUMN progresso_atual REAL NOT NULL DEFAULT 0"
