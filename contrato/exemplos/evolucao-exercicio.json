@@ -1,0 +1,36 @@
+{
+  "exercicio": "Supino reto",
+  "exercicios_disponiveis": [
+    "Supino reto"
+  ],
+  "total_registros": 2,
+  "dados_suficientes": true,
+  "mensagem": "",
+  "resumo": {
+    "carga_inicial": 20.0,
+    "carga_atual": 25.0,
+    "maior_carga": 25.0,
+    "variacao_kg": 5.0,
+    "variacao_percentual": 25.0
+  },
+  "pontos": [
+    {
+      "treino_id": 1,
+      "data": "2026-10-15",
+      "exercicio": "Supino reto",
+      "carga_maxima": 20.0,
+      "carga_media": 20.0,
+      "volume_total": 600.0,
+      "total_series": 3
+    },
+    {
+      "treino_id": 2,
+      "data": "2026-10-22",
+      "exercicio": "Supino reto",
+      "carga_maxima": 25.0,
+      "carga_media": 23.33,
+      "volume_total": 700.0,
+      "total_series": 3
+    }
+  ]
+}

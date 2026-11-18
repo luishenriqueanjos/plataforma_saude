@@ -3,43 +3,65 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Plataforma de Saúde - Treinos e Hábitos</title>
+<title>Plataforma de Saúde - Treinos, Cargas e Hábitos</title>
 <style>
 *{box-sizing:border-box}
 body{margin:0;font-family:Arial,sans-serif;background:#f4f4f5;color:#18181b}
-.app{width:390px;min-height:844px;margin:30px auto;background:white;border:1px solid #ddd;border-radius:28px;overflow:hidden;box-shadow:0 8px 30px #0002}
-header{padding:24px 22px 12px;border-bottom:1px solid #eee}
+.app{width:100%;max-width:440px;min-height:100vh;margin:0 auto;background:white;border-left:1px solid #e4e4e7;border-right:1px solid #e4e4e7;box-shadow:0 8px 30px #0001}
+@media(min-width:520px){.app{min-height:844px;margin:24px auto;border:1px solid #ddd;border-radius:28px;overflow:hidden}}
+header{padding:24px 22px 14px;border-bottom:1px solid #eee}
 header h1{margin:0 0 6px;font-size:24px}
 header p{margin:0;color:#71717a;font-size:14px}
-main{padding:22px}
+main{padding:20px 22px}
 .screen{display:none}
 .screen.active{display:block}
-.card{border:1px solid #e4e4e7;border-radius:16px;padding:18px;margin-bottom:14px}
+.card{border:1px solid #e4e4e7;border-radius:16px;padding:18px;margin-bottom:14px;background:#fff}
 .card h2{font-size:18px;margin:0 0 8px}
 .card p{color:#52525b;line-height:1.45;margin:4px 0}
-button{width:100%;border:0;border-radius:12px;padding:12px;margin-top:10px;font-size:15px;font-weight:600;cursor:pointer;background:#18181b;color:white}
+button{width:100%;border:0;border-radius:12px;padding:12px;margin-top:10px;font-size:14px;font-weight:600;cursor:pointer;background:#18181b;color:white;transition:opacity .15s}
+button:hover{opacity:.92}
 button.secondary{background:#e4e4e7;color:#18181b}
+button.outline{background:#fff;color:#18181b;border:1px solid #d4d4d8}
 button.danger{background:#fee2e2;color:#991b1b}
 button.action-agua{background:#dbeafe;color:#1e40af;margin-top:8px}
-button.action-sono{background:#ede9fe;color:#5b21b6;margin-top:8px}
-label{display:block;font-size:13px;font-weight:600;margin:14px 0 6px}
-input,select{width:100%;padding:12px;border:1px solid #d4d4d8;border-radius:10px;font-size:15px}
-.row{display:flex;gap:10px}
-.row>div{flex:1}
-.exercise{border:1px solid #e4e4e7;border-radius:14px;padding:14px;margin-top:14px}
-.exercise h3{margin:0 0 10px;font-size:16px}
-.serie{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+button.action-sono{background:#ede9fe;color:#5b21b6;margin-top:0}
+button.small{width:auto;padding:7px 11px;margin-top:0;font-size:12px;border-radius:8px}
+label{display:block;font-size:13px;font-weight:600;margin:12px 0 6px;color:#27272a}
+input,select{width:100%;padding:11px 12px;border:1px solid #d4d4d8;border-radius:10px;font-size:14px;background:#fff}
+.row{display:flex;gap:8px;align-items:center}
+.row>div,.row>button,.row>input{flex:1}
+.exercise{border:1px solid #e4e4e7;border-radius:14px;padding:14px;margin-top:14px;background:#fafafa}
+.exercise-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.exercise-head h3{margin:0;font-size:15px}
+.serie{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;margin-bottom:8px;align-items:center}
+.serie-head{display:grid;grid-template-columns:1fr 1fr 34px;gap:8px;margin:10px 0 4px;font-size:12px;color:#71717a;font-weight:600}
+.btn-icon{width:34px;height:40px;margin-top:0;padding:0;background:#fee2e2;color:#991b1b;border-radius:10px;font-size:16px}
 .alert{background:#fef2f2;border:1px solid #fecaca;color:#991b1b;padding:13px;border-radius:12px;margin-bottom:14px;font-size:14px;line-height:1.4}
+.info-box{background:#eff6ff;border:1px solid #bfdbfe;color:#1e3a8a;padding:14px;border-radius:12px;margin:12px 0;font-size:14px;line-height:1.45}
 .success{background:#f4f4f5;border-radius:14px;padding:16px;margin:15px 0}
 .volume{font-size:30px;font-weight:700;margin:4px 0}
-.back{background:transparent;color:#52525b;padding:8px 0;text-align:left;width:auto;margin:0 0 12px}
-.badge{display:inline-block;padding:5px 9px;border-radius:999px;background:#e4e4e7;font-size:12px;margin-bottom:6px}
+.back{background:transparent;color:#52525b;padding:6px 0;text-align:left;width:auto;margin:0 0 10px}
+.badge{display:inline-block;padding:4px 10px;border-radius:999px;background:#f4f4f5;color:#3f3f46;font-size:12px;font-weight:600;margin-bottom:8px}
 .badge-agua{background:#dbeafe;color:#1e40af}
 .badge-sono{background:#ede9fe;color:#5b21b6}
 .progress-container{width:100%;height:10px;background:#e4e4e7;border-radius:999px;overflow:hidden;margin:8px 0}
 .progress-bar-agua{height:100%;background:#2563eb;width:0%;transition:width 0.3s ease}
 .progress-bar-sono{height:100%;background:#7c3aed;width:0%;transition:width 0.3s ease}
-.meta-box{border-top:1px solid #f4f4f5;padding-top:10px;margin-top:10px}
+.meta-box{border-top:1px solid #f4f4f5;padding-top:12px;margin-top:12px}
+.sleep-form{display:flex;gap:8px;align-items:stretch;margin-top:8px}
+.sleep-form input{flex:1}
+.sleep-form button{flex:1.2;margin-top:0}
+.history-list{margin-top:14px;border-top:1px solid #f4f4f5;padding-top:10px}
+.history-item{padding:10px 0;border-bottom:1px solid #f4f4f5;font-size:13px}
+.history-item:last-child{border-bottom:0;padding-bottom:0}
+.history-item strong{display:block;color:#18181b;margin-bottom:3px}
+.history-sub{color:#52525b;font-size:12px;line-height:1.4}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}
+.stat-box{background:#fafafa;border:1px solid #e4e4e7;border-radius:12px;padding:10px 12px}
+.stat-box small{display:block;color:#71717a;font-size:11px;margin-bottom:3px}
+.stat-box strong{font-size:16px;color:#18181b}
+.chart-wrap{background:#fafafa;border:1px solid #e4e4e7;border-radius:14px;padding:12px;margin:12px 0}
+.chart-wrap svg{width:100%;height:auto;display:block}
 footer{padding:14px 22px;border-top:1px solid #eee;color:#71717a;font-size:12px;text-align:center}
 </style>
 </head>
@@ -47,21 +69,28 @@ footer{padding:14px 22px;border-top:1px solid #eee;color:#71717a;font-size:12px;
 <div class="app">
 <header>
   <h1>Plataforma Saúde</h1>
-  <p>Treinos, Volume e Metas Diárias</p>
+  <p>Treinos, Evolução de Cargas e Hábitos Diários</p>
 </header>
 
 <main>
 <section id="home" class="screen active">
   <div class="card">
-    <span class="badge">Treino (HU-01 / HU-02)</span>
-    <h2>Novo treino</h2>
-    <p>Registre exercícios, séries, repetições e cargas para acompanhar sua evolução.</p>
-    <button onclick="show('novo')">Iniciar novo treino</button>
-    <p id="ultimo-treino-texto" style="margin-top:12px;font-size:13px">Último: Supino reto · 3 séries · Volume: 600 kg</p>
+    <span class="badge">Treinos</span>
+    <h2>Sessões de treino</h2>
+    <p>Registre quantos exercícios e séries quiser no mesmo treino e acompanhe a evolução das cargas.</p>
+    <button onclick="abrirNovoTreino()">Iniciar novo treino</button>
+    <button class="outline" onclick="abrirEvolucao()">Ver gráfico de evolução</button>
+
+    <div class="history-list">
+      <strong style="font-size:13px;color:#3f3f46">Treinos recentes</strong>
+      <div id="lista-treinos">
+        <p class="history-sub">Carregando histórico...</p>
+      </div>
+    </div>
   </div>
 
   <div class="card">
-    <span class="badge badge-agua">Hábitos Diários (HU-03)</span>
+    <span class="badge badge-agua">Hábitos Diários</span>
     <h2>Metas de Água e Sono</h2>
 
     <div class="meta-box">
@@ -69,7 +98,10 @@ footer{padding:14px 22px;border-top:1px solid #eee;color:#71717a;font-size:12px;
       <div class="progress-container">
         <div id="barra-agua" class="progress-bar-agua"></div>
       </div>
-      <button class="action-agua" onclick="adicionarProgresso('agua', 250)">+ Registrar 1 copo (250 ml)</button>
+      <div class="row">
+        <button class="action-agua" onclick="adicionarProgressoAgua(250)">+ 250 ml (copo)</button>
+        <button class="action-agua" onclick="adicionarProgressoAgua(500)">+ 500 ml (garrafa)</button>
+      </div>
     </div>
 
     <div class="meta-box">
@@ -77,7 +109,11 @@ footer{padding:14px 22px;border-top:1px solid #eee;color:#71717a;font-size:12px;
       <div class="progress-container">
         <div id="barra-sono" class="progress-bar-sono"></div>
       </div>
-      <button class="action-sono" onclick="adicionarProgresso('sono', 1)">+ Registrar 1 hora de sono</button>
+      <label for="input-sono-hoje" style="margin-top:8px">Horas dormidas hoje</label>
+      <div class="sleep-form">
+        <input id="input-sono-hoje" type="number" step="0.5" min="0.5" placeholder="Ex: 7.5" value="8">
+        <button class="action-sono" onclick="registrarSonoHoje()">Registrar sono</button>
+      </div>
     </div>
 
     <button class="secondary" onclick="show('metas')">Configurar metas diárias</button>
@@ -87,48 +123,66 @@ footer{padding:14px 22px;border-top:1px solid #eee;color:#71717a;font-size:12px;
 <section id="novo" class="screen">
   <button class="back" onclick="show('home')">← Voltar</button>
   <h2>Novo treino</h2>
-  <label>Data</label>
-  <input id="data-treino" type="date" value="2026-10-15">
-  <div class="exercise">
-    <h3>Exercício</h3>
-    <label>Nome</label>
-    <select id="nome-exercicio">
-      <option value="Supino reto">Supino reto</option>
-      <option value="Agachamento">Agachamento</option>
-      <option value="Remada">Remada</option>
-      <option value="Desenvolvimento">Desenvolvimento</option>
-    </select>
-    <label>Séries (Repetições e Carga em kg)</label>
-    <div class="serie">
-      <input id="rep1" type="number" placeholder="Repetições" value="10">
-      <input id="carga1" type="number" placeholder="Carga (kg)" value="20">
+  <label for="data-treino">Data do treino</label>
+  <input id="data-treino" type="date">
+
+  <div id="lista-exercicios-form"></div>
+
+  <button type="button" class="outline" onclick="adicionarBlocoExercicio()">+ Adicionar exercício</button>
+  <button type="button" onclick="salvarTreino()">Salvar treino</button>
+</section>
+
+<section id="evolucao" class="screen">
+  <button class="back" onclick="show('home')">← Voltar</button>
+  <h2>Evolução de cargas</h2>
+  <p style="color:#52525b;font-size:14px">Acompanhe a carga máxima levantada por sessão ao longo do tempo.</p>
+
+  <label for="select-exercicio-evolucao">Exercício</label>
+  <select id="select-exercicio-evolucao" onchange="carregarEvolucao(this.value)"></select>
+
+  <div id="evolucao-aviso" class="info-box" style="display:none"></div>
+
+  <div id="evolucao-conteudo" style="display:none">
+    <div class="stats-grid">
+      <div class="stat-box">
+        <small>Carga atual (máx.)</small>
+        <strong id="stat-carga-atual">0 kg</strong>
+      </div>
+      <div class="stat-box">
+        <small>Variação no período</small>
+        <strong id="stat-variacao">0 kg</strong>
+      </div>
+      <div class="stat-box">
+        <small>Maior carga</small>
+        <strong id="stat-maior-carga">0 kg</strong>
+      </div>
+      <div class="stat-box">
+        <small>Sessões registradas</small>
+        <strong id="stat-sessoes">0</strong>
+      </div>
     </div>
-    <div class="serie">
-      <input id="rep2" type="number" placeholder="Repetições" value="10">
-      <input id="carga2" type="number" placeholder="Carga (kg)" value="20">
-    </div>
-    <div class="serie">
-      <input id="rep3" type="number" placeholder="Repetições" value="10">
-      <input id="carga3" type="number" placeholder="Carga (kg)" value="20">
+
+    <div class="chart-wrap" id="grafico-cargas"></div>
+
+    <div class="card" style="margin-top:12px">
+      <h2 style="font-size:15px">Histórico por sessão</h2>
+      <div id="evolucao-lista-sessoes"></div>
     </div>
   </div>
-  <button onclick="salvarTreino()">Salvar treino</button>
-  <button class="danger" onclick="testarRecusa()">Testar recusa: carga ausente</button>
 </section>
 
 <section id="metas" class="screen">
   <button class="back" onclick="show('home')">← Voltar</button>
   <h2>Configurar metas diárias</h2>
-  <p style="color:#52525b;font-size:14px">Defina sua meta diária de consumo de água e horas de sono (HU-03).</p>
+  <p style="color:#52525b;font-size:14px">Defina sua meta diária de consumo de água e horas de sono.</p>
 
-  <label>Meta diária de água (em ml)</label>
+  <label for="input-meta-agua">Meta diária de água (em ml)</label>
   <input id="input-meta-agua" type="number" placeholder="Ex: 2000" value="2000">
 
-  <label>Meta diária de sono (em horas)</label>
-  <input id="input-meta-sono" type="number" placeholder="Ex: 8" value="8">
+  <label for="input-meta-sono">Meta diária de sono (em horas)</label>
+  <input id="input-meta-sono" type="number" step="0.5" placeholder="Ex: 8" value="8">
 
   <button onclick="salvarMetas()">Salvar metas diárias</button>
-  <button class="danger" onclick="testarRecusaMeta()">Testar recusa: meta inválida</button>
 </section>
 
 <section id="erro" class="screen">
@@ -136,9 +190,9 @@ footer{padding:14px 22px;border-top:1px solid #eee;color:#71717a;font-size:12px;
   <h2>Não foi possível salvar</h2>
   <div class="alert">
     <strong id="erro-titulo">Dados incompletos.</strong><br>
-    <span id="erro-detalhe">Informe a carga de todas as séries antes de salvar o treino.</span>
+    <span id="erro-detalhe">Verifique os campos informados antes de tentar novamente.</span>
   </div>
-  <button onclick="show('home')">Voltar</button>
+  <button onclick="voltarAposErro()">Corrigir dados</button>
 </section>
 
 <section id="resumo" class="screen">
@@ -146,55 +200,113 @@ footer{padding:14px 22px;border-top:1px solid #eee;color:#71717a;font-size:12px;
   <h2>Treino salvo</h2>
   <div class="success">
     <span class="badge">Finalizado</span>
-    <p id="resumo-exercicio">Supino reto</p>
-    <div id="resumo-volume" class="volume">600 kg</div>
-    <small>Volume total do exercício</small>
+    <p id="resumo-exercicio" style="font-weight:600;margin:4px 0"></p>
+    <div id="resumo-volume" class="volume">0 kg</div>
+    <small>Volume total da sessão</small>
   </div>
   <div class="card">
-    <h2>Resumo da sessão</h2>
-    <p id="resumo-detalhe">3 séries × 10 repetições × 20 kg</p>
-    <p>O treino foi registrado com sucesso e pode ser consultado no histórico.</p>
+    <h2 style="font-size:16px">Resumo dos exercícios</h2>
+    <div id="resumo-detalhe"></div>
   </div>
   <button onclick="show('home')">Voltar para o início</button>
 </section>
 </main>
-<footer>Fluxo: Treinos (HU-01/02) e Metas de Água e Sono (HU-03)</footer>
+<footer>Plataforma Saúde · Treinos, Evolução de Cargas e Hábitos Diários</footer>
 </div>
 
 <script>
-let estadoMetasLocal = {
-  agua: { valor_diario: 2000, progresso_atual: 0, percentual: 0 },
-  sono: { valor_diario: 8, progresso_atual: 0, percentual: 0 }
-};
+const EXERCICIOS_PADRAO = [
+  'Supino reto',
+  'Agachamento',
+  'Remada',
+  'Desenvolvimento',
+  'Levantamento terra',
+  'Leg press',
+  'Puxada frontal'
+];
 
-function show(id){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+let ultimaTelaAntesErro = 'home';
+
+function show(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
 }
 
-function atualizarTelaComTreino(t) {
-  document.getElementById('resumo-exercicio').textContent = t.exercicio + ' (' + t.data + ')';
-  document.getElementById('resumo-volume').textContent = t.volume_total + ' kg';
-  const descSeries = t.series.map((s, i) => `Série ${i+1}: ${s.repeticoes} reps × ${s.carga} kg`).join(' | ');
-  document.getElementById('resumo-detalhe').textContent = descSeries;
-  document.getElementById('ultimo-treino-texto').textContent =
-    `Último: ${t.exercicio} (${t.data}) · ${t.total_series} séries · Volume: ${t.volume_total} kg`;
+function mostrarErro(titulo, detalhe, origem = 'home') {
+  ultimaTelaAntesErro = origem;
+  document.getElementById('erro-titulo').textContent = titulo;
+  document.getElementById('erro-detalhe').textContent = detalhe;
+  show('erro');
+}
+
+function voltarAposErro() {
+  show(ultimaTelaAntesErro);
+}
+
+function formatarDataCurta(dataIso) {
+  const partes = (dataIso || '').split('-');
+  if (partes.length === 3) {
+    return `${partes[2]}/${partes[1]}`;
+  }
+  return dataIso;
+}
+
+function renderizarHistoricoHome(treinos) {
+  const container = document.getElementById('lista-treinos');
+  if (!treinos || treinos.length === 0) {
+    container.innerHTML = '<p class="history-sub">Nenhum treino registrado ainda.</p>';
+    return;
+  }
+
+  const recentes = treinos.slice(0, 5);
+  container.innerHTML = recentes.map(t => {
+    const listaEx = Array.isArray(t.exercicios) && t.exercicios.length > 0
+      ? t.exercicios
+      : [{ nome: t.exercicio, total_series: t.total_series, volume_total: t.volume_total }];
+
+    const detalhesEx = listaEx
+      .map(ex => `${ex.nome} (${ex.total_series} séries · ${ex.volume_total} kg)`)
+      .join('<br>');
+
+    return `
+      <div class="history-item">
+        <strong>${t.data} · Volume total: ${t.volume_total} kg</strong>
+        <div class="history-sub">${detalhesEx}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function atualizarResumoTreino(t) {
+  const listaEx = Array.isArray(t.exercicios) && t.exercicios.length > 0
+    ? t.exercicios
+    : [{ nome: t.exercicio, total_series: t.total_series, volume_total: t.volume_total, series: t.series }];
+
+  document.getElementById('resumo-exercicio').textContent = `${t.exercicio} (${t.data})`;
+  document.getElementById('resumo-volume').textContent = `${t.volume_total} kg`;
+  document.getElementById('resumo-detalhe').innerHTML = listaEx.map(ex => {
+    const descSeries = ex.series
+      .map((s, i) => `Série ${i + 1}: ${s.repeticoes} × ${s.carga} kg`)
+      .join(' · ');
+    return `<p style="margin:8px 0"><strong>${ex.nome}</strong> (${ex.volume_total} kg)<br><span class="history-sub">${descSeries}</span></p>`;
+  }).join('');
 }
 
 function atualizarTelaComMetas(metas) {
   if (metas.agua) {
-    estadoMetasLocal.agua = metas.agua;
     document.getElementById('texto-progresso-agua').textContent =
       `${metas.agua.progresso_atual} / ${metas.agua.valor_diario} ml (${metas.agua.percentual}%)`;
     document.getElementById('barra-agua').style.width = `${metas.agua.percentual}%`;
     document.getElementById('input-meta-agua').value = metas.agua.valor_diario;
   }
   if (metas.sono) {
-    estadoMetasLocal.sono = metas.sono;
     document.getElementById('texto-progresso-sono').textContent =
       `${metas.sono.progresso_atual} / ${metas.sono.valor_diario} h (${metas.sono.percentual}%)`;
     document.getElementById('barra-sono').style.width = `${metas.sono.percentual}%`;
     document.getElementById('input-meta-sono').value = metas.sono.valor_diario;
+    if (metas.sono.progresso_atual > 0) {
+      document.getElementById('input-sono-hoje').value = metas.sono.progresso_atual;
+    }
   }
 }
 
@@ -206,52 +318,277 @@ async function carregarDadosIniciais() {
     ]);
     if (respTreinos.ok) {
       const lista = await respTreinos.json();
-      if (lista.length > 0) atualizarTelaComTreino(lista[0]);
+      renderizarHistoricoHome(lista);
     }
     if (respMetas.ok) {
       const metas = await respMetas.json();
       atualizarTelaComMetas(metas);
     }
   } catch (e) {
-    atualizarTelaComMetas(estadoMetasLocal);
+    renderizarHistoricoHome([]);
   }
+}
+
+function criarLinhaSerieHTML(reps = 10, carga = 20) {
+  const row = document.createElement('div');
+  row.className = 'serie';
+  row.innerHTML = `
+    <input type="number" class="input-reps" min="1" placeholder="Repetições" value="${reps}">
+    <input type="number" class="input-carga" step="0.5" min="0.5" placeholder="Carga (kg)" value="${carga}">
+    <button type="button" class="btn-icon" title="Remover série" onclick="removerSerie(this)">×</button>
+  `;
+  return row;
+}
+
+function adicionarSerie(btn) {
+  const bloco = btn.closest('.exercise');
+  const container = bloco.querySelector('.series-container');
+  const ultimaCarga = container.querySelector('.serie:last-child .input-carga')?.value || 20;
+  const ultimaReps = container.querySelector('.serie:last-child .input-reps')?.value || 10;
+  container.appendChild(criarLinhaSerieHTML(ultimaReps, ultimaCarga));
+}
+
+function removerSerie(btn) {
+  const container = btn.closest('.series-container');
+  if (container.querySelectorAll('.serie').length > 1) {
+    btn.closest('.serie').remove();
+  }
+}
+
+function alternarOutroExercicio(selectEl) {
+  const bloco = selectEl.closest('.exercise');
+  const inputCustom = bloco.querySelector('.input-exercicio-custom');
+  inputCustom.style.display = selectEl.value === '__OUTRO__' ? 'block' : 'none';
+  if (selectEl.value === '__OUTRO__') {
+    inputCustom.focus();
+  }
+}
+
+function atualizarTitulosExercicios() {
+  const blocos = document.querySelectorAll('#lista-exercicios-form .exercise');
+  blocos.forEach((bloco, idx) => {
+    bloco.querySelector('.exercise-title').textContent = `Exercício ${idx + 1}`;
+    const btnRem = bloco.querySelector('.btn-remover-exercicio');
+    btnRem.style.display = blocos.length > 1 ? 'inline-block' : 'none';
+  });
+}
+
+function removerBlocoExercicio(btn) {
+  const blocos = document.querySelectorAll('#lista-exercicios-form .exercise');
+  if (blocos.length > 1) {
+    btn.closest('.exercise').remove();
+    atualizarTitulosExercicios();
+  }
+}
+
+function adicionarBlocoExercicio(nomeInicial = null) {
+  const container = document.getElementById('lista-exercicios-form');
+  const indice = container.querySelectorAll('.exercise').length;
+  const padrao = nomeInicial || EXERCICIOS_PADRAO[indice % EXERCICIOS_PADRAO.length];
+
+  const bloco = document.createElement('div');
+  bloco.className = 'exercise';
+  const optionsHtml = EXERCICIOS_PADRAO
+    .map(nome => `<option value="${nome}" ${nome === padrao ? 'selected' : ''}>${nome}</option>`)
+    .join('') + '<option value="__OUTRO__">Outro (digitar)...</option>';
+
+  bloco.innerHTML = `
+    <div class="exercise-head">
+      <h3 class="exercise-title">Exercício</h3>
+      <button type="button" class="small danger btn-remover-exercicio" onclick="removerBlocoExercicio(this)">Remover</button>
+    </div>
+    <label>Nome do exercício</label>
+    <select class="select-exercicio" onchange="alternarOutroExercicio(this)">${optionsHtml}</select>
+    <input type="text" class="input-exercicio-custom" placeholder="Digite o nome do exercício" style="display:none;margin-top:8px">
+    <div class="serie-head">
+      <span>Repetições</span>
+      <span>Carga (kg)</span>
+      <span></span>
+    </div>
+    <div class="series-container"></div>
+    <button type="button" class="small secondary" style="margin-top:4px" onclick="adicionarSerie(this)">+ Adicionar série</button>
+  `;
+
+  const seriesContainer = bloco.querySelector('.series-container');
+  seriesContainer.appendChild(criarLinhaSerieHTML(10, 20));
+  seriesContainer.appendChild(criarLinhaSerieHTML(10, 20));
+  seriesContainer.appendChild(criarLinhaSerieHTML(10, 20));
+
+  container.appendChild(bloco);
+  atualizarTitulosExercicios();
+}
+
+function abrirNovoTreino() {
+  const hoje = new Date().toISOString().slice(0, 10);
+  const campoData = document.getElementById('data-treino');
+  if (!campoData.value) {
+    campoData.value = hoje;
+  }
+  const container = document.getElementById('lista-exercicios-form');
+  if (container.children.length === 0) {
+    adicionarBlocoExercicio('Supino reto');
+  }
+  show('novo');
 }
 
 async function salvarTreino() {
   const data = document.getElementById('data-treino').value;
-  const exercicio = document.getElementById('nome-exercicio').value;
-  const series = [
-    { repeticoes: document.getElementById('rep1').value, carga: document.getElementById('carga1').value },
-    { repeticoes: document.getElementById('rep2').value, carga: document.getElementById('carga2').value },
-    { repeticoes: document.getElementById('rep3').value, carga: document.getElementById('carga3').value }
-  ];
+  const blocos = document.querySelectorAll('#lista-exercicios-form .exercise');
+  const exercicios = Array.from(blocos).map(bloco => {
+    const sel = bloco.querySelector('.select-exercicio').value;
+    const nome = sel === '__OUTRO__'
+      ? bloco.querySelector('.input-exercicio-custom').value.trim()
+      : sel;
+    const series = Array.from(bloco.querySelectorAll('.serie')).map(row => ({
+      repeticoes: row.querySelector('.input-reps').value,
+      carga: row.querySelector('.input-carga').value
+    }));
+    return { nome, series };
+  });
 
   try {
     const resp = await fetch('/api/treinos', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ data, exercicio, series })
+      body: JSON.stringify({ data, exercicios })
     });
     const resultado = await resp.json();
     if (!resp.ok) {
-      document.getElementById('erro-titulo').textContent = resultado.erro || 'Dados incompletos.';
-      document.getElementById('erro-detalhe').textContent = resultado.detalhe || 'Informe a carga de todas as séries.';
-      show('erro');
+      mostrarErro(
+        resultado.erro || 'Dados inválidos.',
+        resultado.detalhe || 'Confira os campos antes de salvar.',
+        'novo'
+      );
       return;
     }
-    atualizarTelaComTreino(resultado);
+
+    atualizarResumoTreino(resultado);
+    document.getElementById('lista-exercicios-form').innerHTML = '';
+    adicionarBlocoExercicio('Supino reto');
+    carregarDadosIniciais();
     show('resumo');
   } catch (e) {
-    for (const s of series) {
-      if (!s.repeticoes || !s.carga || Number(s.repeticoes) <= 0 || Number(s.carga) <= 0) {
-        show('erro');
-        return;
-      }
+    mostrarErro('Erro de conexão.', 'Não foi possível enviar o treino para o servidor.', 'novo');
+  }
+}
+
+async function abrirEvolucao() {
+  show('evolucao');
+  await carregarEvolucao();
+}
+
+function renderizarGraficoSVG(pontos) {
+  const W = 360;
+  const H = 195;
+  const padL = 42;
+  const padR = 22;
+  const padT = 24;
+  const padB = 34;
+  const areaW = W - padL - padR;
+  const areaH = H - padT - padB;
+
+  const cargas = pontos.map(p => p.carga_maxima);
+  let minY = Math.min(...cargas);
+  let maxY = Math.max(...cargas);
+  if (minY === maxY) {
+    minY = Math.max(0, minY - 5);
+    maxY = maxY + 5;
+  } else {
+    const margem = (maxY - minY) * 0.15;
+    minY = Math.max(0, minY - margem);
+    maxY = maxY + margem;
+  }
+
+  const xPos = i => padL + (pontos.length === 1 ? areaW / 2 : (i / (pontos.length - 1)) * areaW);
+  const yPos = v => padT + areaH - ((v - minY) / (maxY - minY)) * areaH;
+
+  let gridHtml = '';
+  for (let i = 0; i <= 3; i++) {
+    const valor = minY + ((maxY - minY) * i) / 3;
+    const y = yPos(valor).toFixed(1);
+    gridHtml += `<line x1="${padL}" y1="${y}" x2="${W - padR}" y2="${y}" stroke="#e4e4e7" stroke-dasharray="3,3" />`;
+    gridHtml += `<text x="${padL - 6}" y="${Number(y) + 4}" text-anchor="end" font-size="10" fill="#71717a">${Math.round(valor)}kg</text>`;
+  }
+
+  const coords = pontos.map((p, i) => [xPos(i), yPos(p.carga_maxima)]);
+  const polylinePoints = coords.map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join(' ');
+
+  const areaPoints = `${coords[0][0].toFixed(1)},${(padT + areaH).toFixed(1)} ${polylinePoints} ${coords[coords.length - 1][0].toFixed(1)},${(padT + areaH).toFixed(1)}`;
+
+  const dotsHtml = pontos.map((p, i) => {
+    const [x, y] = coords[i];
+    return `
+      <circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="4.5" fill="#2563eb" stroke="#fff" stroke-width="2" />
+      <text x="${x.toFixed(1)}" y="${(y - 9).toFixed(1)}" text-anchor="middle" font-size="10" font-weight="700" fill="#18181b">${p.carga_maxima}kg</text>
+      <text x="${x.toFixed(1)}" y="${H - 10}" text-anchor="middle" font-size="10" fill="#52525b">${formatarDataCurta(p.data)}</text>
+    `;
+  }).join('');
+
+  document.getElementById('grafico-cargas').innerHTML = `
+    <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Gráfico de evolução de cargas">
+      ${gridHtml}
+      <polygon points="${areaPoints}" fill="#2563eb" fill-opacity="0.10" />
+      <polyline fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" points="${polylinePoints}" />
+      ${dotsHtml}
+    </svg>
+  `;
+}
+
+async function carregarEvolucao(exercicioSelecionado = null) {
+  const url = exercicioSelecionado
+    ? `/api/treinos/evolucao?exercicio=${encodeURIComponent(exercicioSelecionado)}`
+    : '/api/treinos/evolucao';
+
+  try {
+    const resp = await fetch(url);
+    const dados = await resp.json();
+
+    const selectEl = document.getElementById('select-exercicio-evolucao');
+    const disponiveis = dados.exercicios_disponiveis || [];
+    if (disponiveis.length === 0) {
+      selectEl.innerHTML = '<option value="">Nenhum exercício registrado</option>';
+    } else {
+      selectEl.innerHTML = disponiveis
+        .map(nome => `<option value="${nome}" ${nome === dados.exercicio ? 'selected' : ''}>${nome}</option>`)
+        .join('');
     }
-    const seriesNum = series.map(s => ({ repeticoes: Number(s.repeticoes), carga: Number(s.carga) }));
-    const volume = seriesNum.reduce((acc, s) => acc + (s.repeticoes * s.carga), 0);
-    atualizarTelaComTreino({ data, exercicio, total_series: 3, volume_total: volume, series: seriesNum });
-    show('resumo');
+
+    const avisoEl = document.getElementById('evolucao-aviso');
+    const conteudoEl = document.getElementById('evolucao-conteudo');
+
+    if (!dados.dados_suficientes) {
+      conteudoEl.style.display = 'none';
+      avisoEl.style.display = 'block';
+      avisoEl.textContent = dados.mensagem || 'Registre pelo menos 2 sessões deste exercício para visualizar o gráfico de evolução.';
+      return;
+    }
+
+    avisoEl.style.display = 'none';
+    conteudoEl.style.display = 'block';
+
+    const r = dados.resumo;
+    const sinal = r.variacao_kg > 0 ? '+' : '';
+    document.getElementById('stat-carga-atual').textContent = `${r.carga_atual} kg`;
+    document.getElementById('stat-variacao').textContent = `${sinal}${r.variacao_kg} kg (${sinal}${r.variacao_percentual}%)`;
+    document.getElementById('stat-maior-carga').textContent = `${r.maior_carga} kg`;
+    document.getElementById('stat-sessoes').textContent = `${dados.total_registros}`;
+
+    renderizarGraficoSVG(dados.pontos);
+
+    document.getElementById('evolucao-lista-sessoes').innerHTML = dados.pontos
+      .slice()
+      .reverse()
+      .map(p => `
+        <div class="history-item">
+          <strong>${p.data} · Máx: ${p.carga_maxima} kg</strong>
+          <div class="history-sub">Média: ${p.carga_media} kg · ${p.total_series} séries · Volume: ${p.volume_total} kg</div>
+        </div>
+      `).join('');
+  } catch (e) {
+    document.getElementById('evolucao-conteudo').style.display = 'none';
+    const avisoEl = document.getElementById('evolucao-aviso');
+    avisoEl.style.display = 'block';
+    avisoEl.textContent = 'Não foi possível carregar os dados de evolução.';
   }
 }
 
@@ -267,54 +604,57 @@ async function salvarMetas() {
     });
     const resultado = await resp.json();
     if (!resp.ok) {
-      document.getElementById('erro-titulo').textContent = resultado.erro || 'Meta inválida.';
-      document.getElementById('erro-detalhe').textContent = resultado.detalhe || 'A meta deve ser maior que zero.';
-      show('erro');
+      mostrarErro(
+        resultado.erro || 'Meta inválida.',
+        resultado.detalhe || 'A meta deve ser maior que zero.',
+        'metas'
+      );
       return;
     }
     atualizarTelaComMetas(resultado.metas);
     show('home');
   } catch (e) {
-    if (!agua_ml || !sono_horas || Number(agua_ml) <= 0 || Number(sono_horas) <= 0) {
-      document.getElementById('erro-titulo').textContent = 'Meta inválida.';
-      document.getElementById('erro-detalhe').textContent = 'As metas de água e sono devem ser maiores que zero.';
-      show('erro');
-      return;
-    }
-    estadoMetasLocal.agua = { valor_diario: Number(agua_ml), progresso_atual: 0, percentual: 0 };
-    estadoMetasLocal.sono = { valor_diario: Number(sono_horas), progresso_atual: 0, percentual: 0 };
-    atualizarTelaComMetas(estadoMetasLocal);
-    show('home');
+    mostrarErro('Erro de conexão.', 'Não foi possível salvar as metas.', 'metas');
   }
 }
 
-async function adicionarProgresso(tipo, quantidade) {
+async function adicionarProgressoAgua(quantidade) {
   try {
     const resp = await fetch('/api/metas/progresso', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ tipo, quantidade })
+      body: JSON.stringify({ tipo: 'agua', quantidade, modo: 'somar' })
     });
     const resultado = await resp.json();
     if (resp.ok) {
       atualizarTelaComMetas(resultado.metas);
     }
   } catch (e) {
-    const m = estadoMetasLocal[tipo];
-    m.progresso_atual += quantidade;
-    m.percentual = Math.min(100, Math.round((m.progresso_atual / m.valor_diario) * 100));
-    atualizarTelaComMetas(estadoMetasLocal);
+    mostrarErro('Erro de conexão.', 'Não foi possível atualizar o consumo de água.', 'home');
   }
 }
 
-function testarRecusa() {
-  document.getElementById('carga3').value = '';
-  salvarTreino();
-}
-
-function testarRecusaMeta() {
-  document.getElementById('input-meta-agua').value = '0';
-  salvarMetas();
+async function registrarSonoHoje() {
+  const quantidade = document.getElementById('input-sono-hoje').value;
+  try {
+    const resp = await fetch('/api/metas/progresso', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ tipo: 'sono', quantidade, modo: 'definir' })
+    });
+    const resultado = await resp.json();
+    if (!resp.ok) {
+      mostrarErro(
+        resultado.erro || 'Valor inválido.',
+        resultado.detalhe || 'Informe quantas horas você dormiu (maior que zero).',
+        'home'
+      );
+      return;
+    }
+    atualizarTelaComMetas(resultado.metas);
+  } catch (e) {
+    mostrarErro('Erro de conexão.', 'Não foi possível registrar as horas de sono.', 'home');
+  }
 }
 
 carregarDadosIniciais();
