@@ -131,10 +131,105 @@ class TestMultiExercicioEvolucaoESono(unittest.TestCase):
         self.assertEqual(evolucao["resumo"]["carga_atual"], 25.0)
         self.assertEqual(evolucao["resumo"]["variacao_kg"], 5.0)
         self.assertEqual(evolucao["resumo"]["variacao_percentual"], 25.0)
+        # Epley: 25 * (1 + 8/30) = 31.666... -> 31.7
+        self.assertEqual(evolucao["pontos"][1]["um_rm_estimado"], 31.7)
+        self.assertEqual(len(evolucao["pontos"][1]["series"]), 3)
         self.assertEqual(
             [p["data"] for p in evolucao["pontos"]],
             ["2026-10-15", "2026-10-22"],
         )
+
+    def test_crud_treino_editar_excluir_e_ultimo_exercicio(self):
+        """Permite editar, excluir treino e recuperar ultima sessao do exercicio."""
+        # Preparar
+        st, criado = main.salvar_novo_treino(
+            {
+                "data": "2026-11-18",
+                "exercicios": [
+                    {
+                        "nome": "Agachamento",
+                        "series": [
+                            {"repeticoes": 10, "carga": 60},
+                            {"repeticoes": 10, "carga": 65},
+                        ],
+                    }
+                ],
+            }
+        )
+        self.assertEqual(st, 201)
+        treino_id = criado["id"]
+
+        # Agir - consultar ultima sessao e biblioteca de exercicios
+        ultimo = main.obter_ultimo_exercicio("agachamento")
+        lista_ex = main.obter_exercicios_cadastrados()
+
+        # Conferir ultima sessao
+        self.assertTrue(ultimo["encontrado"])
+        self.assertEqual(ultimo["exercicio"], "Agachamento")
+        self.assertEqual(len(ultimo["series"]), 2)
+        self.assertIn("Agachamento", lista_ex)
+
+        # Agir - editar treino
+        st_put, atualizado = main.atualizar_treino(
+            treino_id,
+            {
+                "data": "2026-11-18",
+                "exercicios": [
+                    {
+                        "nome": "Agachamento",
+                        "series": [{"repeticoes": 8, "carga": 80}],
+                    }
+                ],
+            },
+        )
+        self.assertEqual(st_put, 200)
+        self.assertEqual(atualizado["volume_total"], 640.0)
+
+        # Agir - excluir treino
+        st_del, _ = main.excluir_treino(treino_id)
+        self.assertEqual(st_del, 200)
+        self.assertFalse(main.obter_ultimo_exercicio("Agachamento")["encontrado"])
+
+    def test_sono_cochilo_somar_limite_24h_e_desfazer_agua(self):
+        """Suporta cochilo somado apos registro definir, valida limite 24h e desfaz agua."""
+        # Preparar
+        main.salvar_metas({"agua_ml": 2000, "sono_horas": 8})
+        hoje = main.date.today().isoformat()
+
+        # Agir - sono definir + somar cochilo no mesmo dia
+        main.registrar_progresso_meta(
+            {"tipo": "sono", "quantidade": 7.5, "modo": "definir", "data": hoje}
+        )
+        st_cochilo, resp_cochilo = main.registrar_progresso_meta(
+            {"tipo": "sono", "quantidade": 1.0, "modo": "somar", "data": hoje}
+        )
+        st_excesso, _ = main.registrar_progresso_meta(
+            {"tipo": "sono", "quantidade": 25, "modo": "definir", "data": hoje}
+        )
+        hist_sono = main.obter_historico_metas("sono")
+
+        # Conferir sono
+        self.assertEqual(st_cochilo, 200)
+        self.assertEqual(resp_cochilo["metas"]["sono"]["progresso_atual"], 8.5)
+        self.assertEqual(hist_sono["resumo_diario"][0]["metas"][0]["total"], 8.5)
+        self.assertEqual(st_excesso, 400)
+
+        # Agir - agua + desfazer
+        _, reg1 = main.registrar_progresso_meta(
+            {"tipo": "agua", "quantidade": 250, "modo": "somar", "data": hoje}
+        )
+        _, reg2 = main.registrar_progresso_meta(
+            {"tipo": "agua", "quantidade": 500, "modo": "somar", "data": hoje}
+        )
+        st_undo, resp_undo = main.desfazer_progresso_meta(
+            {"tipo": "agua", "id": reg2["registro_id"]}
+        )
+
+        # Conferir desfazer
+        self.assertEqual(st_undo, 200)
+        self.assertEqual(resp_undo["metas"]["agua"]["progresso_atual"], 250.0)
+        self.assertEqual(len(main.obter_historico_metas("agua")["registros"]), 1)
+        self.assertEqual(reg1["metas"]["agua"]["progresso_atual"], 250.0)
 
     def test_registrar_sono_modo_definir_substitui_sem_somar(self):
         """Registro de sono em modo 'definir' grava horas dormidas diretamente."""

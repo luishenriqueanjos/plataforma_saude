@@ -43,6 +43,15 @@
 
 ---
 
+## 2.1. Editar ou excluir treino registrado (`PUT` / `DELETE /api/treinos/<id>`)
+
+- **`PUT /api/treinos/<id>`:** atualiza data, exercícios e séries do treino existente (`200 OK`, `400 Bad Request` ou `404 Not Found`).
+- **`DELETE /api/treinos/<id>`:** exclui o treino e todas as séries/exercícios vinculados (`200 OK` ou `404 Not Found`).
+- **`GET /api/treinos/ultimo-exercicio?nome=...`:** recupera as séries da sessão mais recente do exercício informado para servir de referência no formulário.
+- **`GET /api/exercicios`:** lista os nomes únicos dos exercícios já cadastrados nos treinos para o autocomplete.
+
+---
+
 ## 3. Consultar metas diárias de hábitos (Água e Sono)
 
 - **Método e caminho:** `GET /api/metas`
@@ -91,6 +100,14 @@
   - `200 OK`: atualiza a coluna `progresso_atual` na tabela `META` e retorna o novo percentual calculado (limitado a `100%` para exibição, mantendo o valor acumulado real).
   - `400 Bad Request`: `tipo` diferente de `"agua"`/`"sono"`, `modo` inválido ou `quantidade` vazia, não numérica ou menor/igual a zero (`CA-03.3`).
   - `404 Not Found`: meta diária correspondente ainda não cadastrada na tabela `META`.
+
+---
+
+## 5.1. Desfazer último registro de progresso (`POST /api/metas/desfazer`)
+
+- **Método e caminho:** `POST /api/metas/desfazer`
+- **Corpo da requisição (JSON):** `{ "tipo": "agua", "id": 12 }` (`id` opcional; se omitido, desfaz o último registro do `tipo`).
+- **Resposta `200 OK`:** remove o registro de `META_HISTORICO`, ajusta `progresso_atual` do dia e devolve o estado atualizado das metas.
 
 ---
 

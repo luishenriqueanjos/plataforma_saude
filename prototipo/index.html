@@ -6,7 +6,7 @@
 <title>Plataforma de Saúde - Treinos, Cargas e Hábitos</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#f4f4f5;
@@ -37,11 +37,12 @@
 body{
   margin:0;
   font-family:'Plus Jakarta Sans','Segoe UI',system-ui,-apple-system,sans-serif;
+  font-variant-numeric:tabular-nums;
   background:radial-gradient(circle at top left,#eef2ff 0%,var(--bg) 45%,#f4f4f5 100%);
   color:var(--ink);
   -webkit-font-smoothing:antialiased;
 }
-.mono{font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,monospace;font-variant-numeric:tabular-nums}
+.tabular{font-variant-numeric:tabular-nums}
 .app{
   width:100%;
   max-width:460px;
@@ -56,7 +57,7 @@ body{
 }
 @media(min-width:680px){
   .app{
-    max-width:820px;
+    max-width:860px;
     min-height:calc(100vh - 48px);
     margin:24px auto;
     border:1px solid var(--border);
@@ -77,7 +78,7 @@ header h1{margin:0 0 4px;font-size:23px;font-weight:800;letter-spacing:-0.02em}
 header p{margin:0;color:var(--subtle);font-size:13.5px}
 main{padding:20px 22px 24px;flex:1}
 @media(min-width:680px){main{padding:24px 28px 28px}}
-.screen{display:none;animation:fadeSlide .22s ease}
+.screen{display:none;animation:fadeSlide .2s ease}
 .screen.active{display:block}
 @keyframes fadeSlide{
   from{opacity:0;transform:translateY(4px)}
@@ -117,7 +118,8 @@ button.outline:hover{background:var(--surface-soft);opacity:1}
 button.danger{background:var(--danger-bg);color:var(--danger-ink)}
 button.action-agua{background:var(--water-soft);color:var(--water-deep);margin-top:8px}
 button.action-sono{background:var(--sleep-soft);color:var(--sleep-deep);margin-top:0}
-button.small{width:auto;padding:7px 12px;margin-top:0;font-size:12px;border-radius:9px}
+button.small{width:auto;padding:7px 11px;margin-top:0;font-size:12px;border-radius:9px}
+button.xs{width:auto;padding:4px 9px;margin-top:0;font-size:11.5px;border-radius:8px}
 label{display:block;font-size:13px;font-weight:600;margin:12px 0 6px;color:#27272a}
 input,select{
   width:100%;
@@ -131,14 +133,14 @@ input,select{
 }
 .row{display:flex;gap:8px;align-items:center}
 .row>div,.row>button,.row>input{flex:1}
-.exercise{border:1px solid var(--border);border-radius:14px;padding:14px;margin-top:14px;background:var(--surface-soft)}
+.exercise{border:1px solid var(--border);border-radius:14px;padding:14px;margin-top:14px;background:var(--surface-soft);position:relative}
 .exercise-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
 .exercise-head h3{margin:0;font-size:15px}
 .serie{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;margin-bottom:8px;align-items:center}
 .serie-head{display:grid;grid-template-columns:1fr 1fr 34px;gap:8px;margin:10px 0 4px;font-size:12px;color:var(--subtle);font-weight:600}
 .btn-icon{width:34px;height:40px;margin-top:0;padding:0;background:var(--danger-bg);color:var(--danger-ink);border-radius:10px;font-size:16px}
 .alert{background:#fef2f2;border:1px solid #fecaca;color:var(--danger-ink);padding:13px;border-radius:12px;margin-bottom:14px;font-size:14px;line-height:1.4}
-.info-box{background:#eff6ff;border:1px solid #bfdbfe;color:#1e3a8a;padding:14px;border-radius:12px;margin:12px 0;font-size:14px;line-height:1.45}
+.info-box{background:#eff6ff;border:1px solid #bfdbfe;color:#1e3a8a;padding:13px 14px;border-radius:12px;margin:12px 0;font-size:13.5px;line-height:1.45}
 .success{background:#f4f4f5;border-radius:14px;padding:16px;margin:15px 0}
 .volume{font-size:30px;font-weight:800;margin:4px 0}
 .back{background:transparent;color:var(--muted);padding:6px 0;text-align:left;width:auto;margin:0 0 8px;font-size:13.5px}
@@ -155,19 +157,156 @@ input,select{
 .sleep-form{display:flex;gap:8px;align-items:stretch;margin-top:8px}
 .sleep-form input{flex:1}
 .sleep-form button{flex:1.2;margin-top:0}
+.seg-toggle{
+  display:inline-flex;
+  background:#f4f4f5;
+  padding:3px;
+  border-radius:10px;
+  gap:3px;
+  margin-top:8px;
+  width:100%;
+}
+.seg-toggle button{
+  margin-top:0;
+  padding:6px 10px;
+  font-size:12px;
+  font-weight:600;
+  border-radius:8px;
+  background:transparent;
+  color:var(--muted);
+  flex:1;
+}
+.seg-toggle button.active{
+  background:#fff;
+  color:var(--ink);
+  box-shadow:0 1px 3px rgba(0,0,0,0.08);
+}
+.helper-note{font-size:11.5px;color:var(--subtle);margin:6px 0 0;line-height:1.35}
 .history-list{margin-top:14px;border-top:1px solid #f4f4f5;padding-top:12px}
-.history-item{padding:9px 0;border-bottom:1px solid #f4f4f5;font-size:13px}
+.history-item{padding:10px 0;border-bottom:1px solid #f4f4f5;font-size:13px}
 .history-item:last-child{border-bottom:0;padding-bottom:0}
+.history-item-head{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
 .history-item strong{display:block;color:var(--ink);margin-bottom:2px}
-.history-sub{color:var(--muted);font-size:12px;line-height:1.4}
+.history-actions{display:flex;gap:6px;flex-shrink:0}
+.history-sub{color:var(--muted);font-size:12px;line-height:1.45}
+
+/* Autocomplete e Sessão Anterior */
+.autocomplete-wrap{position:relative}
+.autocomplete-list{
+  position:absolute;
+  top:calc(100% + 4px);
+  left:0;
+  right:0;
+  background:#fff;
+  border:1px solid var(--border-strong);
+  border-radius:12px;
+  box-shadow:0 12px 28px rgba(24,24,27,0.12);
+  max-height:210px;
+  overflow-y:auto;
+  z-index:30;
+  display:none;
+}
+.autocomplete-list.open{display:block}
+.autocomplete-item{
+  width:100%;
+  margin-top:0;
+  padding:9px 12px;
+  text-align:left;
+  background:#fff;
+  color:var(--ink);
+  border-radius:0;
+  font-size:13.5px;
+  font-weight:500;
+  border-bottom:1px solid #f4f4f5;
+}
+.autocomplete-item:last-child{border-bottom:0}
+.autocomplete-item:hover{background:#f4f4f5;opacity:1}
+.autocomplete-item.create-new{color:var(--water-deep);font-weight:700;background:#f0f9ff}
+.prev-session-box{
+  margin-top:8px;
+  padding:9px 11px;
+  border-radius:10px;
+  background:#fff;
+  border:1px solid var(--border);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
+  font-size:12px;
+  color:var(--muted);
+}
+.prev-session-box strong{color:var(--ink)}
+
+/* Evolução de Exercícios */
+.controls-bar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:12px;
+}
+.pill-group{
+  display:inline-flex;
+  background:#f4f4f5;
+  padding:3px;
+  border-radius:11px;
+  gap:3px;
+  flex-wrap:wrap;
+}
+.pill-group button{
+  width:auto;
+  margin-top:0;
+  padding:6px 11px;
+  font-size:12px;
+  font-weight:600;
+  border-radius:8px;
+  background:transparent;
+  color:var(--muted);
+}
+.pill-group button.active{
+  background:#fff;
+  color:var(--ink);
+  box-shadow:0 1px 4px rgba(0,0,0,0.09);
+}
 .stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}
+@media(min-width:640px){.stats-grid{grid-template-columns:repeat(4,1fr)}}
 .stat-box{background:var(--surface-soft);border:1px solid var(--border);border-radius:12px;padding:10px 12px}
 .stat-box small{display:block;color:var(--subtle);font-size:11px;margin-bottom:3px}
-.stat-box strong{font-size:16px;color:var(--ink)}
-.chart-wrap{background:var(--surface-soft);border:1px solid var(--border);border-radius:14px;padding:12px;margin:12px 0}
-.chart-wrap svg{width:100%;height:auto;display:block}
+.stat-box strong{font-size:16px;color:var(--ink);font-weight:700}
+.chart-wrap{
+  position:relative;
+  background:var(--surface-soft);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:12px;
+  margin:12px 0;
+}
+.chart-wrap svg{width:100%;height:auto;display:block;touch-action:manipulation}
+.evo-tooltip{
+  position:absolute;
+  pointer-events:none;
+  background:var(--ink);
+  color:#fff;
+  border-radius:10px;
+  padding:8px 10px;
+  font-size:11.5px;
+  line-height:1.4;
+  box-shadow:0 8px 20px rgba(0,0,0,0.18);
+  z-index:10;
+  min-width:155px;
+  display:none;
+}
+.evo-tooltip strong{display:block;font-size:12.5px;margin-bottom:2px}
+.evo-point-detail{
+  font-size:12px;
+  color:var(--muted);
+  margin-top:6px;
+  min-height:18px;
+}
 
-/* Mini matriz semanal no card da Home (inspirada no rastreador de rotina) */
+/* Mini matriz semanal na Home */
 .mini-week-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
 .mini-week-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}
 .mini-day{
@@ -227,12 +366,15 @@ input,select{
   width:auto;
   height:34px;
   margin-top:0;
-  padding:0 11px;
+  padding:0 12px;
   border-radius:10px;
   background:#f4f4f5;
   color:var(--ink);
   font-size:12px;
   font-weight:700;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
 }
 
 .day-strip{
@@ -289,11 +431,11 @@ input,select{
   align-items:center;
   gap:8px;
   flex-wrap:wrap;
-  margin-bottom:10px;
+  margin-bottom:8px;
 }
 .habit-title{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:700;margin:0}
 .goal-pill{
-  font-size:11.5px;
+  font-size:12px;
   font-weight:700;
   padding:4px 10px;
   border-radius:999px;
@@ -312,101 +454,118 @@ input,select{
 .legend-swatch{width:10px;height:10px;border-radius:3px;display:inline-block}
 .legend-swatch.ghost{background:transparent;border:1.5px dashed #a1a1aa}
 
-/* Gráfico Semanal de Hidratação */
-.water-plot{
-  position:relative;
-}
-.water-goal-line{
-  position:absolute;
-  left:0;
-  right:0;
-  border-top:1.5px dashed rgba(3,105,161,0.55);
-  pointer-events:none;
-  z-index:2;
-}
-.water-goal-tag{
-  position:absolute;
-  right:4px;
-  top:-17px;
-  font-size:9.5px;
-  font-weight:700;
-  color:var(--water-deep);
-  background:rgba(255,255,255,0.92);
-  border:1px solid rgba(3,105,161,0.2);
-  padding:1px 6px;
-  border-radius:6px;
-}
-.week-cols{
+/* Estrutura de plotagem compartilhada: mesma função de escala para barras e linha de meta */
+.chart-columns-header,
+.chart-columns-footer{
   display:grid;
   grid-template-columns:repeat(7,minmax(0,1fr));
   gap:6px;
-  position:relative;
-  z-index:1;
 }
-@media(min-width:680px){.week-cols{gap:10px}}
-.day-col-btn{
-  margin-top:0;
-  padding:6px 2px 4px;
-  border-radius:12px;
-  background:transparent;
-  color:var(--ink);
-  border:1.5px solid transparent;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:6px;
-  transition:background-color .15s ease,border-color .15s ease,transform .15s ease;
+@media(min-width:680px){
+  .chart-columns-header,.chart-columns-footer{gap:10px}
 }
-.day-col-btn:hover{background:#fff;border-color:var(--border);opacity:1}
-.day-col-btn.selected{
-  background:#fff;
-  border-color:var(--ink);
-  box-shadow:0 4px 14px rgba(24,24,27,0.08);
-}
-.col-val{
-  font-size:10.5px;
-  line-height:15px;
-  height:15px;
+.col-top-label{
+  text-align:center;
+  font-size:11px;
   font-weight:700;
   color:var(--ink);
+  height:18px;
+  line-height:18px;
   white-space:nowrap;
 }
-.col-val.empty{color:#a1a1aa;font-weight:600}
+.col-top-label.empty{color:#a1a1aa;font-weight:600}
+.plot-stage{
+  position:relative;
+  height:124px;
+  margin:6px 0;
+  display:grid;
+  grid-template-columns:repeat(7,minmax(0,1fr));
+  gap:6px;
+}
+@media(min-width:680px){
+  .plot-stage{height:138px;gap:10px}
+}
+.stage-col-btn{
+  margin-top:0;
+  padding:0 3px;
+  height:100%;
+  background:transparent;
+  border:0;
+  border-radius:12px;
+  display:flex;
+  justify-content:center;
+  align-items:flex-end;
+  position:relative;
+  z-index:2;
+}
+.stage-col-btn:hover{background:rgba(255,255,255,0.65);opacity:1}
+.stage-col-btn.selected{
+  outline:2px solid var(--ink);
+  outline-offset:2px;
+  background:rgba(255,255,255,0.85);
+}
+.goal-ref-line{
+  position:absolute;
+  left:0;
+  right:0;
+  border-top:1.5px dashed rgba(3,105,161,0.62);
+  pointer-events:none;
+  z-index:3;
+}
+.sleep-ref-band{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  border-top:1.5px dashed rgba(91,33,182,0.58);
+  background:rgba(237,233,254,0.34);
+  pointer-events:none;
+  z-index:1;
+}
+.ref-tag{
+  position:absolute;
+  left:4px;
+  top:-17px;
+  font-size:10px;
+  font-weight:700;
+  padding:1px 6px;
+  border-radius:6px;
+  background:rgba(255,255,255,0.92);
+  pointer-events:none;
+}
+.ref-tag.agua{color:var(--water-deep);border:1px solid rgba(3,105,161,0.22)}
+.ref-tag.sono{color:var(--sleep-deep);border:1px solid rgba(91,33,182,0.22)}
+
 .water-vessel{
   width:100%;
-  max-width:44px;
-  height:112px;
+  max-width:46px;
+  height:100%;
   border-radius:11px;
-  background:#f1f5f9;
-  border:1px solid #e2e8f0;
+  background:#e9eef5;
   position:relative;
   overflow:hidden;
   display:flex;
   align-items:flex-end;
 }
-@media(min-width:680px){.water-vessel{height:132px;max-width:52px}}
+@media(min-width:680px){.water-vessel{max-width:54px}}
 .water-vessel.no-data{
   background:repeating-linear-gradient(
     -45deg,
     #fafafa,
     #fafafa 5px,
-    #f4f4f5 5px,
-    #f4f4f5 10px
+    #f1f1f4 5px,
+    #f1f1f4 10px
   );
-  border:1.5px dashed #d4d4d8;
+  box-shadow:inset 0 0 0 1.5px #d4d4d8;
 }
 .water-fill{
   width:100%;
   border-radius:8px 8px 0 0;
-  transition:height .4s cubic-bezier(0.22,1,0.36,1);
+  transition:height .35s cubic-bezier(0.22,1,0.36,1);
   position:relative;
 }
-.water-fill.hit{
-  background:linear-gradient(180deg,var(--water-bright) 0%,var(--water) 100%);
-}
-.water-fill.below{
-  background:linear-gradient(180deg,#bae6fd 0%,var(--water-low) 100%);
-}
+.water-fill.hit{background:linear-gradient(180deg,var(--water-bright) 0%,var(--water) 100%)}
+.water-fill.below{background:linear-gradient(180deg,#bae6fd 0%,var(--water-low) 100%)}
 .col-check{
   position:absolute;
   top:5px;
@@ -414,71 +573,43 @@ input,select{
   width:16px;
   height:16px;
   border-radius:999px;
-  background:rgba(255,255,255,0.92);
+  background:rgba(255,255,255,0.94);
   color:var(--water-deep);
   font-size:10px;
   font-weight:800;
   display:flex;
   align-items:center;
   justify-content:center;
-  box-shadow:0 1px 3px rgba(0,0,0,0.12);
-}
-.col-day{font-size:10.5px;font-weight:700;color:var(--muted)}
-.col-subdate{font-size:9.5px;color:var(--subtle)}
-
-/* Gráfico Semanal de Sono */
-.sleep-plot{position:relative}
-.sleep-goal-band{
-  position:absolute;
-  left:0;
-  right:0;
-  border-top:1.5px dashed rgba(91,33,182,0.55);
-  background:rgba(237,233,254,0.34);
-  pointer-events:none;
-  z-index:1;
-}
-.sleep-goal-tag{
-  position:absolute;
-  right:4px;
-  top:-17px;
-  font-size:9.5px;
-  font-weight:700;
-  color:var(--sleep-deep);
-  background:rgba(255,255,255,0.92);
-  border:1px solid rgba(91,33,182,0.2);
-  padding:1px 6px;
-  border-radius:6px;
+  box-shadow:0 1px 3px rgba(0,0,0,0.14);
 }
 .sleep-track{
   width:100%;
-  max-width:44px;
-  height:112px;
+  max-width:46px;
+  height:100%;
   position:relative;
   display:flex;
   justify-content:center;
   align-items:flex-end;
   border-bottom:1.5px solid var(--border);
 }
-@media(min-width:680px){.sleep-track{height:126px;max-width:52px}}
+@media(min-width:680px){.sleep-track{max-width:54px}}
 .sleep-stem{
   width:14px;
-  border-radius:999px 999px 4px 4px;
+  border-radius:999px 999px 3px 3px;
   position:relative;
-  transition:height .4s cubic-bezier(0.22,1,0.36,1);
+  transition:height .35s cubic-bezier(0.22,1,0.36,1);
 }
 .sleep-stem.hit{
   background:linear-gradient(180deg,var(--sleep-bright) 0%,var(--sleep) 100%);
   box-shadow:0 2px 8px rgba(109,40,217,0.22);
 }
-.sleep-stem.below{
-  background:linear-gradient(180deg,#fbbf24 0%,var(--sleep-low) 100%);
-}
+.sleep-stem.below{background:linear-gradient(180deg,#fbbf24 0%,var(--sleep-low) 100%)}
 .sleep-node{
   width:20px;
   height:20px;
   border-radius:999px;
   position:absolute;
-  top:-6px;
+  top:-7px;
   left:50%;
   transform:translateX(-50%);
   border:2.5px solid #fff;
@@ -497,7 +628,7 @@ input,select{
   left:50%;
   transform:translateX(-50%);
   width:0;
-  border-left:1.5px dashed rgba(217,119,6,0.65);
+  border-left:1.5px dashed rgba(217,119,6,0.7);
   pointer-events:none;
 }
 .sleep-empty-dot{
@@ -506,8 +637,22 @@ input,select{
   border-radius:999px;
   border:1.5px dashed #a1a1aa;
   background:#fff;
-  margin-bottom:4px;
+  margin-bottom:5px;
 }
+.col-foot-btn{
+  margin-top:0;
+  padding:4px 2px;
+  background:transparent;
+  color:var(--muted);
+  border-radius:8px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:1px;
+}
+.col-foot-btn.selected{background:#fff;color:var(--ink);font-weight:700}
+.col-day{font-size:10.5px;font-weight:700}
+.col-subdate{font-size:9.5px;color:var(--subtle)}
 
 /* Painel de Detalhes do Dia Selecionado */
 .day-detail-panel{
@@ -540,6 +685,65 @@ input,select{
 .detail-main{font-size:20px;font-weight:800;color:var(--ink);margin:2px 0}
 .detail-meta{font-size:12px;color:var(--subtle);line-height:1.45}
 
+/* Modais e Toast */
+.modal-backdrop{
+  position:fixed;
+  inset:0;
+  background:rgba(24,24,27,0.48);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:16px;
+  z-index:60;
+}
+.modal-backdrop.open{display:flex}
+.modal-card{
+  background:#fff;
+  border-radius:20px;
+  border:1px solid var(--border);
+  width:100%;
+  max-width:420px;
+  padding:20px 22px;
+  box-shadow:0 20px 44px rgba(24,24,27,0.2);
+}
+.modal-card h2{margin:0 0 6px;font-size:18px;font-weight:700}
+.modal-actions{display:flex;gap:8px;margin-top:16px}
+.modal-actions button{margin-top:0;flex:1}
+
+.toast{
+  position:fixed;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%) translateY(20px);
+  background:var(--ink);
+  color:#fff;
+  padding:10px 14px;
+  border-radius:14px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-size:13px;
+  box-shadow:0 12px 28px rgba(0,0,0,0.22);
+  z-index:70;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .2s ease,transform .2s ease;
+}
+.toast.show{
+  opacity:1;
+  pointer-events:auto;
+  transform:translateX(-50%) translateY(0);
+}
+.toast button{
+  width:auto;
+  margin-top:0;
+  padding:5px 10px;
+  font-size:12px;
+  border-radius:8px;
+  background:#38bdf8;
+  color:#082f49;
+}
+
 footer{padding:14px 22px;border-top:1px solid #eee;color:var(--subtle);font-size:12px;text-align:center}
 </style>
 </head>
@@ -558,12 +762,15 @@ footer{padding:14px 22px;border-top:1px solid #eee;color:var(--subtle);font-size
     <div class="card">
       <span class="badge">Treinos</span>
       <h2>Sessões de treino</h2>
-      <p>Registre quantos exercícios e séries quiser no mesmo treino e acompanhe a evolução das cargas.</p>
+      <p>Registre quantos exercícios e séries quiser no mesmo treino e acompanhe sua evolução.</p>
       <button onclick="abrirNovoTreino()">Iniciar novo treino</button>
       <button class="outline" onclick="abrirEvolucao()">Ver gráfico de evolução</button>
 
       <div class="history-list">
-        <strong style="font-size:13px;color:#3f3f46">Treinos recentes</strong>
+        <div class="mini-week-head">
+          <strong style="font-size:13px;color:#3f3f46">Treinos recentes</strong>
+          <button type="button" id="btn-toggle-todos-treinos" class="xs outline" style="display:none" onclick="alternarListaCompletaTreinos()">Ver todos</button>
+        </div>
         <div id="lista-treinos">
           <p class="history-sub">Carregando histórico...</p>
         </div>
@@ -575,7 +782,7 @@ footer{padding:14px 22px;border-top:1px solid #eee;color:var(--subtle);font-size
       <h2>Metas de Água e Sono</h2>
 
       <div class="meta-box">
-        <p><strong>💧 Água:</strong> <span id="texto-progresso-agua">0 / 2000 ml (0%)</span></p>
+        <p><strong>💧 Água:</strong> <span id="texto-progresso-agua">0 / 2.000 ml (0%)</span></p>
         <div class="progress-container">
           <div id="barra-agua" class="progress-bar-agua"></div>
         </div>
@@ -586,57 +793,78 @@ footer{padding:14px 22px;border-top:1px solid #eee;color:var(--subtle);font-size
       </div>
 
       <div class="meta-box">
-        <p><strong>😴 Sono:</strong> <span id="texto-progresso-sono">0 / 8 h (0%)</span></p>
+        <p><strong>😴 Sono:</strong> <span id="texto-progresso-sono">0 / 8 horas (0%)</span></p>
         <div class="progress-container">
           <div id="barra-sono" class="progress-bar-sono"></div>
         </div>
         <label for="input-sono-hoje" style="margin-top:8px">Horas dormidas hoje</label>
         <div class="sleep-form">
-          <input id="input-sono-hoje" type="number" step="0.5" min="0.5" placeholder="Ex: 7.5" value="8">
+          <input id="input-sono-hoje" type="text" inputmode="decimal" placeholder="Ex: 7,5" value="8">
           <button class="action-sono" onclick="registrarSonoHoje()">Registrar sono</button>
         </div>
+        <div class="seg-toggle" role="group" aria-label="Modo de registro de sono">
+          <button type="button" id="btn-sono-substituir" class="active" onclick="definirModoSono('definir')">Substituir dia</button>
+          <button type="button" id="btn-sono-somar" onclick="definirModoSono('somar')">+ Somar cochilo</button>
+        </div>
+        <p class="helper-note" id="nota-modo-sono">Substitui o total de sono registrado hoje (aceita decimais como 7,5).</p>
       </div>
 
       <div class="history-list">
         <div class="mini-week-head">
           <strong style="font-size:12.5px;color:#3f3f46">Resumo da semana</strong>
-          <span class="history-sub" id="mini-semana-legenda">💧 Água · 😴 Sono</span>
+          <span class="history-sub" id="mini-semana-legenda">💧 0/7 · 😴 0/7</span>
         </div>
         <div id="historico-habitos-preview" class="mini-week-grid"></div>
       </div>
 
       <button class="outline" onclick="abrirHistoricoHabitos()">Ver histórico de água e sono</button>
-      <button class="secondary" onclick="show('metas')">Configurar metas diárias</button>
+      <button class="secondary" onclick="abrirModalMetas()">Configurar metas diárias</button>
     </div>
   </div>
 </section>
 
 <section id="novo" class="screen">
-  <button class="back" onclick="show('home')">← Voltar</button>
-  <h2>Novo treino</h2>
+  <button class="back" onclick="cancelarFormularioTreino()">← Voltar</button>
+  <h2 id="titulo-form-treino">Novo treino</h2>
+  <p id="subtitulo-form-treino" class="history-sub" style="margin-bottom:10px;display:none"></p>
   <label for="data-treino">Data do treino</label>
   <input id="data-treino" type="date">
 
   <div id="lista-exercicios-form"></div>
 
   <button type="button" class="outline" onclick="adicionarBlocoExercicio()">+ Adicionar exercício</button>
-  <button type="button" onclick="salvarTreino()">Salvar treino</button>
+  <button type="button" id="btn-salvar-treino" onclick="salvarTreino()">Salvar treino</button>
 </section>
 
 <section id="evolucao" class="screen">
   <button class="back" onclick="show('home')">← Voltar</button>
-  <h2>Evolução de cargas</h2>
-  <p style="color:#52525b;font-size:14px">Acompanhe a carga máxima levantada por sessão ao longo do tempo.</p>
+  <h2>Evolução nos exercícios</h2>
+  <p style="color:#52525b;font-size:14px">Compare sua progressão por carga máxima, força estimada (1RM) ou volume total.</p>
 
   <label for="select-exercicio-evolucao">Exercício</label>
   <select id="select-exercicio-evolucao" onchange="carregarEvolucao(this.value)"></select>
+
+  <div class="controls-bar">
+    <div class="pill-group" id="grupo-metricas" role="group" aria-label="Métrica de evolução">
+      <button type="button" class="active" data-metrica="carga_maxima" onclick="selecionarMetricaEvolucao('carga_maxima')">Carga Máxima</button>
+      <button type="button" data-metrica="um_rm_estimado" onclick="selecionarMetricaEvolucao('um_rm_estimado')">1RM Estimado</button>
+      <button type="button" data-metrica="volume_total" onclick="selecionarMetricaEvolucao('volume_total')">Volume Total</button>
+    </div>
+
+    <div class="pill-group" id="grupo-periodos" role="group" aria-label="Filtro de período">
+      <button type="button" data-periodo="1M" onclick="selecionarPeriodoEvolucao('1M')">1M</button>
+      <button type="button" data-periodo="3M" onclick="selecionarPeriodoEvolucao('3M')">3M</button>
+      <button type="button" data-periodo="6M" onclick="selecionarPeriodoEvolucao('6M')">6M</button>
+      <button type="button" class="active" data-periodo="TUDO" onclick="selecionarPeriodoEvolucao('TUDO')">Tudo</button>
+    </div>
+  </div>
 
   <div id="evolucao-aviso" class="info-box" style="display:none"></div>
 
   <div id="evolucao-conteudo" style="display:none">
     <div class="stats-grid">
       <div class="stat-box">
-        <small>Carga atual (máx.)</small>
+        <small id="label-stat-atual">Carga atual</small>
         <strong id="stat-carga-atual">0 kg</strong>
       </div>
       <div class="stat-box">
@@ -644,36 +872,26 @@ footer{padding:14px 22px;border-top:1px solid #eee;color:var(--subtle);font-size
         <strong id="stat-variacao">0 kg</strong>
       </div>
       <div class="stat-box">
-        <small>Maior carga</small>
+        <small id="label-stat-recorde">Maior marca</small>
         <strong id="stat-maior-carga">0 kg</strong>
       </div>
       <div class="stat-box">
-        <small>Sessões registradas</small>
+        <small>Sessões no período</small>
         <strong id="stat-sessoes">0</strong>
       </div>
     </div>
 
-    <div class="chart-wrap" id="grafico-cargas"></div>
+    <div class="chart-wrap">
+      <div id="grafico-cargas"></div>
+      <div id="evo-tooltip" class="evo-tooltip"></div>
+      <div id="evo-point-detail" class="evo-point-detail">Passe o mouse ou toque em um ponto do gráfico para ver os detalhes da sessão.</div>
+    </div>
 
     <div class="card" style="margin-top:12px">
       <h2 style="font-size:15px">Histórico por sessão</h2>
       <div id="evolucao-lista-sessoes"></div>
     </div>
   </div>
-</section>
-
-<section id="metas" class="screen">
-  <button class="back" onclick="show('home')">← Voltar</button>
-  <h2>Configurar metas diárias</h2>
-  <p style="color:#52525b;font-size:14px">Defina sua meta diária de consumo de água e horas de sono.</p>
-
-  <label for="input-meta-agua">Meta diária de água (em ml)</label>
-  <input id="input-meta-agua" type="number" placeholder="Ex: 2000" value="2000">
-
-  <label for="input-meta-sono">Meta diária de sono (em horas)</label>
-  <input id="input-meta-sono" type="number" step="0.5" placeholder="Ex: 8" value="8">
-
-  <button onclick="salvarMetas()">Salvar metas diárias</button>
 </section>
 
 <section id="historico-habitos" class="screen">
@@ -684,7 +902,7 @@ footer{padding:14px 22px;border-top:1px solid #eee;color:var(--subtle);font-size
       <div>
         <div class="week-range-wrap">
           <h2 class="week-range" id="semana-titulo">—</h2>
-          <span class="week-year mono" id="semana-ano">2026</span>
+          <span class="week-year" id="semana-ano">2026</span>
         </div>
         <p class="week-subtitle" id="semana-resumo-texto">Acompanhamento semanal de hidratação e sono</p>
       </div>
@@ -700,27 +918,27 @@ footer{padding:14px 22px;border-top:1px solid #eee;color:var(--subtle);font-size
     <div class="habit-section">
       <div class="habit-head">
         <h3 class="habit-title">💧 Hidratação semanal</h3>
-        <span class="goal-pill agua mono" id="pill-meta-agua">Meta: 2.000 ml</span>
+        <span class="goal-pill agua" id="pill-meta-agua">Meta: 2.000 ml</span>
       </div>
       <div class="habit-legend">
         <span class="legend-item"><span class="legend-swatch" style="background:var(--water)"></span>Meta atingida</span>
         <span class="legend-item"><span class="legend-swatch" style="background:var(--water-low)"></span>Abaixo da meta</span>
         <span class="legend-item"><span class="legend-swatch ghost"></span>Sem registro</span>
       </div>
-      <div class="water-plot" id="grafico-agua-semanal"></div>
+      <div id="grafico-agua-semanal"></div>
     </div>
 
     <div class="habit-section">
       <div class="habit-head">
         <h3 class="habit-title">😴 Sono semanal</h3>
-        <span class="goal-pill sono mono" id="pill-meta-sono">Meta: 8 h</span>
+        <span class="goal-pill sono" id="pill-meta-sono">Meta: 8 h</span>
       </div>
       <div class="habit-legend">
         <span class="legend-item"><span class="legend-swatch" style="background:var(--sleep)"></span>Meta atingida</span>
         <span class="legend-item"><span class="legend-swatch" style="background:var(--sleep-low)"></span>Sono insuficiente</span>
         <span class="legend-item"><span class="legend-swatch ghost"></span>Sem registro</span>
       </div>
-      <div class="sleep-plot" id="grafico-sono-semanal"></div>
+      <div id="grafico-sono-semanal"></div>
     </div>
 
     <div class="day-detail-panel" id="detalhe-dia-semana"></div>
@@ -739,7 +957,7 @@ footer{padding:14px 22px;border-top:1px solid #eee;color:var(--subtle);font-size
 
 <section id="resumo" class="screen">
   <button class="back" onclick="show('home')">← Voltar</button>
-  <h2>Treino salvo</h2>
+  <h2 id="titulo-resumo-treino">Treino salvo</h2>
   <div class="success">
     <span class="badge">Finalizado</span>
     <p id="resumo-exercicio" style="font-weight:600;margin:4px 0"></p>
@@ -756,6 +974,45 @@ footer{padding:14px 22px;border-top:1px solid #eee;color:var(--subtle);font-size
 <footer>Plataforma Saúde · Treinos, Evolução de Cargas e Hábitos Diários</footer>
 </div>
 
+<!-- Modal de Configuração de Metas -->
+<div id="modal-metas" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="titulo-modal-metas">
+  <div class="modal-card">
+    <h2 id="titulo-modal-metas">Configurar metas diárias</h2>
+    <p class="history-sub">Ajuste suas metas de água e sono sem sair da tela inicial.</p>
+
+    <label for="input-meta-agua">Meta diária de água (em ml)</label>
+    <input id="input-meta-agua" type="number" min="100" max="20000" placeholder="Ex: 2000" value="2000">
+
+    <label for="input-meta-sono">Meta diária de sono (em horas)</label>
+    <input id="input-meta-sono" type="text" inputmode="decimal" placeholder="Ex: 8 ou 7,5" value="8">
+
+    <p id="erro-modal-metas" class="history-sub" style="color:var(--danger-ink);margin-top:8px;display:none"></p>
+
+    <div class="modal-actions">
+      <button type="button" class="secondary" onclick="fecharModalMetas()">Cancelar</button>
+      <button type="button" onclick="salvarMetas()">Salvar metas</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Confirmação de Exclusão de Treino -->
+<div id="modal-excluir-treino" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="titulo-modal-excluir">
+  <div class="modal-card">
+    <h2 id="titulo-modal-excluir">Excluir treino?</h2>
+    <p id="texto-modal-excluir" class="history-sub">Esta ação removerá permanentemente o treino selecionado e recalculará seus gráficos.</p>
+    <div class="modal-actions">
+      <button type="button" class="secondary" onclick="fecharModalExcluirTreino()">Cancelar</button>
+      <button type="button" class="danger" onclick="confirmarExclusaoTreino()">Excluir</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast Discreto para Desfazer Hidratação -->
+<div id="toast-undo" class="toast" role="status" aria-live="polite">
+  <span id="toast-undo-msg">Água registrada</span>
+  <button type="button" id="btn-toast-undo" onclick="desfazerUltimaAgua()">Desfazer</button>
+</div>
+
 <script>
 const EXERCICIOS_PADRAO = [
   'Supino reto',
@@ -764,7 +1021,8 @@ const EXERCICIOS_PADRAO = [
   'Desenvolvimento',
   'Levantamento terra',
   'Leg press',
-  'Puxada frontal'
+  'Puxada frontal',
+  'Rosca direta'
 ];
 
 const DIAS_SEMANA_CURTOS = ['SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SÁB', 'DOM'];
@@ -785,8 +1043,21 @@ let estadoMetasAtual = {
   sono: { valor_diario: 8, progresso_atual: 0, percentual: 0 }
 };
 let historicoHabitosCache = { resumo_diario: [], registros: [] };
+let treinosCache = [];
+let bibliotecaExercicios = [...EXERCICIOS_PADRAO];
+let mostrarTodosTreinos = false;
+let treinoEmEdicaoId = null;
+let treinoParaExcluirId = null;
 let deslocamentoSemana = 0;
 let dataSelecionadaIso = null;
+let modoRegistroSono = 'definir';
+let ultimoRegistroAguaId = null;
+let timerToastAgua = null;
+
+let evolucaoCache = null;
+let metricaEvolucaoAtual = 'carga_maxima';
+let periodoEvolucaoAtual = 'TUDO';
+let pontoAtivoEvolucao = null;
 
 function show(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -804,6 +1075,28 @@ function voltarAposErro() {
   show(ultimaTelaAntesErro);
 }
 
+function normalizarTexto(txt) {
+  return (txt || '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .trim()
+    .toLowerCase();
+}
+
+function parseNumeroDecimalBR(valor) {
+  if (typeof valor === 'number') return valor;
+  const limpo = String(valor || '').trim().replace(',', '.');
+  if (!limpo) return NaN;
+  return Number(limpo);
+}
+
+function formatarNumeroBR(num, casas = 1) {
+  const n = Number(num);
+  if (!Number.isFinite(n)) return '0';
+  if (Number.isInteger(n)) return n.toLocaleString('pt-BR');
+  return n.toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: casas });
+}
+
 function paraDataLocal(dataIso) {
   const [ano, mes, dia] = (dataIso || '').split('-').map(Number);
   if (!ano || !mes || !dia) return new Date();
@@ -817,10 +1110,10 @@ function paraIsoLocal(dt) {
   return `${y}-${m}-${d}`;
 }
 
-function formatarDataCurta(dataIso) {
+function formatarDataCurta(dataIso, incluirAno = false) {
   const partes = (dataIso || '').split('-');
   if (partes.length === 3) {
-    return `${partes[2]}/${partes[1]}`;
+    return incluirAno ? `${partes[2]}/${partes[1]}/${partes[0].slice(2)}` : `${partes[2]}/${partes[1]}`;
   }
   return dataIso;
 }
@@ -848,13 +1141,21 @@ function formatarMlInteiro(ml) {
   return `${Math.round(ml).toLocaleString('pt-BR')} ml`;
 }
 
-function formatarHoras(h) {
+function formatarHoras(h, extenso = false) {
   const num = Number(h);
   const texto = Number.isInteger(num) ? String(num) : num.toFixed(1).replace('.', ',');
-  return `${texto} h`;
+  return extenso ? `${texto} ${num === 1 ? 'hora' : 'horas'}` : `${texto} h`;
 }
 
-function obterDiasDaSemana(offsetSemanas = 0) {
+function escaparHtml(str) {
+  return String(str || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function construirSemana(offsetSemanas = 0) {
   const hoje = new Date();
   const hojeIso = paraIsoLocal(hoje);
   const indiceSeg = (hoje.getDay() + 6) % 7;
@@ -927,44 +1228,67 @@ function montarMapaSemana(diasSemana) {
   });
 }
 
+function alternarListaCompletaTreinos() {
+  mostrarTodosTreinos = !mostrarTodosTreinos;
+  renderizarHistoricoHome(treinosCache);
+}
+
 function renderizarHistoricoHome(treinos) {
+  treinosCache = Array.isArray(treinos) ? treinos : [];
   const container = document.getElementById('lista-treinos');
-  if (!treinos || treinos.length === 0) {
+  const btnToggle = document.getElementById('btn-toggle-todos-treinos');
+
+  if (treinosCache.length === 0) {
+    btnToggle.style.display = 'none';
     container.innerHTML = '<p class="history-sub">Nenhum treino registrado ainda.</p>';
     return;
   }
 
-  const recentes = treinos.slice(0, 4);
-  container.innerHTML = recentes.map(t => {
+  if (treinosCache.length > 4) {
+    btnToggle.style.display = 'inline-block';
+    btnToggle.textContent = mostrarTodosTreinos ? 'Mostrar menos' : `Ver todos (${treinosCache.length})`;
+  } else {
+    btnToggle.style.display = 'none';
+  }
+
+  const visiveis = mostrarTodosTreinos ? treinosCache : treinosCache.slice(0, 4);
+  container.innerHTML = visiveis.map(t => {
     const listaEx = Array.isArray(t.exercicios) && t.exercicios.length > 0
       ? t.exercicios
       : [{ nome: t.exercicio, total_series: t.total_series, volume_total: t.volume_total }];
 
     const detalhesEx = listaEx
-      .map(ex => `${ex.nome} (${ex.total_series} séries · ${ex.volume_total} kg)`)
+      .map(ex => `${escaparHtml(ex.nome)} (${ex.total_series} séries · ${formatarNumeroBR(ex.volume_total)} kg)`)
       .join('<br>');
 
     return `
       <div class="history-item">
-        <strong>${formatarDataBR(t.data)} · Volume total: ${t.volume_total} kg</strong>
+        <div class="history-item-head">
+          <strong>${formatarDataBR(t.data)} · Volume: ${formatarNumeroBR(t.volume_total)} kg</strong>
+          <div class="history-actions">
+            <button type="button" class="xs outline" onclick="editarTreino(${t.id})">Editar</button>
+            <button type="button" class="xs danger" onclick="pedirExclusaoTreino(${t.id})">Excluir</button>
+          </div>
+        </div>
         <div class="history-sub">${detalhesEx}</div>
       </div>
     `;
   }).join('');
 }
 
-function atualizarResumoTreino(t) {
+function atualizarResumoTreino(t, editado = false) {
   const listaEx = Array.isArray(t.exercicios) && t.exercicios.length > 0
     ? t.exercicios
     : [{ nome: t.exercicio, total_series: t.total_series, volume_total: t.volume_total, series: t.series }];
 
+  document.getElementById('titulo-resumo-treino').textContent = editado ? 'Treino atualizado' : 'Treino salvo';
   document.getElementById('resumo-exercicio').textContent = `${t.exercicio} (${formatarDataBR(t.data)})`;
-  document.getElementById('resumo-volume').textContent = `${t.volume_total} kg`;
+  document.getElementById('resumo-volume').textContent = `${formatarNumeroBR(t.volume_total)} kg`;
   document.getElementById('resumo-detalhe').innerHTML = listaEx.map(ex => {
     const descSeries = ex.series
-      .map((s, i) => `Série ${i + 1}: ${s.repeticoes} × ${s.carga} kg`)
+      .map((s, i) => `Série ${i + 1}: ${s.repeticoes} × ${formatarNumeroBR(s.carga)} kg`)
       .join(' · ');
-    return `<p style="margin:8px 0"><strong>${ex.nome}</strong> (${ex.volume_total} kg)<br><span class="history-sub">${descSeries}</span></p>`;
+    return `<p style="margin:8px 0"><strong>${escaparHtml(ex.nome)}</strong> (${formatarNumeroBR(ex.volume_total)} kg)<br><span class="history-sub">${descSeries}</span></p>`;
   }).join('');
 }
 
@@ -972,25 +1296,25 @@ function atualizarTelaComMetas(metas) {
   if (metas.agua) {
     estadoMetasAtual.agua = metas.agua;
     document.getElementById('texto-progresso-agua').textContent =
-      `${metas.agua.progresso_atual} / ${metas.agua.valor_diario} ml (${metas.agua.percentual}%)`;
+      `${formatarMlInteiro(metas.agua.progresso_atual)} / ${formatarMlInteiro(metas.agua.valor_diario)} (${metas.agua.percentual}%)`;
     document.getElementById('barra-agua').style.width = `${metas.agua.percentual}%`;
     document.getElementById('input-meta-agua').value = metas.agua.valor_diario;
   }
   if (metas.sono) {
     estadoMetasAtual.sono = metas.sono;
     document.getElementById('texto-progresso-sono').textContent =
-      `${metas.sono.progresso_atual} / ${metas.sono.valor_diario} h (${metas.sono.percentual}%)`;
+      `${formatarNumeroBR(metas.sono.progresso_atual)} / ${formatarHoras(metas.sono.valor_diario, true)} (${metas.sono.percentual}%)`;
     document.getElementById('barra-sono').style.width = `${metas.sono.percentual}%`;
-    document.getElementById('input-meta-sono').value = metas.sono.valor_diario;
+    document.getElementById('input-meta-sono').value = formatarNumeroBR(metas.sono.valor_diario);
     if (metas.sono.progresso_atual > 0) {
-      document.getElementById('input-sono-hoje').value = metas.sono.progresso_atual;
+      document.getElementById('input-sono-hoje').value = formatarNumeroBR(metas.sono.progresso_atual);
     }
   }
 }
 
 function renderizarPreviewHistoricoHabitos() {
   const container = document.getElementById('historico-habitos-preview');
-  const dias = montarMapaSemana(obterDiasDaSemana(0));
+  const dias = montarMapaSemana(construirSemana(0));
   let metasAguaHit = 0;
   let metasSonoHit = 0;
 
@@ -1006,7 +1330,7 @@ function renderizarPreviewHistoricoHabitos() {
       if (d.sono.atingida) metasSonoHit++;
     }
     const aguaTitle = d.agua ? `Água: ${formatarMlInteiro(d.agua.total)}` : 'Água: sem registro';
-    const sonoTitle = d.sono ? `Sono: ${formatarHoras(d.sono.total)}` : 'Sono: sem registro';
+    const sonoTitle = d.sono ? `Sono: ${formatarHoras(d.sono.total, true)}` : 'Sono: sem registro';
     return `
       <div class="mini-day ${d.ehHoje ? 'is-today' : ''}" title="${d.diaSemanaLongo} (${d.br}) — ${aguaTitle} | ${sonoTitle}">
         <span>${d.diaSemanaCurto.slice(0, 1)}</span>
@@ -1022,23 +1346,39 @@ function renderizarPreviewHistoricoHabitos() {
     `💧 ${metasAguaHit}/7 · 😴 ${metasSonoHit}/7`;
 }
 
+function sincronizarBibliotecaExercicios(listaBackend) {
+  const mapa = new Map();
+  [...EXERCICIOS_PADRAO, ...(listaBackend || [])].forEach(nome => {
+    const limpo = String(nome || '').trim();
+    if (!limpo) return;
+    const chave = normalizarTexto(limpo);
+    if (!mapa.has(chave)) {
+      mapa.set(chave, limpo);
+    }
+  });
+  bibliotecaExercicios = Array.from(mapa.values()).sort((a, b) => a.localeCompare(b, 'pt-BR'));
+}
+
 async function carregarDadosIniciais() {
   try {
-    const [respTreinos, respMetas, respHist] = await Promise.all([
+    const [respTreinos, respMetas, respHist, respEx] = await Promise.all([
       fetch('/api/treinos'),
       fetch('/api/metas'),
-      fetch('/api/metas/historico')
+      fetch('/api/metas/historico'),
+      fetch('/api/exercicios')
     ]);
     if (respTreinos.ok) {
-      const lista = await respTreinos.json();
-      renderizarHistoricoHome(lista);
+      renderizarHistoricoHome(await respTreinos.json());
     }
     if (respMetas.ok) {
-      const metas = await respMetas.json();
-      atualizarTelaComMetas(metas);
+      atualizarTelaComMetas(await respMetas.json());
     }
     if (respHist.ok) {
       historicoHabitosCache = await respHist.json();
+    }
+    if (respEx.ok) {
+      const dadosEx = await respEx.json();
+      sincronizarBibliotecaExercicios(dadosEx.exercicios);
     }
     renderizarPreviewHistoricoHabitos();
     if (document.getElementById('historico-habitos').classList.contains('active')) {
@@ -1048,6 +1388,14 @@ async function carregarDadosIniciais() {
     renderizarHistoricoHome([]);
     renderizarPreviewHistoricoHabitos();
   }
+}
+
+/* ===========================
+   PAINEL SEMANAL DE HÁBITOS
+   =========================== */
+function calcularPercentualEscala(valor, escalaMax) {
+  if (!escalaMax || escalaMax <= 0) return 0;
+  return Math.max(0, Math.min(100, (valor / escalaMax) * 100));
 }
 
 async function abrirHistoricoHabitos() {
@@ -1095,7 +1443,7 @@ function selecionarDiaSemana(iso) {
 }
 
 function renderizarPainelSemanal() {
-  const dias = montarMapaSemana(obterDiasDaSemana(deslocamentoSemana));
+  const dias = montarMapaSemana(construirSemana(deslocamentoSemana));
   const primeiro = dias[0];
   const ultimo = dias[6];
 
@@ -1131,7 +1479,7 @@ function renderizarPainelSemanal() {
       onclick="selecionarDiaSemana('${d.iso}')"
     >
       <span class="dp-name">${d.diaSemanaCurto}</span>
-      <span class="dp-date mono">${d.curta}</span>
+      <span class="dp-date">${d.curta}</span>
     </button>
   `).join('');
 
@@ -1140,52 +1488,71 @@ function renderizarPainelSemanal() {
   renderizarDetalhesDia(dias.find(d => d.iso === dataSelecionadaIso) || dias[0]);
 }
 
+function renderizarRodapeColunas(dias) {
+  return `
+    <div class="chart-columns-footer">
+      ${dias.map(d => {
+        const selecionado = d.iso === dataSelecionadaIso;
+        return `
+          <button type="button" class="col-foot-btn ${selecionado ? 'selected' : ''}" onclick="selecionarDiaSemana('${d.iso}')">
+            <span class="col-day">${d.diaSemanaCurto}</span>
+            <span class="col-subdate">${d.curta}</span>
+          </button>
+        `;
+      }).join('')}
+    </div>
+  `;
+}
+
 function renderizarGraficoHidratacaoSemanal(dias) {
   const metaPadrao = Number(estadoMetasAtual.agua?.valor_diario || 2000);
   document.getElementById('pill-meta-agua').textContent = `Meta: ${formatarMlInteiro(metaPadrao)}`;
 
   const valores = dias.filter(d => d.agua).map(d => d.agua.total);
   const escalaMax = Math.max(metaPadrao * 1.25, ...valores, 2500);
-  const alturaVessel = window.innerWidth >= 680 ? 132 : 112;
-  // Topo exato do recipiente: 6px padding-top + 15px .col-val + 6px gap = 27px
-  const topVessel = 27;
-  const alturaLinhaMeta = Math.round((metaPadrao / escalaMax) * alturaVessel);
-  const topLinha = topVessel + (alturaVessel - alturaLinhaMeta);
+  const pctMeta = calcularPercentualEscala(metaPadrao, escalaMax);
 
-  const colsHtml = dias.map(d => {
+  const topoHtml = `
+    <div class="chart-columns-header">
+      ${dias.map(d => d.agua
+        ? `<div class="col-top-label">${formatarMlCompacto(d.agua.total)}</div>`
+        : `<div class="col-top-label empty">—</div>`
+      ).join('')}
+    </div>
+  `;
+
+  const stageColsHtml = dias.map(d => {
     const selecionado = d.iso === dataSelecionadaIso;
     if (!d.agua) {
       return `
-        <button type="button" class="day-col-btn ${selecionado ? 'selected' : ''}" onclick="selecionarDiaSemana('${d.iso}')" aria-label="${d.diaSemanaLongo}, ${d.br}: sem registro de hidratação">
-          <span class="col-val empty mono">—</span>
+        <button type="button" class="stage-col-btn ${selecionado ? 'selected' : ''}" onclick="selecionarDiaSemana('${d.iso}')" aria-label="${d.diaSemanaLongo}, ${d.br}: sem registro de hidratação">
           <div class="water-vessel no-data"></div>
-          <span class="col-day">${d.diaSemanaCurto}</span>
-          <span class="col-subdate mono">${d.curta}</span>
         </button>
       `;
     }
 
-    const pctAltura = Math.min(100, Math.max(8, (d.agua.total / escalaMax) * 100));
+    const pctBarra = Math.max(4, calcularPercentualEscala(d.agua.total, escalaMax));
     const atingida = d.agua.atingida;
     return `
-      <button type="button" class="day-col-btn ${selecionado ? 'selected' : ''}" onclick="selecionarDiaSemana('${d.iso}')" aria-label="${d.diaSemanaLongo}, ${d.br}: ${formatarMlInteiro(d.agua.total)}">
-        <span class="col-val mono">${formatarMlCompacto(d.agua.total)}</span>
+      <button type="button" class="stage-col-btn ${selecionado ? 'selected' : ''}" onclick="selecionarDiaSemana('${d.iso}')" aria-label="${d.diaSemanaLongo}, ${d.br}: ${formatarMlInteiro(d.agua.total)}">
         <div class="water-vessel">
-          <div class="water-fill ${atingida ? 'hit' : 'below'}" style="height:${pctAltura.toFixed(2)}%">
+          <div class="water-fill ${atingida ? 'hit' : 'below'}" style="height:${pctBarra.toFixed(3)}%">
             ${atingida ? '<span class="col-check">✓</span>' : ''}
           </div>
         </div>
-        <span class="col-day">${d.diaSemanaCurto}</span>
-        <span class="col-subdate mono">${d.curta}</span>
       </button>
     `;
   }).join('');
 
   document.getElementById('grafico-agua-semanal').innerHTML = `
-    <div class="water-goal-line" style="top:${topLinha}px">
-      <span class="water-goal-tag mono">Meta ${formatarMlCompacto(metaPadrao)}</span>
+    ${topoHtml}
+    <div class="plot-stage">
+      <div class="goal-ref-line" style="bottom:${pctMeta.toFixed(3)}%">
+        <span class="ref-tag agua">Meta ${formatarMlCompacto(metaPadrao)}</span>
+      </div>
+      ${stageColsHtml}
     </div>
-    <div class="week-cols">${colsHtml}</div>
+    ${renderizarRodapeColunas(dias)}
   `;
 }
 
@@ -1195,50 +1562,52 @@ function renderizarGraficoSonoSemanal(dias) {
 
   const valores = dias.filter(d => d.sono).map(d => d.sono.total);
   const escalaMax = Math.max(metaPadrao * 1.3, ...valores, 10);
-  const alturaTrack = window.innerWidth >= 680 ? 126 : 112;
-  const topTrack = 27;
-  const alturaMetaPx = Math.round((metaPadrao / escalaMax) * alturaTrack);
-  const topLinha = topTrack + (alturaTrack - alturaMetaPx);
+  const pctMeta = calcularPercentualEscala(metaPadrao, escalaMax);
 
-  const colsHtml = dias.map(d => {
+  const topoHtml = `
+    <div class="chart-columns-header">
+      ${dias.map(d => d.sono
+        ? `<div class="col-top-label">${formatarHoras(d.sono.total)}</div>`
+        : `<div class="col-top-label empty">—</div>`
+      ).join('')}
+    </div>
+  `;
+
+  const stageColsHtml = dias.map(d => {
     const selecionado = d.iso === dataSelecionadaIso;
     if (!d.sono) {
       return `
-        <button type="button" class="day-col-btn ${selecionado ? 'selected' : ''}" onclick="selecionarDiaSemana('${d.iso}')" aria-label="${d.diaSemanaLongo}, ${d.br}: sem registro de sono">
-          <span class="col-val empty mono">—</span>
-          <div class="sleep-track">
-            <div class="sleep-empty-dot"></div>
-          </div>
-          <span class="col-day">${d.diaSemanaCurto}</span>
-          <span class="col-subdate mono">${d.curta}</span>
+        <button type="button" class="stage-col-btn ${selecionado ? 'selected' : ''}" onclick="selecionarDiaSemana('${d.iso}')" aria-label="${d.diaSemanaLongo}, ${d.br}: sem registro de sono">
+          <div class="sleep-track"><div class="sleep-empty-dot"></div></div>
         </button>
       `;
     }
 
-    const alturaPx = Math.min(alturaTrack - 4, Math.max(14, Math.round((d.sono.total / escalaMax) * alturaTrack)));
+    const pctBarra = Math.max(6, calcularPercentualEscala(d.sono.total, escalaMax));
     const atingida = d.sono.atingida;
-    const deficitPx = !atingida && alturaMetaPx > alturaPx ? alturaMetaPx - alturaPx : 0;
+    const deficitPct = !atingida && pctMeta > pctBarra ? pctMeta - pctBarra : 0;
 
     return `
-      <button type="button" class="day-col-btn ${selecionado ? 'selected' : ''}" onclick="selecionarDiaSemana('${d.iso}')" aria-label="${d.diaSemanaLongo}, ${d.br}: ${formatarHoras(d.sono.total)}">
-        <span class="col-val mono">${formatarHoras(d.sono.total)}</span>
+      <button type="button" class="stage-col-btn ${selecionado ? 'selected' : ''}" onclick="selecionarDiaSemana('${d.iso}')" aria-label="${d.diaSemanaLongo}, ${d.br}: ${formatarHoras(d.sono.total, true)}">
         <div class="sleep-track">
-          ${deficitPx > 4 ? `<div class="sleep-deficit" style="bottom:${alturaPx}px;height:${deficitPx}px"></div>` : ''}
-          <div class="sleep-stem ${atingida ? 'hit' : 'below'}" style="height:${alturaPx}px">
+          ${deficitPct > 1 ? `<div class="sleep-deficit" style="bottom:${pctBarra.toFixed(3)}%;height:${deficitPct.toFixed(3)}%"></div>` : ''}
+          <div class="sleep-stem ${atingida ? 'hit' : 'below'}" style="height:${pctBarra.toFixed(3)}%">
             <span class="sleep-node ${atingida ? 'hit' : 'below'}">${atingida ? '✓' : '!'}</span>
           </div>
         </div>
-        <span class="col-day">${d.diaSemanaCurto}</span>
-        <span class="col-subdate mono">${d.curta}</span>
       </button>
     `;
   }).join('');
 
   document.getElementById('grafico-sono-semanal').innerHTML = `
-    <div class="sleep-goal-band" style="top:${topLinha}px;height:${alturaMetaPx}px">
-      <span class="sleep-goal-tag mono">Meta ${formatarHoras(metaPadrao)}</span>
+    ${topoHtml}
+    <div class="plot-stage">
+      <div class="sleep-ref-band" style="height:${pctMeta.toFixed(3)}%">
+        <span class="ref-tag sono">Meta ${formatarHoras(metaPadrao)}</span>
+      </div>
+      ${stageColsHtml}
     </div>
-    <div class="week-cols">${colsHtml}</div>
+    ${renderizarRodapeColunas(dias)}
   `;
 }
 
@@ -1271,7 +1640,7 @@ function renderizarDetalhesDia(dia) {
           <span class="detail-box-label">💧 Hidratação</span>
           <span class="badge ${dia.agua.atingida ? 'badge-ok' : 'badge-agua'}">${dia.agua.atingida ? 'Meta atingida' : `${dia.agua.percentual}% da meta`}</span>
         </div>
-        <div class="detail-main mono">${formatarMlInteiro(dia.agua.total)} <span style="font-size:13px;font-weight:600;color:var(--subtle)">(${formatarMlCompacto(dia.agua.total)})</span></div>
+        <div class="detail-main">${formatarMlInteiro(dia.agua.total)} <span style="font-size:13px;font-weight:600;color:var(--subtle)">(${formatarMlCompacto(dia.agua.total)})</span></div>
         <div class="detail-meta">Meta: ${formatarMlInteiro(dia.agua.meta)} · <strong>${diffTexto}</strong>${regTexto}</div>
       </div>
     `;
@@ -1292,23 +1661,23 @@ function renderizarDetalhesDia(dia) {
   } else {
     const diff = Number((dia.sono.total - dia.sono.meta).toFixed(1));
     const diffTexto = diff >= 0
-      ? (diff === 0 ? 'Meta exata atingida' : `+${formatarHoras(diff)} acima da meta`)
-      : `${formatarHoras(Math.abs(diff))} abaixo da meta`;
+      ? (diff === 0 ? 'Meta exata atingida' : `+${formatarHoras(diff, true)} acima da meta`)
+      : `${formatarHoras(Math.abs(diff), true)} abaixo da meta`;
     sonoHtml = `
       <div class="detail-box">
         <div class="detail-box-top">
           <span class="detail-box-label">😴 Sono</span>
           <span class="badge ${dia.sono.atingida ? 'badge-ok' : 'badge-low'}">${dia.sono.atingida ? 'Meta atingida' : 'Sono insuficiente'}</span>
         </div>
-        <div class="detail-main mono">${formatarHoras(dia.sono.total)}</div>
-        <div class="detail-meta">Meta: ${formatarHoras(dia.sono.meta)} · <strong>${diffTexto}</strong></div>
+        <div class="detail-main">${formatarHoras(dia.sono.total, true)}</div>
+        <div class="detail-meta">Meta: ${formatarHoras(dia.sono.meta, true)} · <strong>${diffTexto}</strong></div>
       </div>
     `;
   }
 
   container.innerHTML = `
     <div class="detail-head">
-      <h3>${dia.diaSemanaLongo}, <span class="mono">${dia.br}</span></h3>
+      <h3>${dia.diaSemanaLongo}, ${dia.br}</h3>
       ${dia.ehHoje ? '<span class="badge badge-agua" style="margin:0">Hoje</span>' : ''}
     </div>
     <div class="detail-grid">
@@ -1318,6 +1687,9 @@ function renderizarDetalhesDia(dia) {
   `;
 }
 
+/* ===========================
+   FORMULÁRIO DE TREINO, AUTOCOMPLETE E CRUD
+   =========================== */
 function criarLinhaSerieHTML(reps = 10, carga = 20) {
   const row = document.createElement('div');
   row.className = 'serie';
@@ -1344,15 +1716,6 @@ function removerSerie(btn) {
   }
 }
 
-function alternarOutroExercicio(selectEl) {
-  const bloco = selectEl.closest('.exercise');
-  const inputCustom = bloco.querySelector('.input-exercicio-custom');
-  inputCustom.style.display = selectEl.value === '__OUTRO__' ? 'block' : 'none';
-  if (selectEl.value === '__OUTRO__') {
-    inputCustom.focus();
-  }
-}
-
 function atualizarTitulosExercicios() {
   const blocos = document.querySelectorAll('#lista-exercicios-form .exercise');
   blocos.forEach((bloco, idx) => {
@@ -1370,25 +1733,114 @@ function removerBlocoExercicio(btn) {
   }
 }
 
-function adicionarBlocoExercicio(nomeInicial = null) {
+function resumirSeriesTexto(series) {
+  if (!series || series.length === 0) return '';
+  const iguais = series.every(s => s.repeticoes === series[0].repeticoes && s.carga === series[0].carga);
+  if (iguais) {
+    return `${series.length} × ${series[0].repeticoes} · ${formatarNumeroBR(series[0].carga)} kg`;
+  }
+  return series.map(s => `${s.repeticoes}×${formatarNumeroBR(s.carga)}kg`).join(', ');
+}
+
+async function buscarSessaoAnteriorExercicio(bloco, nomeExercicio) {
+  const box = bloco.querySelector('.prev-session-box');
+  const limpo = (nomeExercicio || '').trim();
+  if (!limpo) {
+    box.style.display = 'none';
+    return;
+  }
+
+  try {
+    const resp = await fetch(`/api/treinos/ultimo-exercicio?nome=${encodeURIComponent(limpo)}`);
+    if (!resp.ok) {
+      box.style.display = 'none';
+      return;
+    }
+    const dados = await resp.json();
+    if (!dados.encontrado || !dados.series || dados.series.length === 0) {
+      box.style.display = 'flex';
+      box.innerHTML = `<span>Primeira sessão registrada de <strong>${escaparHtml(limpo)}</strong>.</span>`;
+      return;
+    }
+
+    bloco._ultimasSeries = dados.series;
+    box.style.display = 'flex';
+    box.innerHTML = `
+      <span>Último treino (${formatarDataBR(dados.data)}): <strong>${resumirSeriesTexto(dados.series)}</strong></span>
+      <button type="button" class="xs outline" onclick="aplicarSeriesAnteriores(this)">Usar séries anteriores</button>
+    `;
+  } catch (e) {
+    box.style.display = 'none';
+  }
+}
+
+function aplicarSeriesAnteriores(btn) {
+  const bloco = btn.closest('.exercise');
+  const series = bloco._ultimasSeries;
+  if (!series || series.length === 0) return;
+  const container = bloco.querySelector('.series-container');
+  container.innerHTML = '';
+  series.forEach(s => {
+    container.appendChild(criarLinhaSerieHTML(s.repeticoes, s.carga));
+  });
+}
+
+function renderizarSugestoesAutocomplete(bloco, termo) {
+  const listaEl = bloco.querySelector('.autocomplete-list');
+  const norm = normalizarTexto(termo);
+  const filtrados = bibliotecaExercicios.filter(nome => normalizarTexto(nome).includes(norm));
+  const existeExato = bibliotecaExercicios.some(nome => normalizarTexto(nome) === norm);
+
+  let html = filtrados.slice(0, 10).map(nome =>
+    `<button type="button" class="autocomplete-item" onmousedown="selecionarExercicioAutocomplete(this, '${escaparHtml(nome).replace(/'/g, "\\'")}')">${escaparHtml(nome)}</button>`
+  ).join('');
+
+  if (termo.trim() && !existeExato) {
+    const seguro = escaparHtml(termo.trim()).replace(/'/g, "\\'");
+    html += `<button type="button" class="autocomplete-item create-new" onmousedown="selecionarExercicioAutocomplete(this, '${seguro}', true)">+ Cadastrar exercício: "${escaparHtml(termo.trim())}"</button>`;
+  }
+
+  if (!html) {
+    html = `<div class="history-sub" style="padding:10px 12px">Digite o nome para cadastrar um novo exercício.</div>`;
+  }
+
+  listaEl.innerHTML = html;
+  listaEl.classList.add('open');
+}
+
+function selecionarExercicioAutocomplete(btn, nome, ehNovo = false) {
+  const bloco = btn.closest('.exercise');
+  const input = bloco.querySelector('.input-exercicio-busca');
+  const listaEl = bloco.querySelector('.autocomplete-list');
+  const existente = bibliotecaExercicios.find(ex => normalizarTexto(ex) === normalizarTexto(nome));
+  const nomeFinal = existente || nome.trim();
+
+  if (ehNovo && !existente && nomeFinal) {
+    sincronizarBibliotecaExercicios([...bibliotecaExercicios, nomeFinal]);
+  }
+  input.value = nomeFinal;
+  listaEl.classList.remove('open');
+  buscarSessaoAnteriorExercicio(bloco, nomeFinal);
+}
+
+function adicionarBlocoExercicio(nomeInicial = null, seriesIniciais = null) {
   const container = document.getElementById('lista-exercicios-form');
   const indice = container.querySelectorAll('.exercise').length;
-  const padrao = nomeInicial || EXERCICIOS_PADRAO[indice % EXERCICIOS_PADRAO.length];
+  const padrao = nomeInicial !== null ? nomeInicial : EXERCICIOS_PADRAO[indice % EXERCICIOS_PADRAO.length];
 
   const bloco = document.createElement('div');
   bloco.className = 'exercise';
-  const optionsHtml = EXERCICIOS_PADRAO
-    .map(nome => `<option value="${nome}" ${nome === padrao ? 'selected' : ''}>${nome}</option>`)
-    .join('') + '<option value="__OUTRO__">Outro (digitar)...</option>';
-
   bloco.innerHTML = `
     <div class="exercise-head">
       <h3 class="exercise-title">Exercício</h3>
       <button type="button" class="small danger btn-remover-exercicio" onclick="removerBlocoExercicio(this)">Remover</button>
     </div>
-    <label>Nome do exercício</label>
-    <select class="select-exercicio" onchange="alternarOutroExercicio(this)">${optionsHtml}</select>
-    <input type="text" class="input-exercicio-custom" placeholder="Digite o nome do exercício" style="display:none;margin-top:8px">
+    <label>Exercício (buscar ou cadastrar)</label>
+    <div class="autocomplete-wrap">
+      <input type="text" class="input-exercicio-busca" placeholder="Digite para buscar ou criar..." value="${escaparHtml(padrao)}" autocomplete="off">
+      <div class="autocomplete-list"></div>
+    </div>
+    <div class="prev-session-box" style="display:none"></div>
     <div class="serie-head">
       <span>Repetições</span>
       <span>Carga (kg)</span>
@@ -1398,36 +1850,114 @@ function adicionarBlocoExercicio(nomeInicial = null) {
     <button type="button" class="small secondary" style="margin-top:4px" onclick="adicionarSerie(this)">+ Adicionar série</button>
   `;
 
+  const inputBusca = bloco.querySelector('.input-exercicio-busca');
+  const listaEl = bloco.querySelector('.autocomplete-list');
+
+  inputBusca.addEventListener('focus', () => renderizarSugestoesAutocomplete(bloco, inputBusca.value));
+  inputBusca.addEventListener('input', () => renderizarSugestoesAutocomplete(bloco, inputBusca.value));
+  inputBusca.addEventListener('blur', () => {
+    setTimeout(() => {
+      listaEl.classList.remove('open');
+      const valor = inputBusca.value.trim();
+      const existente = bibliotecaExercicios.find(ex => normalizarTexto(ex) === normalizarTexto(valor));
+      if (existente) inputBusca.value = existente;
+      buscarSessaoAnteriorExercicio(bloco, inputBusca.value);
+    }, 150);
+  });
+
   const seriesContainer = bloco.querySelector('.series-container');
-  seriesContainer.appendChild(criarLinhaSerieHTML(10, 20));
-  seriesContainer.appendChild(criarLinhaSerieHTML(10, 20));
-  seriesContainer.appendChild(criarLinhaSerieHTML(10, 20));
+  const seriesBase = seriesIniciais && seriesIniciais.length > 0
+    ? seriesIniciais
+    : [{ repeticoes: 10, carga: 20 }, { repeticoes: 10, carga: 20 }, { repeticoes: 10, carga: 20 }];
+  seriesBase.forEach(s => seriesContainer.appendChild(criarLinhaSerieHTML(s.repeticoes, s.carga)));
 
   container.appendChild(bloco);
   atualizarTitulosExercicios();
+  if (padrao) {
+    buscarSessaoAnteriorExercicio(bloco, padrao);
+  }
+}
+
+function cancelarFormularioTreino() {
+  treinoEmEdicaoId = null;
+  show('home');
 }
 
 function abrirNovoTreino() {
-  const hoje = paraIsoLocal(new Date());
-  const campoData = document.getElementById('data-treino');
-  if (!campoData.value) {
-    campoData.value = hoje;
-  }
+  treinoEmEdicaoId = null;
+  document.getElementById('titulo-form-treino').textContent = 'Novo treino';
+  document.getElementById('subtitulo-form-treino').style.display = 'none';
+  document.getElementById('btn-salvar-treino').textContent = 'Salvar treino';
+
+  document.getElementById('data-treino').value = paraIsoLocal(new Date());
   const container = document.getElementById('lista-exercicios-form');
-  if (container.children.length === 0) {
-    adicionarBlocoExercicio('Supino reto');
-  }
+  container.innerHTML = '';
+  adicionarBlocoExercicio('Supino reto');
   show('novo');
+}
+
+function editarTreino(treinoId) {
+  const treino = treinosCache.find(t => t.id === treinoId);
+  if (!treino) return;
+
+  treinoEmEdicaoId = treinoId;
+  document.getElementById('titulo-form-treino').textContent = 'Editar treino';
+  const sub = document.getElementById('subtitulo-form-treino');
+  sub.textContent = `Editando sessão registrada em ${formatarDataBR(treino.data)}.`;
+  sub.style.display = 'block';
+  document.getElementById('btn-salvar-treino').textContent = 'Salvar alterações';
+
+  document.getElementById('data-treino').value = treino.data;
+  const container = document.getElementById('lista-exercicios-form');
+  container.innerHTML = '';
+
+  const listaEx = Array.isArray(treino.exercicios) && treino.exercicios.length > 0
+    ? treino.exercicios
+    : [{ nome: treino.exercicio, series: treino.series }];
+
+  listaEx.forEach(ex => adicionarBlocoExercicio(ex.nome, ex.series));
+  show('novo');
+}
+
+function pedirExclusaoTreino(treinoId) {
+  const treino = treinosCache.find(t => t.id === treinoId);
+  if (!treino) return;
+  treinoParaExcluirId = treinoId;
+  document.getElementById('texto-modal-excluir').textContent =
+    `Deseja excluir o treino de ${formatarDataBR(treino.data)} (${treino.exercicio})? Esta ação não pode ser desfeita.`;
+  document.getElementById('modal-excluir-treino').classList.add('open');
+}
+
+function fecharModalExcluirTreino() {
+  treinoParaExcluirId = null;
+  document.getElementById('modal-excluir-treino').classList.remove('open');
+}
+
+async function confirmarExclusaoTreino() {
+  if (!treinoParaExcluirId) return;
+  const id = treinoParaExcluirId;
+  fecharModalExcluirTreino();
+
+  try {
+    const resp = await fetch(`/api/treinos/${id}`, { method: 'DELETE' });
+    if (!resp.ok) {
+      mostrarErro('Não foi possível excluir.', 'O treino selecionado não foi encontrado.', 'home');
+      return;
+    }
+    await carregarDadosIniciais();
+    if (evolucaoCache) {
+      await carregarEvolucao(document.getElementById('select-exercicio-evolucao').value);
+    }
+  } catch (e) {
+    mostrarErro('Erro de conexão.', 'Não foi possível excluir o treino.', 'home');
+  }
 }
 
 async function salvarTreino() {
   const data = document.getElementById('data-treino').value;
   const blocos = document.querySelectorAll('#lista-exercicios-form .exercise');
   const exercicios = Array.from(blocos).map(bloco => {
-    const sel = bloco.querySelector('.select-exercicio').value;
-    const nome = sel === '__OUTRO__'
-      ? bloco.querySelector('.input-exercicio-custom').value.trim()
-      : sel;
+    const nome = bloco.querySelector('.input-exercicio-busca').value.trim();
     const series = Array.from(bloco.querySelectorAll('.serie')).map(row => ({
       repeticoes: row.querySelector('.input-reps').value,
       carga: row.querySelector('.input-carga').value
@@ -1435,9 +1965,18 @@ async function salvarTreino() {
     return { nome, series };
   });
 
+  if (exercicios.length === 0) {
+    mostrarErro('Dados incompletos.', 'Adicione pelo menos um exercício antes de salvar.', 'novo');
+    return;
+  }
+
+  const editando = treinoEmEdicaoId !== null;
+  const url = editando ? `/api/treinos/${treinoEmEdicaoId}` : '/api/treinos';
+  const method = editando ? 'PUT' : 'POST';
+
   try {
-    const resp = await fetch('/api/treinos', {
-      method: 'POST',
+    const resp = await fetch(url, {
+      method,
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ data, exercicios })
     });
@@ -1451,76 +1990,276 @@ async function salvarTreino() {
       return;
     }
 
-    atualizarResumoTreino(resultado);
-    document.getElementById('lista-exercicios-form').innerHTML = '';
-    adicionarBlocoExercicio('Supino reto');
-    carregarDadosIniciais();
+    sincronizarBibliotecaExercicios([...bibliotecaExercicios, ...exercicios.map(e => e.nome)]);
+    treinoEmEdicaoId = null;
+    atualizarResumoTreino(resultado, editando);
+    await carregarDadosIniciais();
     show('resumo');
   } catch (e) {
-    mostrarErro('Erro de conexão.', 'Não foi possível enviar o treino para o servidor.', 'novo');
+    mostrarErro('Erro de conexão.', 'Não foi possível salvar o treino no servidor.', 'novo');
   }
 }
 
+/* ===========================
+   EVOLUÇÃO DE EXERCÍCIOS (MÉTRICAS, PERÍODO, TOOLTIP)
+   =========================== */
 async function abrirEvolucao() {
   show('evolucao');
   await carregarEvolucao();
 }
 
-function renderizarGraficoSVG(pontos) {
-  const W = 360;
-  const H = 195;
-  const padL = 42;
-  const padR = 22;
-  const padT = 24;
+function selecionarMetricaEvolucao(metrica) {
+  metricaEvolucaoAtual = metrica;
+  document.querySelectorAll('#grupo-metricas button').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.metrica === metrica);
+  });
+  renderizarEvolucaoAtual();
+}
+
+function selecionarPeriodoEvolucao(periodo) {
+  periodoEvolucaoAtual = periodo;
+  document.querySelectorAll('#grupo-periodos button').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.periodo === periodo);
+  });
+  renderizarEvolucaoAtual();
+}
+
+function filtrarPontosPorPeriodo(pontos, periodo) {
+  if (!pontos || pontos.length === 0 || periodo === 'TUDO') return pontos || [];
+  const diasMapa = { '1M': 30, '3M': 90, '6M': 180 };
+  const dias = diasMapa[periodo];
+  if (!dias) return pontos;
+
+  const ultimaData = paraDataLocal(pontos[pontos.length - 1].data);
+  const limite = new Date(ultimaData.getFullYear(), ultimaData.getMonth(), ultimaData.getDate() - dias);
+  const limiteIso = paraIsoLocal(limite);
+  return pontos.filter(p => p.data >= limiteIso);
+}
+
+function obterMetaMetrica(metrica) {
+  if (metrica === 'um_rm_estimado') {
+    return { titulo: '1RM estimado', recordeLabel: 'Maior 1RM', unidade: 'kg' };
+  }
+  if (metrica === 'volume_total') {
+    return { titulo: 'Volume atual', recordeLabel: 'Maior volume', unidade: 'kg' };
+  }
+  return { titulo: 'Carga atual', recordeLabel: 'Maior carga', unidade: 'kg' };
+}
+
+function selecionarIndicesEixoX(total) {
+  if (total <= 6) {
+    return Array.from({ length: total }, (_, i) => i);
+  }
+  const alvo = 5;
+  const indices = new Set([0, total - 1]);
+  for (let k = 1; k < alvo; k++) {
+    indices.add(Math.round((k * (total - 1)) / alvo));
+  }
+  return Array.from(indices).sort((a, b) => a - b);
+}
+
+function esconderTooltipEvolucao() {
+  document.getElementById('evo-tooltip').style.display = 'none';
+}
+
+function mostrarTooltipEvolucao(idx, pontosFiltrados) {
+  const p = pontosFiltrados[idx];
+  if (!p) return;
+  pontoAtivoEvolucao = idx;
+
+  const svg = document.querySelector('#grafico-cargas svg');
+  const wrap = document.querySelector('#evolucao .chart-wrap');
+  const tooltip = document.getElementById('evo-tooltip');
+  const focusRing = document.getElementById('evo-focus-ring');
+
+  if (focusRing && svg) {
+    const cx = svg.querySelectorAll('.evo-hit')[idx]?.getAttribute('cx');
+    const cy = svg.querySelectorAll('.evo-hit')[idx]?.getAttribute('cy');
+    if (cx && cy) {
+      focusRing.setAttribute('cx', cx);
+      focusRing.setAttribute('cy', cy);
+      focusRing.style.display = 'block';
+    }
+  }
+
+  const val = Number(p[metricaEvolucaoAtual]);
+  const infoMetrica = obterMetaMetrica(metricaEvolucaoAtual);
+  const seriesDesc = resumirSeriesTexto(p.series);
+
+  tooltip.innerHTML = `
+    <strong>${formatarDataBR(p.data)}</strong>
+    <div>${infoMetrica.titulo.replace(' atual', '')}: <b>${formatarNumeroBR(val)} ${infoMetrica.unidade}</b></div>
+    <div>Carga máx: ${formatarNumeroBR(p.carga_maxima)} kg · 1RM: ${formatarNumeroBR(p.um_rm_estimado)} kg</div>
+    <div>Volume: ${formatarNumeroBR(p.volume_total)} kg (${seriesDesc})</div>
+  `;
+
+  document.getElementById('evo-point-detail').textContent =
+    `${formatarDataBR(p.data)} · ${seriesDesc} · Máx: ${formatarNumeroBR(p.carga_maxima)} kg · 1RM: ${formatarNumeroBR(p.um_rm_estimado)} kg · Volume: ${formatarNumeroBR(p.volume_total)} kg`;
+
+  if (svg && wrap) {
+    const hitEl = svg.querySelectorAll('.evo-hit')[idx];
+    if (hitEl) {
+      const svgRect = svg.getBoundingClientRect();
+      const wrapRect = wrap.getBoundingClientRect();
+      const xSvg = Number(hitEl.getAttribute('cx')) / 520;
+      const ySvg = Number(hitEl.getAttribute('cy')) / 220;
+      const px = (svgRect.left - wrapRect.left) + xSvg * svgRect.width;
+      const py = (svgRect.top - wrapRect.top) + ySvg * svgRect.height;
+
+      tooltip.style.display = 'block';
+      const tw = tooltip.offsetWidth || 170;
+      const left = Math.max(8, Math.min(wrapRect.width - tw - 8, px - tw / 2));
+      const top = py > 84 ? py - tooltip.offsetHeight - 12 : py + 14;
+      tooltip.style.left = `${left}px`;
+      tooltip.style.top = `${Math.max(8, top)}px`;
+    }
+  }
+}
+
+function renderizarGraficoSVG(pontosFiltrados) {
+  esconderTooltipEvolucao();
+  const W = 520;
+  const H = 220;
+  const padL = 54;
+  const padR = 28;
+  const padT = 20;
   const padB = 34;
   const areaW = W - padL - padR;
   const areaH = H - padT - padB;
 
-  const cargas = pontos.map(p => p.carga_maxima);
-  let minY = Math.min(...cargas);
-  let maxY = Math.max(...cargas);
+  const valores = pontosFiltrados.map(p => Number(p[metricaEvolucaoAtual]));
+  let minY = Math.min(...valores);
+  let maxY = Math.max(...valores);
   if (minY === maxY) {
-    minY = Math.max(0, minY - 5);
-    maxY = maxY + 5;
+    const delta = Math.max(5, Math.round(maxY * 0.15));
+    minY = Math.max(0, minY - delta);
+    maxY = maxY + delta;
   } else {
     const margem = (maxY - minY) * 0.15;
     minY = Math.max(0, minY - margem);
     maxY = maxY + margem;
   }
 
-  const xPos = i => padL + (pontos.length === 1 ? areaW / 2 : (i / (pontos.length - 1)) * areaW);
+  const xPos = i => padL + (pontosFiltrados.length === 1 ? areaW / 2 : (i / (pontosFiltrados.length - 1)) * areaW);
   const yPos = v => padT + areaH - ((v - minY) / (maxY - minY)) * areaH;
 
   let gridHtml = '';
-  for (let i = 0; i <= 3; i++) {
-    const valor = minY + ((maxY - minY) * i) / 3;
+  for (let i = 0; i <= 4; i++) {
+    const valor = minY + ((maxY - minY) * i) / 4;
     const y = yPos(valor).toFixed(1);
     gridHtml += `<line x1="${padL}" y1="${y}" x2="${W - padR}" y2="${y}" stroke="#e4e4e7" stroke-dasharray="3,3" />`;
-    gridHtml += `<text x="${padL - 6}" y="${Number(y) + 4}" text-anchor="end" font-size="10" fill="#71717a">${Math.round(valor)}kg</text>`;
+    gridHtml += `<text x="${padL - 8}" y="${Number(y) + 4}" text-anchor="end" font-size="10.5" fill="#71717a">${Math.round(valor)} kg</text>`;
   }
 
-  const coords = pontos.map((p, i) => [xPos(i), yPos(p.carga_maxima)]);
-  const polylinePoints = coords.map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join(' ');
+  const coords = pontosFiltrados.map((p, i) => [xPos(i), yPos(Number(p[metricaEvolucaoAtual]))]);
+  let pathHtml = '';
+  if (coords.length >= 2) {
+    const polylinePoints = coords.map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join(' ');
+    const areaPoints = `${coords[0][0].toFixed(1)},${(padT + areaH).toFixed(1)} ${polylinePoints} ${coords[coords.length - 1][0].toFixed(1)},${(padT + areaH).toFixed(1)}`;
+    pathHtml = `
+      <polygon points="${areaPoints}" fill="#0284c7" fill-opacity="0.10" />
+      <polyline fill="none" stroke="#0284c7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" points="${polylinePoints}" />
+    `;
+  }
 
-  const areaPoints = `${coords[0][0].toFixed(1)},${(padT + areaH).toFixed(1)} ${polylinePoints} ${coords[coords.length - 1][0].toFixed(1)},${(padT + areaH).toFixed(1)}`;
+  const incluirAnoX = pontosFiltrados.length >= 2 &&
+    pontosFiltrados[0].data.slice(0, 4) !== pontosFiltrados[pontosFiltrados.length - 1].data.slice(0, 4);
+  const indicesX = selecionarIndicesEixoX(pontosFiltrados.length);
+  const xLabelsHtml = indicesX.map(i => {
+    const x = coords[i][0].toFixed(1);
+    let anchor = 'middle';
+    if (pontosFiltrados.length > 1) {
+      if (i === 0) anchor = 'start';
+      else if (i === pontosFiltrados.length - 1) anchor = 'end';
+    }
+    return `<text x="${x}" y="${H - 10}" text-anchor="${anchor}" font-size="10.5" fill="#52525b">${formatarDataCurta(pontosFiltrados[i].data, incluirAnoX)}</text>`;
+  }).join('');
 
-  const dotsHtml = pontos.map((p, i) => {
+  const raioVisivel = pontosFiltrados.length > 25 ? 3.5 : 4.8;
+  const dotsHtml = pontosFiltrados.map((p, i) => {
     const [x, y] = coords[i];
     return `
-      <circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="4.5" fill="#0284c7" stroke="#fff" stroke-width="2" />
-      <text x="${x.toFixed(1)}" y="${(y - 9).toFixed(1)}" text-anchor="middle" font-size="10" font-weight="700" fill="#18181b">${p.carga_maxima}kg</text>
-      <text x="${x.toFixed(1)}" y="${H - 10}" text-anchor="middle" font-size="10" fill="#52525b">${formatarDataCurta(p.data)}</text>
+      <circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${raioVisivel}" fill="#0284c7" stroke="#fff" stroke-width="1.8" />
+      <circle class="evo-hit" data-idx="${i}" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="14" fill="transparent" style="cursor:pointer" />
     `;
   }).join('');
 
   document.getElementById('grafico-cargas').innerHTML = `
-    <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Gráfico de evolução de cargas">
+    <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Gráfico de evolução do exercício">
       ${gridHtml}
-      <polygon points="${areaPoints}" fill="#0284c7" fill-opacity="0.10" />
-      <polyline fill="none" stroke="#0284c7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" points="${polylinePoints}" />
+      ${pathHtml}
+      ${xLabelsHtml}
+      <circle id="evo-focus-ring" cx="0" cy="0" r="8" fill="#0284c7" fill-opacity="0.22" stroke="#0369a1" stroke-width="2" style="display:none;pointer-events:none" />
       ${dotsHtml}
     </svg>
   `;
+
+  window._pontosEvolucaoVisiveis = pontosFiltrados;
+  const hits = document.querySelectorAll('#grafico-cargas .evo-hit');
+  hits.forEach(hit => {
+    const idx = Number(hit.dataset.idx);
+    hit.addEventListener('pointerenter', () => mostrarTooltipEvolucao(idx, pontosFiltrados));
+    hit.addEventListener('click', () => mostrarTooltipEvolucao(idx, pontosFiltrados));
+  });
+}
+
+function renderizarEvolucaoAtual() {
+  const avisoEl = document.getElementById('evolucao-aviso');
+  const conteudoEl = document.getElementById('evolucao-conteudo');
+
+  if (!evolucaoCache || !evolucaoCache.pontos || evolucaoCache.pontos.length === 0) {
+    conteudoEl.style.display = 'none';
+    avisoEl.style.display = 'block';
+    avisoEl.textContent = 'Nenhum treino registrado para este exercício ainda.';
+    return;
+  }
+
+  const pontosFiltrados = filtrarPontosPorPeriodo(evolucaoCache.pontos, periodoEvolucaoAtual);
+  if (pontosFiltrados.length === 0) {
+    conteudoEl.style.display = 'none';
+    avisoEl.style.display = 'block';
+    avisoEl.textContent = 'Nenhuma sessão encontrada neste período. Selecione um intervalo maior (ex.: Tudo).';
+    return;
+  }
+
+  conteudoEl.style.display = 'block';
+  if (pontosFiltrados.length === 1) {
+    avisoEl.style.display = 'block';
+    avisoEl.textContent = '1 sessão registrada neste período. Registre mais sessões para visualizar a linha de tendência.';
+  } else {
+    avisoEl.style.display = 'none';
+  }
+
+  const infoMetrica = obterMetaMetrica(metricaEvolucaoAtual);
+  const valores = pontosFiltrados.map(p => Number(p[metricaEvolucaoAtual]));
+  const inicial = valores[0];
+  const atual = valores[valores.length - 1];
+  const maior = Math.max(...valores);
+  const variacao = Number((atual - inicial).toFixed(1));
+  const variacaoPct = inicial > 0 ? Number(((variacao / inicial) * 100).toFixed(1)) : 0;
+  const sinal = variacao > 0 ? '+' : '';
+
+  document.getElementById('label-stat-atual').textContent = infoMetrica.titulo;
+  document.getElementById('label-stat-recorde').textContent = infoMetrica.recordeLabel;
+  document.getElementById('stat-carga-atual').textContent = `${formatarNumeroBR(atual)} ${infoMetrica.unidade}`;
+  document.getElementById('stat-variacao').textContent = `${sinal}${formatarNumeroBR(variacao)} ${infoMetrica.unidade} (${sinal}${formatarNumeroBR(variacaoPct)}%)`;
+  document.getElementById('stat-maior-carga').textContent = `${formatarNumeroBR(maior)} ${infoMetrica.unidade}`;
+  document.getElementById('stat-sessoes').textContent = `${pontosFiltrados.length}`;
+
+  document.getElementById('evo-point-detail').textContent =
+    'Passe o mouse ou toque em um ponto do gráfico para ver os detalhes da sessão.';
+
+  renderizarGraficoSVG(pontosFiltrados);
+
+  document.getElementById('evolucao-lista-sessoes').innerHTML = pontosFiltrados
+    .slice()
+    .reverse()
+    .map(p => `
+      <div class="history-item">
+        <strong>${formatarDataBR(p.data)} · ${infoMetrica.titulo.replace(' atual', '')}: ${formatarNumeroBR(p[metricaEvolucaoAtual])} ${infoMetrica.unidade}</strong>
+        <div class="history-sub">Máx: ${formatarNumeroBR(p.carga_maxima)} kg · 1RM: ${formatarNumeroBR(p.um_rm_estimado)} kg · Volume: ${formatarNumeroBR(p.volume_total)} kg (${resumirSeriesTexto(p.series)})</div>
+      </div>
+    `).join('');
 }
 
 async function carregarEvolucao(exercicioSelecionado = null) {
@@ -1531,6 +2270,7 @@ async function carregarEvolucao(exercicioSelecionado = null) {
   try {
     const resp = await fetch(url);
     const dados = await resp.json();
+    evolucaoCache = dados;
 
     const selectEl = document.getElementById('select-exercicio-evolucao');
     const disponiveis = dados.exercicios_disponiveis || [];
@@ -1538,41 +2278,11 @@ async function carregarEvolucao(exercicioSelecionado = null) {
       selectEl.innerHTML = '<option value="">Nenhum exercício registrado</option>';
     } else {
       selectEl.innerHTML = disponiveis
-        .map(nome => `<option value="${nome}" ${nome === dados.exercicio ? 'selected' : ''}>${nome}</option>`)
+        .map(nome => `<option value="${escaparHtml(nome)}" ${nome === dados.exercicio ? 'selected' : ''}>${escaparHtml(nome)}</option>`)
         .join('');
     }
 
-    const avisoEl = document.getElementById('evolucao-aviso');
-    const conteudoEl = document.getElementById('evolucao-conteudo');
-
-    if (!dados.dados_suficientes) {
-      conteudoEl.style.display = 'none';
-      avisoEl.style.display = 'block';
-      avisoEl.textContent = dados.mensagem || 'Registre pelo menos 2 sessões deste exercício para visualizar o gráfico de evolução.';
-      return;
-    }
-
-    avisoEl.style.display = 'none';
-    conteudoEl.style.display = 'block';
-
-    const r = dados.resumo;
-    const sinal = r.variacao_kg > 0 ? '+' : '';
-    document.getElementById('stat-carga-atual').textContent = `${r.carga_atual} kg`;
-    document.getElementById('stat-variacao').textContent = `${sinal}${r.variacao_kg} kg (${sinal}${r.variacao_percentual}%)`;
-    document.getElementById('stat-maior-carga').textContent = `${r.maior_carga} kg`;
-    document.getElementById('stat-sessoes').textContent = `${dados.total_registros}`;
-
-    renderizarGraficoSVG(dados.pontos);
-
-    document.getElementById('evolucao-lista-sessoes').innerHTML = dados.pontos
-      .slice()
-      .reverse()
-      .map(p => `
-        <div class="history-item">
-          <strong>${formatarDataBR(p.data)} · Máx: ${p.carga_maxima} kg</strong>
-          <div class="history-sub">Média: ${p.carga_media} kg · ${p.total_series} séries · Volume: ${p.volume_total} kg</div>
-        </div>
-      `).join('');
+    renderizarEvolucaoAtual();
   } catch (e) {
     document.getElementById('evolucao-conteudo').style.display = 'none';
     const avisoEl = document.getElementById('evolucao-aviso');
@@ -1581,9 +2291,35 @@ async function carregarEvolucao(exercicioSelecionado = null) {
   }
 }
 
+/* ===========================
+   MODAL DE METAS, HIDRATAÇÃO (DESFAZER) E SONO DECIMAL
+   =========================== */
+function abrirModalMetas() {
+  document.getElementById('erro-modal-metas').style.display = 'none';
+  document.getElementById('input-meta-agua').value = estadoMetasAtual.agua?.valor_diario || 2000;
+  document.getElementById('input-meta-sono').value = formatarNumeroBR(estadoMetasAtual.sono?.valor_diario || 8);
+  document.getElementById('modal-metas').classList.add('open');
+}
+
+function fecharModalMetas() {
+  document.getElementById('modal-metas').classList.remove('open');
+}
+
 async function salvarMetas() {
-  const agua_ml = document.getElementById('input-meta-agua').value;
-  const sono_horas = document.getElementById('input-meta-sono').value;
+  const erroEl = document.getElementById('erro-modal-metas');
+  const agua_ml = parseNumeroDecimalBR(document.getElementById('input-meta-agua').value);
+  const sono_horas = parseNumeroDecimalBR(document.getElementById('input-meta-sono').value);
+
+  if (!Number.isFinite(agua_ml) || agua_ml <= 0 || agua_ml > 20000) {
+    erroEl.textContent = 'Informe uma meta de água válida entre 1 e 20.000 ml.';
+    erroEl.style.display = 'block';
+    return;
+  }
+  if (!Number.isFinite(sono_horas) || sono_horas <= 0 || sono_horas > 24) {
+    erroEl.textContent = 'Informe uma meta de sono válida entre 0,5 e 24 horas.';
+    erroEl.style.display = 'block';
+    return;
+  }
 
   try {
     const resp = await fetch('/api/metas', {
@@ -1593,19 +2329,28 @@ async function salvarMetas() {
     });
     const resultado = await resp.json();
     if (!resp.ok) {
-      mostrarErro(
-        resultado.erro || 'Meta inválida.',
-        resultado.detalhe || 'A meta deve ser maior que zero.',
-        'metas'
-      );
+      erroEl.textContent = resultado.detalhe || resultado.erro || 'Valores inválidos.';
+      erroEl.style.display = 'block';
       return;
     }
+    fecharModalMetas();
     atualizarTelaComMetas(resultado.metas);
-    carregarDadosIniciais();
-    show('home');
+    await carregarDadosIniciais();
   } catch (e) {
-    mostrarErro('Erro de conexão.', 'Não foi possível salvar as metas.', 'metas');
+    erroEl.textContent = 'Erro de conexão ao salvar as metas.';
+    erroEl.style.display = 'block';
   }
+}
+
+function exibirToastAgua(quantidade, registroId) {
+  ultimoRegistroAguaId = registroId;
+  const toast = document.getElementById('toast-undo');
+  document.getElementById('toast-undo-msg').textContent = `💧 +${formatarMlInteiro(quantidade)} registrado`;
+  toast.classList.add('show');
+  if (timerToastAgua) clearTimeout(timerToastAgua);
+  timerToastAgua = setTimeout(() => {
+    toast.classList.remove('show');
+  }, 8000);
 }
 
 async function adicionarProgressoAgua(quantidade) {
@@ -1618,40 +2363,88 @@ async function adicionarProgressoAgua(quantidade) {
     const resultado = await resp.json();
     if (resp.ok) {
       atualizarTelaComMetas(resultado.metas);
-      carregarDadosIniciais();
+      await carregarDadosIniciais();
+      exibirToastAgua(quantidade, resultado.registro_id);
     }
   } catch (e) {
     mostrarErro('Erro de conexão.', 'Não foi possível atualizar o consumo de água.', 'home');
   }
 }
 
+async function desfazerUltimaAgua() {
+  const toast = document.getElementById('toast-undo');
+  toast.classList.remove('show');
+  try {
+    const resp = await fetch('/api/metas/desfazer', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ tipo: 'agua', id: ultimoRegistroAguaId })
+    });
+    const resultado = await resp.json();
+    if (resp.ok) {
+      ultimoRegistroAguaId = null;
+      atualizarTelaComMetas(resultado.metas);
+      await carregarDadosIniciais();
+    }
+  } catch (e) {
+    mostrarErro('Erro de conexão.', 'Não foi possível desfazer o último registro de água.', 'home');
+  }
+}
+
+function definirModoSono(modo) {
+  modoRegistroSono = modo === 'somar' ? 'somar' : 'definir';
+  document.getElementById('btn-sono-substituir').classList.toggle('active', modoRegistroSono === 'definir');
+  document.getElementById('btn-sono-somar').classList.toggle('active', modoRegistroSono === 'somar');
+  document.getElementById('nota-modo-sono').textContent = modoRegistroSono === 'definir'
+    ? 'Substitui o total de sono registrado hoje (aceita decimais como 7,5).'
+    : 'Soma estas horas (ex.: 1,5 de cochilo) ao total já registrado hoje.';
+}
+
 async function registrarSonoHoje() {
-  const quantidade = document.getElementById('input-sono-hoje').value;
+  const valorBruto = document.getElementById('input-sono-hoje').value;
+  const quantidade = parseNumeroDecimalBR(valorBruto);
+
+  if (!Number.isFinite(quantidade) || quantidade <= 0 || quantidade > 24) {
+    mostrarErro(
+      'Valor inválido.',
+      'Informe um valor decimal válido de horas de sono entre 0,1 e 24 (ex.: 7,5).',
+      'home'
+    );
+    return;
+  }
+
   try {
     const resp = await fetch('/api/metas/progresso', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ tipo: 'sono', quantidade, modo: 'definir' })
+      body: JSON.stringify({ tipo: 'sono', quantidade, modo: modoRegistroSono })
     });
     const resultado = await resp.json();
     if (!resp.ok) {
       mostrarErro(
         resultado.erro || 'Valor inválido.',
-        resultado.detalhe || 'Informe quantas horas você dormiu (maior que zero).',
+        resultado.detalhe || 'Informe quantas horas você dormiu (entre 0,1 e 24).',
         'home'
       );
       return;
     }
     atualizarTelaComMetas(resultado.metas);
-    carregarDadosIniciais();
+    await carregarDadosIniciais();
   } catch (e) {
     mostrarErro('Erro de conexão.', 'Não foi possível registrar as horas de sono.', 'home');
   }
 }
 
-window.addEventListener('resize', () => {
-  if (document.getElementById('historico-habitos').classList.contains('active')) {
-    renderizarPainelSemanal();
+document.getElementById('modal-metas').addEventListener('click', e => {
+  if (e.target.id === 'modal-metas') fecharModalMetas();
+});
+document.getElementById('modal-excluir-treino').addEventListener('click', e => {
+  if (e.target.id === 'modal-excluir-treino') fecharModalExcluirTreino();
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    fecharModalMetas();
+    fecharModalExcluirTreino();
   }
 });
 

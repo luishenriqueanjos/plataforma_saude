@@ -145,6 +145,11 @@ def calcular_volume(series):
     return sum(s["repeticoes"] * s["carga"] for s in series)
 
 
+def calcular_1rm_epley(carga, repeticoes):
+    """Formula de Epley: 1RM = Carga * (1 + Repeticoes / 30)."""
+    return carga * (1.0 + (repeticoes / 30.0))
+
+
 def _validar_series(series_input):
     if not isinstance(series_input, list) or not series_input:
         return None, (
@@ -191,11 +196,98 @@ def _validar_series(series_input):
     return series_validadas, None
 
 
+def _validar_payload_treino(dados):
+    data_treino = (dados.get("data") or "").strip()
+    modo_multi = isinstance(dados.get("exercicios"), list)
+
+    if not data_treino:
+        return (
+            None,
+            None,
+            (
+                400,
+                {
+                    "erro": "Dados incompletos.",
+                    "detalhe": "Informe a data, o exercício e as séries antes de salvar o treino.",
+                },
+            ),
+        )
+
+    exercicios_validados = []
+    if modo_multi:
+        exercicios_input = dados.get("exercicios") or []
+        if not exercicios_input:
+            return (
+                None,
+                None,
+                (
+                    400,
+                    {
+                        "erro": "Dados incompletos.",
+                        "detalhe": "Adicione pelo menos um exercício com séries antes de salvar o treino.",
+                    },
+                ),
+            )
+        for ex in exercicios_input:
+            if not isinstance(ex, dict):
+                return (
+                    None,
+                    None,
+                    (
+                        400,
+                        {
+                            "erro": "Dados incompletos.",
+                            "detalhe": "Informe o nome e as séries de cada exercício antes de salvar.",
+                        },
+                    ),
+                )
+            nome_ex = (ex.get("nome") or ex.get("exercicio") or "").strip()
+            if not nome_ex:
+                return (
+                    None,
+                    None,
+                    (
+                        400,
+                        {
+                            "erro": "Dados incompletos.",
+                            "detalhe": "Informe o nome de todos os exercícios antes de salvar o treino.",
+                        },
+                    ),
+                )
+            series_validadas, erro = _validar_series(ex.get("series"))
+            if erro:
+                return None, None, erro
+            exercicios_validados.append({"nome": nome_ex, "series": series_validadas})
+    else:
+        nome_exercicio = (dados.get("exercicio") or "").strip()
+        series_input = dados.get("series") or []
+        if not nome_exercicio or not series_input:
+            return (
+                None,
+                None,
+                (
+                    400,
+                    {
+                        "erro": "Dados incompletos.",
+                        "detalhe": "Informe a data, o exercício e as séries antes de salvar o treino.",
+                    },
+                ),
+            )
+        series_validadas, erro = _validar_series(series_input)
+        if erro:
+            return None, None, erro
+        exercicios_validados.append(
+            {"nome": nome_exercicio, "series": series_validadas}
+        )
+
+    return data_treino, (modo_multi, exercicios_validados), None
+
+
 def obter_treinos():
     conn = get_connection()
     cur = conn.cursor()
     treinos_rows = cur.execute(
-        "SELECT id, data FROM TREINO WHERE usuario_id = 1 ORDER BY id DESC"
+        "SELECT id, data FROM TREINO WHERE usuario_id = 1 ORDER BY data DESC, id DESC"
     ).fetchall()
 
     resultado = []
@@ -251,53 +343,10 @@ def obter_treinos():
 
 
 def salvar_novo_treino(dados):
-    data_treino = (dados.get("data") or "").strip()
-    modo_multi = isinstance(dados.get("exercicios"), list)
-
-    if not data_treino:
-        return 400, {
-            "erro": "Dados incompletos.",
-            "detalhe": "Informe a data, o exercício e as séries antes de salvar o treino.",
-        }
-
-    exercicios_validados = []
-    if modo_multi:
-        exercicios_input = dados.get("exercicios") or []
-        if not exercicios_input:
-            return 400, {
-                "erro": "Dados incompletos.",
-                "detalhe": "Adicione pelo menos um exercício com séries antes de salvar o treino.",
-            }
-        for ex in exercicios_input:
-            if not isinstance(ex, dict):
-                return 400, {
-                    "erro": "Dados incompletos.",
-                    "detalhe": "Informe o nome e as séries de cada exercício antes de salvar.",
-                }
-            nome_ex = (ex.get("nome") or ex.get("exercicio") or "").strip()
-            if not nome_ex:
-                return 400, {
-                    "erro": "Dados incompletos.",
-                    "detalhe": "Informe o nome de todos os exercícios antes de salvar o treino.",
-                }
-            series_validadas, erro = _validar_series(ex.get("series"))
-            if erro:
-                return erro
-            exercicios_validados.append({"nome": nome_ex, "series": series_validadas})
-    else:
-        nome_exercicio = (dados.get("exercicio") or "").strip()
-        series_input = dados.get("series") or []
-        if not nome_exercicio or not series_input:
-            return 400, {
-                "erro": "Dados incompletos.",
-                "detalhe": "Informe a data, o exercício e as séries antes de salvar o treino.",
-            }
-        series_validadas, erro = _validar_series(series_input)
-        if erro:
-            return erro
-        exercicios_validados.append(
-            {"nome": nome_exercicio, "series": series_validadas}
-        )
+    data_treino, parsed, erro = _validar_payload_treino(dados)
+    if erro:
+        return erro
+    modo_multi, exercicios_validados = parsed
 
     todas_series = [s for ex in exercicios_validados for s in ex["series"]]
     volume_total = calcular_volume(todas_series)
@@ -351,8 +400,169 @@ def salvar_novo_treino(dados):
     return 201, resposta
 
 
+def atualizar_treino(treino_id, dados):
+    """Atualiza data, exercicios e series de um treino existente sem alterar outros registros."""
+    data_treino, parsed, erro = _validar_payload_treino(dados)
+    if erro:
+        return erro
+    _, exercicios_validados = parsed
+
+    conn = get_connection()
+    cur = conn.cursor()
+    existente = cur.execute(
+        "SELECT id FROM TREINO WHERE id = ? AND usuario_id = 1", (treino_id,)
+    ).fetchone()
+    if not existente:
+        conn.close()
+        return 404, {"erro": "Treino não encontrado."}
+
+    cur.execute(
+        "UPDATE TREINO SET data = ? WHERE id = ? AND usuario_id = 1",
+        (data_treino, treino_id),
+    )
+    ex_antigos = cur.execute(
+        "SELECT id FROM EXERCICIO WHERE treino_id = ?", (treino_id,)
+    ).fetchall()
+    for ex_row in ex_antigos:
+        cur.execute("DELETE FROM SERIE WHERE exercicio_id = ?", (ex_row["id"],))
+    cur.execute("DELETE FROM EXERCICIO WHERE treino_id = ?", (treino_id,))
+
+    exercicios_salvos = []
+    todas_series = []
+    for ex in exercicios_validados:
+        cur.execute(
+            "INSERT INTO EXERCICIO (treino_id, nome) VALUES (?, ?)",
+            (treino_id, ex["nome"]),
+        )
+        exercicio_id = cur.lastrowid
+        for s in ex["series"]:
+            cur.execute(
+                "INSERT INTO SERIE (exercicio_id, repeticoes, carga) VALUES (?, ?, ?)",
+                (exercicio_id, s["repeticoes"], s["carga"]),
+            )
+            todas_series.append(s)
+        exercicios_salvos.append(
+            {
+                "nome": ex["nome"],
+                "total_series": len(ex["series"]),
+                "volume_total": calcular_volume(ex["series"]),
+                "series": ex["series"],
+            }
+        )
+
+    conn.commit()
+    conn.close()
+
+    resumo_nome = (
+        exercicios_salvos[0]["nome"]
+        if len(exercicios_salvos) == 1
+        else " + ".join(ex["nome"] for ex in exercicios_salvos)
+    )
+    return 200, {
+        "id": treino_id,
+        "data": data_treino,
+        "exercicio": resumo_nome,
+        "exercicios": exercicios_salvos,
+        "total_exercicios": len(exercicios_salvos),
+        "total_series": len(todas_series),
+        "volume_total": calcular_volume(todas_series),
+        "series": todas_series,
+        "mensagem": "Treino atualizado com sucesso.",
+    }
+
+
+def excluir_treino(treino_id):
+    """Exclui fisicamente um treino e seus exercicios/series vinculados."""
+    conn = get_connection()
+    cur = conn.cursor()
+    existente = cur.execute(
+        "SELECT id FROM TREINO WHERE id = ? AND usuario_id = 1", (treino_id,)
+    ).fetchone()
+    if not existente:
+        conn.close()
+        return 404, {"erro": "Treino não encontrado."}
+
+    ex_rows = cur.execute(
+        "SELECT id FROM EXERCICIO WHERE treino_id = ?", (treino_id,)
+    ).fetchall()
+    for ex_row in ex_rows:
+        cur.execute("DELETE FROM SERIE WHERE exercicio_id = ?", (ex_row["id"],))
+    cur.execute("DELETE FROM EXERCICIO WHERE treino_id = ?", (treino_id,))
+    cur.execute("DELETE FROM TREINO WHERE id = ? AND usuario_id = 1", (treino_id,))
+    conn.commit()
+    conn.close()
+
+    return 200, {"mensagem": "Treino excluído com sucesso.", "id": treino_id}
+
+
+def obter_ultimo_exercicio(nome_exercicio):
+    """Retorna a sessao mais recente registrada para o exercicio informado."""
+    alvo = (nome_exercicio or "").strip()
+    if not alvo:
+        return {"encontrado": False, "exercicio": "", "series": []}
+
+    conn = get_connection()
+    cur = conn.cursor()
+    row = cur.execute(
+        """
+        SELECT t.id AS treino_id, t.data AS data, e.id AS exercicio_id, e.nome AS nome
+        FROM EXERCICIO e
+        JOIN TREINO t ON t.id = e.treino_id
+        WHERE t.usuario_id = 1 AND LOWER(TRIM(e.nome)) = LOWER(TRIM(?))
+        ORDER BY t.data DESC, t.id DESC, e.id DESC
+        LIMIT 1
+        """,
+        (alvo,),
+    ).fetchone()
+    if not row:
+        conn.close()
+        return {"encontrado": False, "exercicio": alvo, "series": []}
+
+    series_rows = cur.execute(
+        "SELECT repeticoes, carga FROM SERIE WHERE exercicio_id = ? ORDER BY id ASC",
+        (row["exercicio_id"],),
+    ).fetchall()
+    conn.close()
+
+    series = [
+        {"repeticoes": int(s["repeticoes"]), "carga": float(s["carga"])}
+        for s in series_rows
+    ]
+    return {
+        "encontrado": True,
+        "treino_id": row["treino_id"],
+        "data": row["data"],
+        "exercicio": row["nome"],
+        "total_series": len(series),
+        "volume_total": round(calcular_volume(series), 2),
+        "series": series,
+    }
+
+
+def obter_exercicios_cadastrados():
+    """Retorna lista unica de nomes de exercicios ja utilizados nos treinos."""
+    conn = get_connection()
+    cur = conn.cursor()
+    rows = cur.execute(
+        """
+        SELECT DISTINCT TRIM(e.nome) AS nome
+        FROM EXERCICIO e
+        JOIN TREINO t ON t.id = e.treino_id
+        WHERE t.usuario_id = 1 AND TRIM(e.nome) != ''
+        """
+    ).fetchall()
+    conn.close()
+
+    unicos = {}
+    for r in rows:
+        chave = r["nome"].lower()
+        if chave not in unicos:
+            unicos[chave] = r["nome"]
+    return sorted(unicos.values(), key=lambda n: n.lower())
+
+
 def obter_evolucao_cargas(nome_exercicio=None):
-    """Agrega serie historica de cargas por exercicio em ordem cronologica (CA-04.1 e CA-04.2)."""
+    """Agrega serie historica (carga maxima, 1RM Epley e volume total) por exercicio."""
     conn = get_connection()
     cur = conn.cursor()
     rows = cur.execute(
@@ -416,13 +626,16 @@ def obter_evolucao_cargas(nome_exercicio=None):
             }
             ordem_grupos.append(chave_grupo)
         grupos[chave_grupo]["series"].append(
-            {"repeticoes": r["repeticoes"], "carga": float(r["carga"])}
+            {"repeticoes": int(r["repeticoes"]), "carga": float(r["carga"])}
         )
 
     pontos = []
     for chave_grupo in ordem_grupos:
         g = grupos[chave_grupo]
         cargas = [s["carga"] for s in g["series"]]
+        um_rm_series = [
+            calcular_1rm_epley(s["carga"], s["repeticoes"]) for s in g["series"]
+        ]
         pontos.append(
             {
                 "treino_id": g["treino_id"],
@@ -430,8 +643,10 @@ def obter_evolucao_cargas(nome_exercicio=None):
                 "exercicio": g["exercicio"],
                 "carga_maxima": max(cargas),
                 "carga_media": round(sum(cargas) / len(cargas), 2),
+                "um_rm_estimado": round(max(um_rm_series), 1),
                 "volume_total": round(calcular_volume(g["series"]), 2),
                 "total_series": len(g["series"]),
+                "series": g["series"],
             }
         )
 
@@ -468,7 +683,7 @@ def obter_evolucao_cargas(nome_exercicio=None):
         "mensagem": (
             ""
             if dados_suficientes
-            else "Registre pelo menos 2 sessões deste exercício para visualizar o gráfico de evolução de cargas."
+            else "Registre pelo menos 2 sessões deste exercício para visualizar a evolução completa."
         ),
         "resumo": resumo,
         "pontos": pontos,
@@ -518,6 +733,12 @@ def salvar_metas(dados):
         return 400, {
             "erro": "Meta inválida.",
             "detalhe": "As metas de consumo de água e horas de sono devem ser maiores que zero.",
+        }
+
+    if meta_agua > 20000 or meta_sono > 24:
+        return 400, {
+            "erro": "Meta fora do limite.",
+            "detalhe": "A meta de água deve ser de até 20.000 ml e a de sono de até 24 horas.",
         }
 
     conn = get_connection()
@@ -577,6 +798,18 @@ def registrar_progresso_meta(dados):
             "detalhe": "A quantidade informada deve ser maior que zero.",
         }
 
+    if tipo == "sono" and quantidade > 24:
+        return 400, {
+            "erro": "Valor inválido.",
+            "detalhe": "As horas de sono por dia devem ser entre 0,1 e 24 horas.",
+        }
+
+    if tipo == "agua" and quantidade > 10000:
+        return 400, {
+            "erro": "Valor inválido.",
+            "detalhe": "Cada registro de água deve ser de até 10.000 ml.",
+        }
+
     conn = get_connection()
     cur = conn.cursor()
     meta = cur.execute(
@@ -594,53 +827,104 @@ def registrar_progresso_meta(dados):
     data_registro = (dados.get("data") or "").strip() or date.today().isoformat()
     meta_diaria = float(meta["valor_diario"])
     novo_progresso = (
-        quantidade if modo == "definir" else float(meta["progresso_atual"]) + quantidade
+        quantidade
+        if modo == "definir"
+        else round(float(meta["progresso_atual"]) + quantidade, 2)
     )
+    if tipo == "sono" and novo_progresso > 24:
+        conn.close()
+        return 400, {
+            "erro": "Limite diário excedido.",
+            "detalhe": "O total de sono no mesmo dia não pode ultrapassar 24 horas.",
+        }
+
     cur.execute(
         "UPDATE META SET progresso_atual = ? WHERE id = ?",
         (novo_progresso, meta["id"]),
     )
 
     if modo == "definir":
-        existente_hist = cur.execute(
-            """
-            SELECT id FROM META_HISTORICO
-            WHERE usuario_id = 1 AND data = ? AND tipo = ? AND modo = 'definir'
-            ORDER BY id DESC LIMIT 1
-            """,
-            (data_registro, tipo),
-        ).fetchone()
-        if existente_hist:
-            cur.execute(
-                """
-                UPDATE META_HISTORICO
-                SET quantidade = ?, valor_acumulado = ?, meta_diaria = ?
-                WHERE id = ?
-                """,
-                (quantidade, novo_progresso, meta_diaria, existente_hist["id"]),
-            )
-        else:
-            cur.execute(
-                """
-                INSERT INTO META_HISTORICO (usuario_id, data, tipo, quantidade, valor_acumulado, meta_diaria, modo)
-                VALUES (1, ?, ?, ?, ?, ?, ?)
-                """,
-                (data_registro, tipo, quantidade, novo_progresso, meta_diaria, modo),
-            )
-    else:
+        # Substitui quaisquer registros do mesmo dia para este tipo (inclusive cochilos anteriores)
         cur.execute(
             """
-            INSERT INTO META_HISTORICO (usuario_id, data, tipo, quantidade, valor_acumulado, meta_diaria, modo)
-            VALUES (1, ?, ?, ?, ?, ?, ?)
+            DELETE FROM META_HISTORICO
+            WHERE usuario_id = 1 AND data = ? AND tipo = ?
             """,
-            (data_registro, tipo, quantidade, novo_progresso, meta_diaria, modo),
+            (data_registro, tipo),
         )
+
+    cur.execute(
+        """
+        INSERT INTO META_HISTORICO (usuario_id, data, tipo, quantidade, valor_acumulado, meta_diaria, modo)
+        VALUES (1, ?, ?, ?, ?, ?, ?)
+        """,
+        (data_registro, tipo, quantidade, novo_progresso, meta_diaria, modo),
+    )
+    registro_id = cur.lastrowid
 
     conn.commit()
     conn.close()
 
     return 200, {
         "mensagem": "Progresso atualizado com sucesso.",
+        "registro_id": registro_id,
+        "metas": obter_metas(),
+    }
+
+
+def desfazer_progresso_meta(dados):
+    """Desfaz o ultimo registro (ou um registro especifico por id) de progresso de meta."""
+    registro_id = dados.get("id") if isinstance(dados, dict) else None
+    tipo = (
+        (dados.get("tipo") or "agua").strip().lower()
+        if isinstance(dados, dict)
+        else "agua"
+    )
+
+    conn = get_connection()
+    cur = conn.cursor()
+    if registro_id is not None:
+        reg = cur.execute(
+            "SELECT * FROM META_HISTORICO WHERE id = ? AND usuario_id = 1",
+            (registro_id,),
+        ).fetchone()
+    else:
+        reg = cur.execute(
+            """
+            SELECT * FROM META_HISTORICO
+            WHERE usuario_id = 1 AND tipo = ?
+            ORDER BY id DESC LIMIT 1
+            """,
+            (tipo,),
+        ).fetchone()
+
+    if not reg:
+        conn.close()
+        return 404, {"erro": "Nenhum registro recente para desfazer."}
+
+    cur.execute("DELETE FROM META_HISTORICO WHERE id = ?", (reg["id"],))
+
+    meta = cur.execute(
+        "SELECT id, progresso_atual FROM META WHERE usuario_id = 1 AND tipo = ?",
+        (reg["tipo"],),
+    ).fetchone()
+    if meta:
+        hoje_iso = date.today().isoformat()
+        if reg["data"] == hoje_iso:
+            novo_prog = max(
+                0.0, round(float(meta["progresso_atual"]) - float(reg["quantidade"]), 2)
+            )
+            cur.execute(
+                "UPDATE META SET progresso_atual = ? WHERE id = ?",
+                (novo_prog, meta["id"]),
+            )
+
+    conn.commit()
+    conn.close()
+
+    return 200, {
+        "mensagem": "Registro desfeito com sucesso.",
+        "desfeito_id": reg["id"],
         "metas": obter_metas(),
     }
 
@@ -663,7 +947,7 @@ def obter_historico_metas(tipo_filtro=None):
             SELECT id, data, tipo, quantidade, valor_acumulado, meta_diaria, modo
             FROM META_HISTORICO
             WHERE usuario_id = 1 AND tipo = ?
-            ORDER BY data DESC, id DESC
+            ORDER BY data ASC, id ASC
             """,
             (filtro,),
         ).fetchall()
@@ -673,7 +957,7 @@ def obter_historico_metas(tipo_filtro=None):
             SELECT id, data, tipo, quantidade, valor_acumulado, meta_diaria, modo
             FROM META_HISTORICO
             WHERE usuario_id = 1
-            ORDER BY data DESC, id DESC
+            ORDER BY data ASC, id ASC
             """
         ).fetchall()
     conn.close()
@@ -703,15 +987,17 @@ def obter_historico_metas(tipo_filtro=None):
         )
 
         dia = por_data.setdefault(r["data"], {})
-        if r["tipo"] not in dia:
+        if r["modo"] == "definir" or r["tipo"] not in dia:
             dia[r["tipo"]] = {
                 "tipo": r["tipo"],
-                "total": quantidade if r["modo"] == "definir" else 0.0,
+                "total": quantidade,
                 "meta_diaria": meta_diaria,
-                "modo": r["modo"],
             }
-        if r["modo"] == "somar":
+        else:
             dia[r["tipo"]]["total"] = round(dia[r["tipo"]]["total"] + quantidade, 2)
+            dia[r["tipo"]]["meta_diaria"] = meta_diaria
+
+    registros.reverse()
 
     resumo_diario = []
     for data_str in sorted(por_data.keys(), reverse=True):
@@ -758,6 +1044,15 @@ class PlataformaHandler(BaseHTTPRequestHandler):
         except json.JSONDecodeError:
             return {}
 
+    def _extrair_id_treino(self, path):
+        prefixo = "/api/treinos/"
+        if not path.startswith(prefixo):
+            return None
+        sufixo = path[len(prefixo) :]
+        if sufixo.isdigit():
+            return int(sufixo)
+        return None
+
     def do_GET(self):
         parsed = urlparse(self.path)
         params = parse_qs(parsed.query)
@@ -775,6 +1070,11 @@ class PlataformaHandler(BaseHTTPRequestHandler):
         elif parsed.path == "/api/treinos/evolucao":
             exercicio = params.get("exercicio", [None])[0]
             self._send_json(200, obter_evolucao_cargas(exercicio))
+        elif parsed.path == "/api/treinos/ultimo-exercicio":
+            nome = params.get("nome", [""])[0]
+            self._send_json(200, obter_ultimo_exercicio(nome))
+        elif parsed.path == "/api/exercicios":
+            self._send_json(200, {"exercicios": obter_exercicios_cadastrados()})
         elif parsed.path == "/api/metas":
             self._send_json(200, obter_metas())
         elif parsed.path == "/api/metas/historico":
@@ -794,6 +1094,28 @@ class PlataformaHandler(BaseHTTPRequestHandler):
             self._send_json(status, resposta)
         elif parsed.path == "/api/metas/progresso":
             status, resposta = registrar_progresso_meta(dados)
+            self._send_json(status, resposta)
+        elif parsed.path == "/api/metas/desfazer":
+            status, resposta = desfazer_progresso_meta(dados)
+            self._send_json(status, resposta)
+        else:
+            self._send_json(404, {"erro": "Rota não encontrada."})
+
+    def do_PUT(self):
+        parsed = urlparse(self.path)
+        treino_id = self._extrair_id_treino(parsed.path)
+        if treino_id is not None:
+            dados = self._read_json()
+            status, resposta = atualizar_treino(treino_id, dados)
+            self._send_json(status, resposta)
+        else:
+            self._send_json(404, {"erro": "Rota não encontrada."})
+
+    def do_DELETE(self):
+        parsed = urlparse(self.path)
+        treino_id = self._extrair_id_treino(parsed.path)
+        if treino_id is not None:
+            status, resposta = excluir_treino(treino_id)
             self._send_json(status, resposta)
         else:
             self._send_json(404, {"erro": "Rota não encontrada."})

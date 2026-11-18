@@ -20,8 +20,14 @@
       "exercicio": "Supino reto",
       "carga_maxima": 20.0,
       "carga_media": 20.0,
+      "um_rm_estimado": 26.7,
       "volume_total": 600.0,
-      "total_series": 3
+      "total_series": 3,
+      "series": [
+        { "repeticoes": 10, "carga": 20.0 },
+        { "repeticoes": 10, "carga": 20.0 },
+        { "repeticoes": 10, "carga": 20.0 }
+      ]
     },
     {
       "treino_id": 2,
@@ -29,8 +35,14 @@
       "exercicio": "Supino reto",
       "carga_maxima": 25.0,
       "carga_media": 23.33,
+      "um_rm_estimado": 31.7,
       "volume_total": 700.0,
-      "total_series": 3
+      "total_series": 3,
+      "series": [
+        { "repeticoes": 10, "carga": 22.0 },
+        { "repeticoes": 10, "carga": 23.0 },
+        { "repeticoes": 8, "carga": 25.0 }
+      ]
     }
   ]
 }
