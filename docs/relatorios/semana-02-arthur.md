@@ -3,7 +3,7 @@
 - **Responsável pela trilha:** Arthur Sidarta Fernandes de Souza Lima (`@Sidrata`)
 - **Tarefa do Quadro:** `T-ARTHUR-S02` — Testes Automatizados de Metas Diárias, Exemplos JSON de Contrato e Sincronização com a `main` (`HU-03`: `CA-03.1`, `CA-03.2`, `CA-03.3`)
 - **Branch:** `feature/arthur-semana-02-testes-e-contrato-metas`
-- **Pull Request:** *(será atualizado após abertura do PR)*
+- **Pull Request:** [PR #17](https://github.com/luishenriqueanjos/plataforma_saude/pull/17)
 - **Declaração de uso de IA:** Este artefato e os testes/contratos associados foram desenvolvidos com assistência de agente autônomo de IA (Antigravity / Gemini), sob supervisão e revisão da trilha de Banco de Dados, Backend, API e Testes atribuída a Arthur Sidarta.
 
 ---

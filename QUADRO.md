@@ -30,7 +30,7 @@ Este quadro registra o status de todas as entregas do projeto **Plataforma de H�
 
 | ID | Tarefa | Responsável | Critérios de Aceitação | Status | Prazo | Link da Entrega |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| `T-ARTHUR-S02` | Testes automatizados da API de metas diárias (`tests/test_backend_metas.py`) e exemplos JSON de contrato (`HU-03`) | Arthur Sidarta | 1. Testes cobrindo `CA-03.1`, `CA-03.2` e `CA-03.3` (`GET /api/metas`, `POST /api/metas`, `POST /api/metas/progresso`).<br>2. Exemplos JSON em `contrato/exemplos/`.<br>3. Relatório `docs/relatorios/semana-02-arthur.md`. | Pendente | Semana 02 (2026-11-16) | — |
+| `T-ARTHUR-S02` | Testes automatizados da API de metas diárias (`tests/test_backend_metas.py`) e exemplos JSON de contrato (`HU-03`) | Arthur Sidarta | 1. Testes cobrindo `CA-03.1`, `CA-03.2` e `CA-03.3` (`GET /api/metas`, `POST /api/metas`, `POST /api/metas/progresso`).<br>2. Exemplos JSON em `contrato/exemplos/`.<br>3. Relatório `docs/relatorios/semana-02-arthur.md`. | Em Revisão (PR Aberto) | Semana 02 (2026-11-16) | [PR #17](https://github.com/luishenriqueanjos/plataforma_saude/pull/17) |
 | `T-SAMUEL-S02` | Implementação dos algoritmos estatísticos de progressão de cargas (`HU-04`) | Samuel Andrade | Funções de cálculo de série temporal de cargas, variação percentual e validação de suficiência (`>= 2` sessões para `CA-04.2`). | Pendente | Semana 02 (2026-11-16) | — |
 | `T-LUIS-S02` | Registro e retrospectiva da Iteração 3 em `ITERACOES.md` | Luis Henrique | Atualização de `ITERACOES.md` com pontos entregues e retrospectiva da equipe. | Pendente | Semana 02 (2026-11-16) | — |
 
