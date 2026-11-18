@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Plataforma de Saúde - Registro de Treino</title>
+<title>Plataforma de Saúde - Treinos e Hábitos</title>
 <style>
 *{box-sizing:border-box}
 body{margin:0;font-family:Arial,sans-serif;background:#f4f4f5;color:#18181b}
@@ -17,9 +17,11 @@ main{padding:22px}
 .card{border:1px solid #e4e4e7;border-radius:16px;padding:18px;margin-bottom:14px}
 .card h2{font-size:18px;margin:0 0 8px}
 .card p{color:#52525b;line-height:1.45;margin:4px 0}
-button{width:100%;border:0;border-radius:12px;padding:14px;margin-top:10px;font-size:15px;font-weight:600;cursor:pointer;background:#18181b;color:white}
+button{width:100%;border:0;border-radius:12px;padding:12px;margin-top:10px;font-size:15px;font-weight:600;cursor:pointer;background:#18181b;color:white}
 button.secondary{background:#e4e4e7;color:#18181b}
 button.danger{background:#fee2e2;color:#991b1b}
+button.action-agua{background:#dbeafe;color:#1e40af;margin-top:8px}
+button.action-sono{background:#ede9fe;color:#5b21b6;margin-top:8px}
 label{display:block;font-size:13px;font-weight:600;margin:14px 0 6px}
 input,select{width:100%;padding:12px;border:1px solid #d4d4d8;border-radius:10px;font-size:15px}
 .row{display:flex;gap:10px}
@@ -31,29 +33,54 @@ input,select{width:100%;padding:12px;border:1px solid #d4d4d8;border-radius:10px
 .success{background:#f4f4f5;border-radius:14px;padding:16px;margin:15px 0}
 .volume{font-size:30px;font-weight:700;margin:4px 0}
 .back{background:transparent;color:#52525b;padding:8px 0;text-align:left;width:auto;margin:0 0 12px}
-.badge{display:inline-block;padding:5px 9px;border-radius:999px;background:#e4e4e7;font-size:12px}
+.badge{display:inline-block;padding:5px 9px;border-radius:999px;background:#e4e4e7;font-size:12px;margin-bottom:6px}
+.badge-agua{background:#dbeafe;color:#1e40af}
+.badge-sono{background:#ede9fe;color:#5b21b6}
+.progress-container{width:100%;height:10px;background:#e4e4e7;border-radius:999px;overflow:hidden;margin:8px 0}
+.progress-bar-agua{height:100%;background:#2563eb;width:0%;transition:width 0.3s ease}
+.progress-bar-sono{height:100%;background:#7c3aed;width:0%;transition:width 0.3s ease}
+.meta-box{border-top:1px solid #f4f4f5;padding-top:10px;margin-top:10px}
 footer{padding:14px 22px;border-top:1px solid #eee;color:#71717a;font-size:12px;text-align:center}
 </style>
 </head>
 <body>
 <div class="app">
 <header>
-  <h1>Treinos</h1>
-  <p>Fluxo principal — Registro e Volume</p>
+  <h1>Plataforma Saúde</h1>
+  <p>Treinos, Volume e Metas Diárias</p>
 </header>
 
 <main>
 <section id="home" class="screen active">
   <div class="card">
-    <span class="badge">Treino</span>
+    <span class="badge">Treino (HU-01 / HU-02)</span>
     <h2>Novo treino</h2>
     <p>Registre exercícios, séries, repetições e cargas para acompanhar sua evolução.</p>
     <button onclick="show('novo')">Iniciar novo treino</button>
+    <p id="ultimo-treino-texto" style="margin-top:12px;font-size:13px">Último: Supino reto · 3 séries · Volume: 600 kg</p>
   </div>
+
   <div class="card">
-    <h2>Último treino</h2>
-    <p id="ultimo-treino-texto">Supino reto · 3 séries · Volume: 600 kg</p>
-    <button class="secondary" onclick="show('resumo')">Ver resumo</button>
+    <span class="badge badge-agua">Hábitos Diários (HU-03)</span>
+    <h2>Metas de Água e Sono</h2>
+
+    <div class="meta-box">
+      <p><strong>💧 Água:</strong> <span id="texto-progresso-agua">0 / 2000 ml (0%)</span></p>
+      <div class="progress-container">
+        <div id="barra-agua" class="progress-bar-agua"></div>
+      </div>
+      <button class="action-agua" onclick="adicionarProgresso('agua', 250)">+ Registrar 1 copo (250 ml)</button>
+    </div>
+
+    <div class="meta-box">
+      <p><strong>😴 Sono:</strong> <span id="texto-progresso-sono">0 / 8 h (0%)</span></p>
+      <div class="progress-container">
+        <div id="barra-sono" class="progress-bar-sono"></div>
+      </div>
+      <button class="action-sono" onclick="adicionarProgresso('sono', 1)">+ Registrar 1 hora de sono</button>
+    </div>
+
+    <button class="secondary" onclick="show('metas')">Configurar metas diárias</button>
   </div>
 </section>
 
@@ -89,15 +116,29 @@ footer{padding:14px 22px;border-top:1px solid #eee;color:#71717a;font-size:12px;
   <button class="danger" onclick="testarRecusa()">Testar recusa: carga ausente</button>
 </section>
 
+<section id="metas" class="screen">
+  <button class="back" onclick="show('home')">← Voltar</button>
+  <h2>Configurar metas diárias</h2>
+  <p style="color:#52525b;font-size:14px">Defina sua meta diária de consumo de água e horas de sono (HU-03).</p>
+
+  <label>Meta diária de água (em ml)</label>
+  <input id="input-meta-agua" type="number" placeholder="Ex: 2000" value="2000">
+
+  <label>Meta diária de sono (em horas)</label>
+  <input id="input-meta-sono" type="number" placeholder="Ex: 8" value="8">
+
+  <button onclick="salvarMetas()">Salvar metas diárias</button>
+  <button class="danger" onclick="testarRecusaMeta()">Testar recusa: meta inválida</button>
+</section>
+
 <section id="erro" class="screen">
-  <button class="back" onclick="show('novo')">← Voltar ao treino</button>
+  <button class="back" onclick="show('home')">← Voltar ao início</button>
   <h2>Não foi possível salvar</h2>
   <div class="alert">
     <strong id="erro-titulo">Dados incompletos.</strong><br>
     <span id="erro-detalhe">Informe a carga de todas as séries antes de salvar o treino.</span>
   </div>
-  <button onclick="show('novo')">Corrigir dados</button>
-  <button class="secondary" onclick="show('home')">Cancelar treino</button>
+  <button onclick="show('home')">Voltar</button>
 </section>
 
 <section id="resumo" class="screen">
@@ -114,13 +155,18 @@ footer{padding:14px 22px;border-top:1px solid #eee;color:#71717a;font-size:12px;
     <p id="resumo-detalhe">3 séries × 10 repetições × 20 kg</p>
     <p>O treino foi registrado com sucesso e pode ser consultado no histórico.</p>
   </div>
-  <button onclick="show('home')">Voltar para treinos</button>
+  <button onclick="show('home')">Voltar para o início</button>
 </section>
 </main>
-<footer>Fluxo: Novo treino → Dados → Salvar → Resumo / Recusa</footer>
+<footer>Fluxo: Treinos (HU-01/02) e Metas de Água e Sono (HU-03)</footer>
 </div>
 
 <script>
+let estadoMetasLocal = {
+  agua: { valor_diario: 2000, progresso_atual: 0, percentual: 0 },
+  sono: { valor_diario: 8, progresso_atual: 0, percentual: 0 }
+};
+
 function show(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
@@ -132,20 +178,42 @@ function atualizarTelaComTreino(t) {
   const descSeries = t.series.map((s, i) => `Série ${i+1}: ${s.repeticoes} reps × ${s.carga} kg`).join(' | ');
   document.getElementById('resumo-detalhe').textContent = descSeries;
   document.getElementById('ultimo-treino-texto').textContent =
-    `${t.exercicio} (${t.data}) · ${t.total_series} séries · Volume: ${t.volume_total} kg`;
+    `Último: ${t.exercicio} (${t.data}) · ${t.total_series} séries · Volume: ${t.volume_total} kg`;
 }
 
-async function carregarHistorico() {
+function atualizarTelaComMetas(metas) {
+  if (metas.agua) {
+    estadoMetasLocal.agua = metas.agua;
+    document.getElementById('texto-progresso-agua').textContent =
+      `${metas.agua.progresso_atual} / ${metas.agua.valor_diario} ml (${metas.agua.percentual}%)`;
+    document.getElementById('barra-agua').style.width = `${metas.agua.percentual}%`;
+    document.getElementById('input-meta-agua').value = metas.agua.valor_diario;
+  }
+  if (metas.sono) {
+    estadoMetasLocal.sono = metas.sono;
+    document.getElementById('texto-progresso-sono').textContent =
+      `${metas.sono.progresso_atual} / ${metas.sono.valor_diario} h (${metas.sono.percentual}%)`;
+    document.getElementById('barra-sono').style.width = `${metas.sono.percentual}%`;
+    document.getElementById('input-meta-sono').value = metas.sono.valor_diario;
+  }
+}
+
+async function carregarDadosIniciais() {
   try {
-    const resp = await fetch('/api/treinos');
-    if (resp.ok) {
-      const lista = await resp.json();
-      if (lista.length > 0) {
-        atualizarTelaComTreino(lista[0]);
-      }
+    const [respTreinos, respMetas] = await Promise.all([
+      fetch('/api/treinos'),
+      fetch('/api/metas')
+    ]);
+    if (respTreinos.ok) {
+      const lista = await respTreinos.json();
+      if (lista.length > 0) atualizarTelaComTreino(lista[0]);
+    }
+    if (respMetas.ok) {
+      const metas = await respMetas.json();
+      atualizarTelaComMetas(metas);
     }
   } catch (e) {
-    // Modo prototipo offline (aberto direto como arquivo local)
+    atualizarTelaComMetas(estadoMetasLocal);
   }
 }
 
@@ -158,7 +226,6 @@ async function salvarTreino() {
     { repeticoes: document.getElementById('rep3').value, carga: document.getElementById('carga3').value }
   ];
 
-  // Tenta enviar para o backend Flask (/api/treinos)
   try {
     const resp = await fetch('/api/treinos', {
       method: 'POST',
@@ -168,14 +235,13 @@ async function salvarTreino() {
     const resultado = await resp.json();
     if (!resp.ok) {
       document.getElementById('erro-titulo').textContent = resultado.erro || 'Dados incompletos.';
-      document.getElementById('erro-detalhe').textContent = resultado.detalhe || 'Informe a carga de todas as séries antes de salvar o treino.';
+      document.getElementById('erro-detalhe').textContent = resultado.detalhe || 'Informe a carga de todas as séries.';
       show('erro');
       return;
     }
     atualizarTelaComTreino(resultado);
     show('resumo');
   } catch (e) {
-    // Fallback caso o HTML seja aberto sem o servidor Python
     for (const s of series) {
       if (!s.repeticoes || !s.carga || Number(s.repeticoes) <= 0 || Number(s.carga) <= 0) {
         show('erro');
@@ -189,12 +255,69 @@ async function salvarTreino() {
   }
 }
 
+async function salvarMetas() {
+  const agua_ml = document.getElementById('input-meta-agua').value;
+  const sono_horas = document.getElementById('input-meta-sono').value;
+
+  try {
+    const resp = await fetch('/api/metas', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ agua_ml, sono_horas })
+    });
+    const resultado = await resp.json();
+    if (!resp.ok) {
+      document.getElementById('erro-titulo').textContent = resultado.erro || 'Meta inválida.';
+      document.getElementById('erro-detalhe').textContent = resultado.detalhe || 'A meta deve ser maior que zero.';
+      show('erro');
+      return;
+    }
+    atualizarTelaComMetas(resultado.metas);
+    show('home');
+  } catch (e) {
+    if (!agua_ml || !sono_horas || Number(agua_ml) <= 0 || Number(sono_horas) <= 0) {
+      document.getElementById('erro-titulo').textContent = 'Meta inválida.';
+      document.getElementById('erro-detalhe').textContent = 'As metas de água e sono devem ser maiores que zero.';
+      show('erro');
+      return;
+    }
+    estadoMetasLocal.agua = { valor_diario: Number(agua_ml), progresso_atual: 0, percentual: 0 };
+    estadoMetasLocal.sono = { valor_diario: Number(sono_horas), progresso_atual: 0, percentual: 0 };
+    atualizarTelaComMetas(estadoMetasLocal);
+    show('home');
+  }
+}
+
+async function adicionarProgresso(tipo, quantidade) {
+  try {
+    const resp = await fetch('/api/metas/progresso', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ tipo, quantidade })
+    });
+    const resultado = await resp.json();
+    if (resp.ok) {
+      atualizarTelaComMetas(resultado.metas);
+    }
+  } catch (e) {
+    const m = estadoMetasLocal[tipo];
+    m.progresso_atual += quantidade;
+    m.percentual = Math.min(100, Math.round((m.progresso_atual / m.valor_diario) * 100));
+    atualizarTelaComMetas(estadoMetasLocal);
+  }
+}
+
 function testarRecusa() {
   document.getElementById('carga3').value = '';
   salvarTreino();
 }
 
-carregarHistorico();
+function testarRecusaMeta() {
+  document.getElementById('input-meta-agua').value = '0';
+  salvarMetas();
+}
+
+carregarDadosIniciais();
 </script>
 </body>
 </html>

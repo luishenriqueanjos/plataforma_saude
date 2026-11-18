@@ -36,11 +36,11 @@ Como pessoa que realiza treinamento estruturado, quero que o sistema calcule aut
 
 ### HU-03 Cadastrar metas diárias de água e sono
 Como iniciante na melhora de hábitos, quero cadastrar metas diárias de consumo de água e horas de sono, para criar uma rotina mais saudável e acompanhar meu progresso.
-[Origem: N3, confirmada em D1]
+[Origem: N3, confirmada em D1 e Review Parcial]
 
-- **CA-03.1 Cadastro de metas (caminho principal):** Dado que o usuário acessa a tela de hábitos diários, quando ele preenche a meta de 2 litros de água e 8 horas de sono e clica em salvar, então o sistema registra essas metas diárias e exibe o progresso inicialmente zerado.
-- **CA-03.2 Atualização de progresso:** Dado que o usuário tem uma meta de água estabelecida, quando ele registra o consumo de um copo (ex: 250ml), então o sistema atualiza o progresso em direção à meta total.
-- **CA-03.3 Recusa de meta inválida:** Dado que o usuário está cadastrando uma meta diária, quando ele informa um valor vazio ou negativo, então o sistema impede o cadastro e informa que a meta deve ser maior que zero.
+- **CA-03.1 Cadastro de metas (caminho principal):** Dado que o usuário acessa a tela de hábitos diários, quando ele preenche a meta de 2000 ml de água e 8 horas de sono e clica em salvar, então o sistema registra essas metas diárias e exibe o progresso inicialmente zerado (0%).
+- **CA-03.2 Atualização de progresso:** Dado que o usuário tem uma meta de água estabelecida (ex: 2000 ml), quando ele registra o consumo de um copo (250 ml), então o sistema atualiza o progresso acumulado (250 ml) e o percentual (13%) em direção à meta total.
+- **CA-03.3 Recusa de meta inválida:** Dado que o usuário está cadastrando ou atualizando uma meta diária, quando ele informa um valor vazio, zero ou negativo, então o sistema impede o cadastro (`HTTP 400`) e informa que a meta deve ser maior que zero.
 
 ### HU-04 Visualizar gráficos de progressão de cargas
 Como praticante de treinamento estruturado, quero visualizar gráficos com informações sobre a evolução das minhas cargas ao longo do tempo, para analisar de forma rápida se estou progredindo nos treinos.
@@ -64,7 +64,7 @@ Como praticante de treinamento estruturado, quero visualizar gráficos com infor
 5. O sistema valida os dados, registra o treino no banco de dados, calcula o volume total e exibe a tela de resumo da sessão.
 
 **Fluxos alternativos:**
-- *4a. Dados incompletos ou inválidos:* Caso alguma série esteja sem carga/repetições ou com valor menor ou igual a zero, o sistema impede a gravação e exibe a tela de recusa informando o campo pendente (`CA-01.2`).
+- *4a. Dados incompletos ou inválidos:* Caso alguma série esteja sem carga/repetições ou com valor menor ou igual a zero, o sistema impede a gravação e exibe a tela de recusa informando o campo pendente (`CA-01.2`, `CA-02.2`).
 - *4b. Usuário cancela o cadastro:* O usuário aciona a opção de voltar/cancelar antes de salvar; o sistema descarta os dados em preenchimento e retorna à tela inicial sem gravar nada no banco.
 
 ## Requisitos não funcionais
@@ -72,22 +72,44 @@ Como praticante de treinamento estruturado, quero visualizar gráficos com infor
   - **Grandeza:** Nível de exposição de dados pessoais de saúde do usuário.
   - **Condição:** Durante o registro e listagem no banco de dados.
   - **Aceitável:** Sem coleta de CPF/dados clínicos sensíveis e uso exclusivo de usuário de teste local até a implementação de autenticação.
-  - **Como verificar:** Inspeção do esquema do banco de dados (`diagrams/dados.mmd`) e revisão do checklist de privacidade pelo responsável (Ayrton).
+  - **Como verificar:** Inspeção do esquema do banco de dados (`diagrams/dados.mmd`) e revisão do checklist de privacidade pelo responsável (Samuel).
 
 ## Restrições e regras de negócio
 - **RN-01 Cálculo do volume do exercício:** O volume total de um exercício é obtido pela soma do produto `repetições × carga` de todas as suas séries válidas ($\text{Volume} = \sum_{i=1}^{n} \text{repetições}_i \times \text{carga}_i$). [Origem: D1]
-- **RN-02 Obrigatoriedade de carga e repetição:** Nenhuma série pode ser registrada com repetições ou carga vazias ou menores/iguais a zero. [Origem: V1]
+- **RN-02 Obrigatoriedade de carga e repetição:** Nenhuma série pode ser registrada com repetições ou carga vazias ou menores/iguais a zero (`repetições >= 1`, `carga > 0`). [Origem: V1]
 - **RE-01 Consentimento de saúde:** Nenhuma coleta de novo dado pessoal sensível pode ocorrer sem revisão prévia no checklist da iteração. [Origem: PROCESSO.md]
-- **RE-02 Regra de integração de código:** Toda contribuição deve seguir o fluxo de revisão definido no `CONTRIBUTING.md`. [Origem: CONTRIBUTING.md]
+- **RE-02 Regra de integração de código:** Toda contribuição deve seguir o fluxo de revisão e verificação definido no `CONTRIBUTING.md`. [Origem: CONTRIBUTING.md]
+
+## Inspeção de Requisitos (Cap. 11)
+
+Inspeção formal realizada pela equipe sobre os requisitos de `HU-01`, `HU-02`, `HU-03` e `RN-02`:
+- **Moderador:** Luis Henrique | **Autor:** Arthur Sidarta | **Leitor/Testador/Registrador:** Samuel Andrade
+
+| N.º | Local | Achado | Característica violada | Gravidade | Situação / Retrabalho |
+| ---: | :--- | :--- | :--- | :--- | :--- |
+| 1 | `CA-03.1` e `contrato/operacoes.md` | `CA-03.1` mencionava "2 litros de água" enquanto o contrato da API (`POST /api/metas`) exige a unidade em mililitros (`agua_ml = 2000`). | Consistente | **Major** | **Corrigido:** `CA-03.1` padronizado para `2000 ml` em consonância com a API. |
+| 2 | `CA-01.2` e `CA-02.2` | A fronteira entre dado ausente (`vazio/null`) e dado inválido (`<= 0`) não estava explícita na mensagem de retorno esperada. | Não ambíguo | **Major** | **Corrigido:** Backend diferencia `"Dados incompletos."` (campo vazio) de `"Dados inválidos."` ($\le 0$). |
+| 3 | `CA-03.2` | O critério dizia que atualiza o progresso ao beber 250 ml, mas não especificava o teto visual da barra percentual quando o usuário ultrapassa 100% da meta no dia. | Completo | **Minor** | **Corrigido:** Percentual limitado em até `100%` na barra visual, mantendo o volume acumulado real em ml. |
+| 4 | `HU-01` e `V1` | Dúvida se exercícios de peso corporal (ex: barra fixa sem caneleira) deveriam aceitar `carga = 0`. | Completo | **Major** | **Pergunta em aberto (bloqueia `TC-02.4`):** Nosso escopo considera apenas exercícios com carga externa ($> 0\text{ kg}$) ou deve aceitar peso corporal ($0\text{ kg}$)? |
 
 ## Validações realizadas
-### V1 — 2026-09-03, Validação com usuário (Perfil: Marcos, praticante de musculação)
-*Nota: A sessão foi conduzida com base na persona representativa, validando o protótipo no contexto de uso rápido durante o treino na academia.*
+
+### V1 — 2026-09-03, Validação do protótipo (Perfil: Marcos, praticante de musculação)
 | Achado | Efeito | Item alterado |
 |---|---|---|
 | O usuário avaliou o fluxo de registro de um treino e questionou se as séries iniciais de aquecimento entrariam no volume total, o que distorceria a métrica de esforço real. | Necessidade de considerar futuramente a separação entre série de aquecimento e série válida. | Registrado como observação para evolução futura do backlog. |
 | Durante o preenchimento rápido das informações no celular, o usuário esqueceu de preencher a carga da última série. | O cálculo de volume ficaria quebrado ou zerado se o campo fosse salvo vazio. | `CA-01.2` criado na `HU-01` e `RN-02` adicionada para impedir o salvamento sem informar todas as cargas. |
 
+### V2 — 2026-11-05, Teste de utilidade na build `v0.2.0` (Cap. 11)
+*Sessão de observação sem interferência da equipe, executando as tarefas de salvar treino, provocar recusa por carga ausente e registrar progresso de água.*
+
+| Observação | Classificação | Destino |
+| :--- | :--- | :--- |
+| Ao clicar em "+ Registrar 1 copo (250 ml)", o usuário percebeu o aumento imediato da barra azul e completou a tarefa sem hesitação. | Sucesso de utilidade (`CA-03.2`) | Mantido no fluxo atual |
+| Ao testar a recusa com carga negativa (`-5`), o usuário entendeu a tela de alerta, mas ao clicar em "Corrigir dados" queria que os campos já preenchidos continuassem na tela. | Melhoria de usabilidade | Preservado pelo estado do DOM ao alternar a tela `show('novo')` |
+| O usuário perguntou se poderia cadastrar dois exercícios diferentes (Supino e Remada) antes de clicar em "Salvar treino". | Necessidade nova (evolução de `HU-01`) | Item de backlog para a etapa de evolução (Cap. 15) |
+
 ## Histórico de revisão
 - 2026-09-03: Atualização e validação com usuário (linha de base do marco 1).
 - 2026-09-17: Ajuste de rastreabilidade e inclusão do fluxo de cancelamento no UC-01 após modelagem de estados.
+- 2026-11-05: Inclusão da Inspeção de Requisitos (Tabela de achados) e Teste de Utilidade `V2` (Cap. 11).

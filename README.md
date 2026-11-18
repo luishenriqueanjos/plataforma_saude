@@ -77,13 +77,19 @@ O sistema também busca transformar os registros em informações úteis para o 
 | Luis Henrique Anjos de Oliveira         | [luishenriqueanjos](https://github.com/luishenriqueanjos)                             |
 | Arthur Sidarta Fernandes de Souza Lima  | [Sidrata](https://github.com/Sidrata)                                                 |
 | Samuel Silva Andrade                    | [samuelsilvaandrade262-rgb](https://github.com/samuelsilvaandrade262-rgb)             |
-| Ayrton Miranda Pimenta da Silva         | [Ampds](https://github.com/Ampds)                                                     |
 
 ## Composição do Time
 - **Priorização do Backlog & Arquitetura:** Luis Henrique Anjos de Oliveira
 - **Desenvolvimento (Banco de Dados & API):** Arthur Sidarta Fernandes de Souza Lima.
-- **Desenvolvimento (Lógica Estatística de Progressão):** Samuel Silva Andrade.
-- **Desenvolvimento (Front-end & Visualização de Gráficos):** Ayrton Miranda Pimenta da Silva.
+- **Desenvolvimento (Lógica Estatística, Front-end & Qualidade):** Samuel Silva Andrade.
+
+## Documentação e Artefatos do Projeto
+- [Quadro de Tarefas (`QUADRO_TAREFAS.md`)](QUADRO_TAREFAS.md)
+- [Estratégia e Casos de Teste (`TESTES.md`)](TESTES.md)
+- [Requisitos (`Requisitos.md`)](Requisitos.md)
+- [Projeto e Modelagem (`PROJETO.md`)](PROJETO.md)
+- [Arquitetura (`ARQUITETURA.md`)](ARQUITETURA.md)
+- [Iterações e Dívida Técnica (`ITERACOES.md`)](ITERACOES.md)
 
 ## Como Executar
 
@@ -98,6 +104,12 @@ O sistema também busca transformar os registros em informações úteis para o 
    pip install -r requirements.txt
 ```
 4. Execute a aplicação:
-```bash   
+```bash
    python main.py
+```
+5. Para rodar os testes automatizados e o verificador de estilo (Cap. 12):
+```bash
+   pip install -r requirements-dev.txt
+   python -m pytest -v
+   python -m ruff check .
 ```

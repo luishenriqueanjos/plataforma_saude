@@ -91,7 +91,7 @@ Essa fatia atravessa interface, regra de negócio no servidor e persistência no
 | -- | --------------------------------------------------------------------- | ----- | ------- | -------- | ------------------------------------------------------------------------ |
 | R1 | Usuário esquecer de preencher carga em uma série e distorcer o volume | Alta  | Alto    | Mitigar  | Validar todas as séries no backend antes de salvar (Arthur / Samuel)     |
 | R2 | Escopo grande (hábitos + treinos + gráficos) atrasar a entrega        | Média | Alto    | Mitigar  | Priorizar o fluxo de treino e volume no MVP até o encontro 9 (Luis)      |
-| R3 | Coleta de dados pessoais de saúde sem controle de privacidade         | Baixa | Médio   | Mitigar  | Revisar checklist de dados e usar usuário de teste na review (Ayrton)    |
+| R3 | Coleta de dados pessoais de saúde sem controle de privacidade         | Baixa | Médio   | Mitigar  | Revisar checklist de dados e usar usuário de teste na review (Samuel)    |
 
 ## Histórico de revisão
 
