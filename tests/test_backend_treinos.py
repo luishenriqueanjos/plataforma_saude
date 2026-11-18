@@ -44,8 +44,7 @@ class TestBancoDadosETreinos(unittest.TestCase):
             self.assertIn(esperada, tabelas)
 
         colunas_usuario = [
-            row["name"]
-            for row in cur.execute("PRAGMA table_info(USUARIO)").fetchall()
+            row["name"] for row in cur.execute("PRAGMA table_info(USUARIO)").fetchall()
         ]
         self.assertEqual(colunas_usuario, ["id"])
         for campo_sensivel in ("cpf", "rg", "nome", "email", "telefone", "endereco"):
@@ -100,8 +99,16 @@ class TestBancoDadosETreinos(unittest.TestCase):
     def test_recusa_dados_incompletos_ca01_2(self):
         """Valida recusa (HTTP 400) quando data, exercicio ou carga estao ausentes."""
         casos_incompletos = [
-            {"data": "", "exercicio": "Supino reto", "series": [{"repeticoes": 10, "carga": 20}]},
-            {"data": "2026-11-11", "exercicio": "", "series": [{"repeticoes": 10, "carga": 20}]},
+            {
+                "data": "",
+                "exercicio": "Supino reto",
+                "series": [{"repeticoes": 10, "carga": 20}],
+            },
+            {
+                "data": "2026-11-11",
+                "exercicio": "",
+                "series": [{"repeticoes": 10, "carga": 20}],
+            },
             {"data": "2026-11-11", "exercicio": "Supino reto", "series": []},
             {
                 "data": "2026-11-11",

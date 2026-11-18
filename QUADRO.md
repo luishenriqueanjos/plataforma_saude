@@ -12,7 +12,7 @@ Este quadro registra o status de todas as entregas do projeto **Plataforma de H�
 | `H-02` | Especificação de requisitos, histórias e casos de uso | Luis Henrique | `Requisitos.md` (`HU-01` a `HU-04`, `UC-01`, `RNF-01`, `RN-01`, `RN-02`) | Concluído | 2026-09-17 | [PR #10](https://github.com/luishenriqueanjos/plataforma_saude/pull/10) |
 | `H-03` | Modelagem de domínio, dados, sequência, estados e protótipo | Ayrton / Equipe | `PROJETO.md`, `diagrams/*.mmd`, `prototipo/index.html` | Concluído | 2026-10-08 | [PR #11](https://github.com/luishenriqueanjos/plataforma_saude/pull/11), [PR #12](https://github.com/luishenriqueanjos/plataforma_saude/pull/12) |
 | `H-04` | Fluxo principal (`HU-01` e `HU-02`), banco SQLite, API e arquitetura | Arthur / Samuel / Ayrton / Luis | `CA-01.1`, `CA-01.2`, `CA-01.3`, `CA-02.1`, `CA-02.2`, `CA-02.3`, `main.py`, `ARQUITETURA.md`, `ITERACOES.md` | Concluído | 2026-10-21 | [PR #13](https://github.com/luishenriqueanjos/plataforma_saude/pull/13) |
-| `H-05` | Implementação de metas diárias de água e sono na tabela `META` (`HU-03`) | Arthur Sidarta | `CA-03.1`, `CA-03.2`, `CA-03.3`, rotas `GET/POST /api/metas` e `POST /api/metas/progresso` | Em Revisão | 2026-11-05 | [PR #14](https://github.com/luishenriqueanjos/plataforma_saude/pull/14) |
+| `H-05` | Implementação de metas diárias de água e sono na tabela `META` (`HU-03`) | Arthur Sidarta | `CA-03.1`, `CA-03.2`, `CA-03.3`, rotas `GET/POST /api/metas` e `POST /api/metas/progresso` | Concluído | 2026-11-05 | [PR #14](https://github.com/luishenriqueanjos/plataforma_saude/pull/14), [PR #16](https://github.com/luishenriqueanjos/plataforma_saude/pull/16) |
 
 ---
 

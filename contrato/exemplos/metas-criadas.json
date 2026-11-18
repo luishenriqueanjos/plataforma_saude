@@ -1,0 +1,19 @@
+{
+  "mensagem": "Metas diárias registradas com sucesso.",
+  "metas": {
+    "agua": {
+      "id": 1,
+      "tipo": "agua",
+      "valor_diario": 2000.0,
+      "progresso_atual": 0.0,
+      "percentual": 0
+    },
+    "sono": {
+      "id": 2,
+      "tipo": "sono",
+      "valor_diario": 8.0,
+      "progresso_atual": 0.0,
+      "percentual": 0
+    }
+  }
+}

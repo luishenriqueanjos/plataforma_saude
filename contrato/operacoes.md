@@ -54,15 +54,15 @@
 ```
 
 - **Respostas previstas:**
-  - `201 Created`: metas gravadas na tabela `META` e progresso reiniciado em zero (`CA-03.1`).
-  - `400 Bad Request`: valores vazios ou menores/iguais a zero (`CA-03.3`).
+  - `201 Created`: metas gravadas na tabela `META` e progresso reiniciado em zero (`CA-03.1`; exemplo em `contrato/exemplos/metas-criadas.json`).
+  - `400 Bad Request`: valores vazios ou menores/iguais a zero (`CA-03.3`; exemplo em `contrato/exemplos/erro-meta-invalida.json`).
 
 ---
 
 ## 5. Registrar progresso diário da meta (copo de água ou horas de sono)
 
 - **Método e caminho:** `POST /api/metas/progresso`
-- **Critérios atendidos:** `CA-03.2`
+- **Critérios atendidos:** `CA-03.2`, `CA-03.3`
 - **Corpo da requisição (JSON):**
 
 ```json
@@ -72,4 +72,7 @@
 }
 ```
 
-- **Resposta `200 OK`:** atualiza a coluna `progresso_atual` na tabela `META` e retorna o novo percentual calculado.
+- **Respostas previstas:**
+  - `200 OK`: atualiza a coluna `progresso_atual` na tabela `META` e retorna o novo percentual calculado (limitado a `100%` para exibição, mantendo o valor acumulado real).
+  - `400 Bad Request`: `tipo` diferente de `"agua"`/`"sono"` ou `quantidade` vazia, não numérica ou menor/igual a zero (`CA-03.3`).
+  - `404 Not Found`: meta diária correspondente ainda não cadastrada na tabela `META`.
