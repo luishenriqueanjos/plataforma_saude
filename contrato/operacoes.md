@@ -94,7 +94,15 @@
 
 ---
 
-## 6. Consultar evolução de cargas por exercício
+## 6. Consultar histórico de metas de água e sono
+
+- **Método e caminho:** `GET /api/metas/historico?tipo=agua` *(filtro `tipo` opcional: `agua` ou `sono`)*
+- **Critérios atendidos:** `CA-03.1`, `CA-03.2`
+- **Resposta `200 OK`:** retorna `resumo_diario` (totais por data, meta diária, percentual e flag `atingida`) e `registros` (histórico detalhado em ordem do mais recente para o mais antigo).
+
+---
+
+## 7. Consultar evolução de cargas por exercício
 
 - **Método e caminho:** `GET /api/treinos/evolucao?exercicio=Supino%20reto`
 - **Critérios atendidos:** `CA-04.1`, `CA-04.2`

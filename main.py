@@ -3,6 +3,7 @@ import math
 import os
 import sqlite3
 import sys
+from datetime import date
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from urllib.parse import parse_qs, urlparse
 
@@ -60,6 +61,18 @@ def init_db(reset=False):
             progresso_atual REAL NOT NULL DEFAULT 0,
             FOREIGN KEY (usuario_id) REFERENCES USUARIO(id)
         );
+
+        CREATE TABLE IF NOT EXISTS META_HISTORICO (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            usuario_id INTEGER NOT NULL,
+            data TEXT NOT NULL,
+            tipo TEXT NOT NULL,
+            quantidade REAL NOT NULL,
+            valor_acumulado REAL NOT NULL,
+            meta_diaria REAL NOT NULL,
+            modo TEXT NOT NULL,
+            FOREIGN KEY (usuario_id) REFERENCES USUARIO(id)
+        );
         """
     )
 
@@ -97,6 +110,31 @@ def init_db(reset=False):
         cur.execute(
             "INSERT INTO META (usuario_id, tipo, valor_diario, progresso_atual) VALUES (1, 'sono', 8.0, 0.0)"
         )
+
+    count_hist = cur.execute("SELECT COUNT(*) as total FROM META_HISTORICO").fetchone()[
+        "total"
+    ]
+    if count_hist == 0:
+        metas_existentes = cur.execute(
+            "SELECT tipo, valor_diario, progresso_atual FROM META WHERE usuario_id = 1 AND progresso_atual > 0"
+        ).fetchall()
+        hoje = date.today().isoformat()
+        for m in metas_existentes:
+            modo_padrao = "definir" if m["tipo"] == "sono" else "somar"
+            cur.execute(
+                """
+                INSERT INTO META_HISTORICO (usuario_id, data, tipo, quantidade, valor_acumulado, meta_diaria, modo)
+                VALUES (1, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    hoje,
+                    m["tipo"],
+                    float(m["progresso_atual"]),
+                    float(m["progresso_atual"]),
+                    float(m["valor_diario"]),
+                    modo_padrao,
+                ),
+            )
 
     conn.commit()
     conn.close()
@@ -542,7 +580,7 @@ def registrar_progresso_meta(dados):
     conn = get_connection()
     cur = conn.cursor()
     meta = cur.execute(
-        "SELECT id, progresso_atual FROM META WHERE usuario_id = 1 AND tipo = ?",
+        "SELECT id, valor_diario, progresso_atual FROM META WHERE usuario_id = 1 AND tipo = ?",
         (tipo,),
     ).fetchone()
 
@@ -553,6 +591,8 @@ def registrar_progresso_meta(dados):
             "detalhe": "Cadastre a meta diária antes de registrar o progresso.",
         }
 
+    data_registro = (dados.get("data") or "").strip() or date.today().isoformat()
+    meta_diaria = float(meta["valor_diario"])
     novo_progresso = (
         quantidade if modo == "definir" else float(meta["progresso_atual"]) + quantidade
     )
@@ -560,12 +600,144 @@ def registrar_progresso_meta(dados):
         "UPDATE META SET progresso_atual = ? WHERE id = ?",
         (novo_progresso, meta["id"]),
     )
+
+    if modo == "definir":
+        existente_hist = cur.execute(
+            """
+            SELECT id FROM META_HISTORICO
+            WHERE usuario_id = 1 AND data = ? AND tipo = ? AND modo = 'definir'
+            ORDER BY id DESC LIMIT 1
+            """,
+            (data_registro, tipo),
+        ).fetchone()
+        if existente_hist:
+            cur.execute(
+                """
+                UPDATE META_HISTORICO
+                SET quantidade = ?, valor_acumulado = ?, meta_diaria = ?
+                WHERE id = ?
+                """,
+                (quantidade, novo_progresso, meta_diaria, existente_hist["id"]),
+            )
+        else:
+            cur.execute(
+                """
+                INSERT INTO META_HISTORICO (usuario_id, data, tipo, quantidade, valor_acumulado, meta_diaria, modo)
+                VALUES (1, ?, ?, ?, ?, ?, ?)
+                """,
+                (data_registro, tipo, quantidade, novo_progresso, meta_diaria, modo),
+            )
+    else:
+        cur.execute(
+            """
+            INSERT INTO META_HISTORICO (usuario_id, data, tipo, quantidade, valor_acumulado, meta_diaria, modo)
+            VALUES (1, ?, ?, ?, ?, ?, ?)
+            """,
+            (data_registro, tipo, quantidade, novo_progresso, meta_diaria, modo),
+        )
+
     conn.commit()
     conn.close()
 
     return 200, {
         "mensagem": "Progresso atualizado com sucesso.",
         "metas": obter_metas(),
+    }
+
+
+def obter_historico_metas(tipo_filtro=None):
+    """Retorna historico detalhado e resumo diario das metas de agua e sono."""
+    filtro = (tipo_filtro or "").strip().lower()
+    if filtro not in ("", "agua", "sono"):
+        return {
+            "filtro": filtro,
+            "resumo_diario": [],
+            "registros": [],
+        }
+
+    conn = get_connection()
+    cur = conn.cursor()
+    if filtro:
+        rows = cur.execute(
+            """
+            SELECT id, data, tipo, quantidade, valor_acumulado, meta_diaria, modo
+            FROM META_HISTORICO
+            WHERE usuario_id = 1 AND tipo = ?
+            ORDER BY data DESC, id DESC
+            """,
+            (filtro,),
+        ).fetchall()
+    else:
+        rows = cur.execute(
+            """
+            SELECT id, data, tipo, quantidade, valor_acumulado, meta_diaria, modo
+            FROM META_HISTORICO
+            WHERE usuario_id = 1
+            ORDER BY data DESC, id DESC
+            """
+        ).fetchall()
+    conn.close()
+
+    registros = []
+    por_data = {}
+    for r in rows:
+        meta_diaria = float(r["meta_diaria"])
+        valor_acumulado = float(r["valor_acumulado"])
+        quantidade = float(r["quantidade"])
+        percentual = (
+            min(100, round((valor_acumulado / meta_diaria) * 100))
+            if meta_diaria > 0
+            else 0
+        )
+        registros.append(
+            {
+                "id": r["id"],
+                "data": r["data"],
+                "tipo": r["tipo"],
+                "quantidade": quantidade,
+                "valor_acumulado": valor_acumulado,
+                "meta_diaria": meta_diaria,
+                "percentual": percentual,
+                "modo": r["modo"],
+            }
+        )
+
+        dia = por_data.setdefault(r["data"], {})
+        if r["tipo"] not in dia:
+            dia[r["tipo"]] = {
+                "tipo": r["tipo"],
+                "total": quantidade if r["modo"] == "definir" else 0.0,
+                "meta_diaria": meta_diaria,
+                "modo": r["modo"],
+            }
+        if r["modo"] == "somar":
+            dia[r["tipo"]]["total"] = round(dia[r["tipo"]]["total"] + quantidade, 2)
+
+    resumo_diario = []
+    for data_str in sorted(por_data.keys(), reverse=True):
+        itens = []
+        for tipo in ("agua", "sono"):
+            if tipo not in por_data[data_str]:
+                continue
+            info = por_data[data_str][tipo]
+            total = round(info["total"], 2)
+            meta_val = info["meta_diaria"]
+            pct = min(100, round((total / meta_val) * 100)) if meta_val > 0 else 0
+            itens.append(
+                {
+                    "tipo": tipo,
+                    "total": total,
+                    "meta_diaria": meta_val,
+                    "percentual": pct,
+                    "atingida": total >= meta_val if meta_val > 0 else False,
+                }
+            )
+        resumo_diario.append({"data": data_str, "metas": itens})
+
+    return {
+        "filtro": filtro or "todos",
+        "resumo_diario": resumo_diario,
+        "registros": registros,
     }
 
 
@@ -605,6 +777,9 @@ class PlataformaHandler(BaseHTTPRequestHandler):
             self._send_json(200, obter_evolucao_cargas(exercicio))
         elif parsed.path == "/api/metas":
             self._send_json(200, obter_metas())
+        elif parsed.path == "/api/metas/historico":
+            tipo = params.get("tipo", [None])[0]
+            self._send_json(200, obter_historico_metas(tipo))
         else:
             self._send_json(404, {"erro": "Rota não encontrada."})
 

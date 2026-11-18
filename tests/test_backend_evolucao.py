@@ -158,6 +158,42 @@ class TestMultiExercicioEvolucaoESono(unittest.TestCase):
         self.assertEqual(r2["metas"]["sono"]["progresso_atual"], 8.0)
         self.assertEqual(r2["metas"]["sono"]["percentual"], 100)
 
+    def test_historico_metas_agua_e_sono_por_data_e_filtro(self):
+        """Registra agua e sono no historico diario, evita duplicar sono no mesmo dia e filtra por tipo."""
+        # Preparar
+        main.salvar_metas({"agua_ml": 2000, "sono_horas": 8})
+        main.registrar_progresso_meta(
+            {"tipo": "agua", "quantidade": 250, "modo": "somar", "data": "2026-11-18"}
+        )
+        main.registrar_progresso_meta(
+            {"tipo": "agua", "quantidade": 500, "modo": "somar", "data": "2026-11-18"}
+        )
+        main.registrar_progresso_meta(
+            {"tipo": "sono", "quantidade": 7, "modo": "definir", "data": "2026-11-18"}
+        )
+        main.registrar_progresso_meta(
+            {"tipo": "sono", "quantidade": 7.5, "modo": "definir", "data": "2026-11-18"}
+        )
+        main.registrar_progresso_meta(
+            {"tipo": "sono", "quantidade": 8, "modo": "definir", "data": "2026-11-17"}
+        )
+
+        # Agir
+        hist_todos = main.obter_historico_metas()
+        hist_agua = main.obter_historico_metas("agua")
+        hist_sono = main.obter_historico_metas("sono")
+
+        # Conferir
+        self.assertEqual(len(hist_agua["registros"]), 2)
+        self.assertEqual(len(hist_sono["registros"]), 2)
+        self.assertEqual(hist_todos["resumo_diario"][0]["data"], "2026-11-18")
+        metas_dia = {m["tipo"]: m for m in hist_todos["resumo_diario"][0]["metas"]}
+        self.assertEqual(metas_dia["agua"]["total"], 750.0)
+        self.assertFalse(metas_dia["agua"]["atingida"])
+        self.assertEqual(metas_dia["sono"]["total"], 7.5)
+        self.assertFalse(metas_dia["sono"]["atingida"])
+        self.assertTrue(hist_sono["resumo_diario"][1]["metas"][0]["atingida"])
+
 
 class TestEvolucaoIntegracaoHTTP(unittest.TestCase):
     """Testa GET /api/treinos/evolucao e UI sem tags internas via HTTP."""
@@ -189,14 +225,24 @@ class TestEvolucaoIntegracaoHTTP(unittest.TestCase):
             dados = json.loads(resp.read().decode("utf-8"))
 
         with urllib.request.urlopen(
+            f"http://127.0.0.1:{self.port}/api/metas/historico",
+            timeout=5,
+        ) as resp_hist:
+            status_hist = resp_hist.status
+            hist = json.loads(resp_hist.read().decode("utf-8"))
+
+        with urllib.request.urlopen(
             f"http://127.0.0.1:{self.port}/", timeout=5
         ) as resp_html:
             html = resp_html.read().decode("utf-8")
 
         # Conferir
         self.assertEqual(status_api, 200)
+        self.assertEqual(status_hist, 200)
+        self.assertIn("resumo_diario", hist)
         self.assertEqual(dados["exercicio"], "Supino reto")
         self.assertFalse(dados["dados_suficientes"])
         self.assertNotIn("HU-0", html)
         self.assertIn("Registrar sono", html)
+        self.assertIn("Ver histórico de água e sono", html)
         self.assertIn("+ Adicionar exercício", html)
