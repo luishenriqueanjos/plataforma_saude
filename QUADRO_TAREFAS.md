@@ -3,13 +3,14 @@
 > **Projeto:** Plataforma de Hábitos Saudáveis e Treinos  
 > **Equipe:** Arthur Sidarta, Luis Henrique, Samuel Andrade  
 > **Cadência de Prazos:** Ciclos semanais de **segunda-feira a segunda-feira** (início e encerramento dos prazos toda segunda-feira; tarefas atualmente em andamento/revisão têm prazo até **segunda-feira, 23/11/2026**).  
+> **Classificação por Pontos e Capacidade Semanal:** A equipe avalia cada tarefa antes do ciclo e a classifica em pontos de esforço (`1 pt` = ajuste/revisão, `2 pts` = funcionalidade ou refatoração média, `3 pts` = funcionalidade ponta a ponta com banco + API + UI), mantendo a meta de **2 a 3 pontos por semana** no planejamento.  
 > **Política de WIP (Work in Progress):** Máximo de 1 tarefa ativa em andamento/revisão por integrante.  
 > **Fonte do diagrama:** [`diagrams/quadro-tarefas.mmd`](diagrams/quadro-tarefas.mmd)
 
 ```mermaid
 kanban
   todo["A Fazer (Ciclo 23/11 a 30/11)"]
-    hu03_evol["Painel semanal de água e sono, sono decimal/cochilo e modal de metas (2 pts)"]@{ ticket: "23-30/11", assigned: "Arthur", priority: "High" }
+    hu03_evol["Painel semanal de água e sono, sono decimal/cochilo e modal de metas (1 pt)"]@{ ticket: "23-30/11", assigned: "Arthur", priority: "High" }
     dt01["Extrair consultas SQLite do main.py para módulo próprio (2 pts)"]@{ ticket: "23-30/11", assigned: "Arthur", priority: "Low" }
     cap16["Revisão final de documentação, conferência cruzada e roteiro final (1 pt)"]@{ ticket: "23-30/11", assigned: "Luis", priority: "High" }
   inProgress["Em Andamento (Prazo: Seg 23/11)"]

@@ -3,15 +3,16 @@
 ## Iteração 4 — Planejamento Semanal (Evolução — Cap. 15 e 16)
 
 - **Cadência de prazos:** Ciclos semanais de **segunda-feira a segunda-feira**.
-  - **Ciclo em andamento (`Seg 16/11` a `Seg 23/11`):** `DT-03` (Arthur), `HU-04` (Samuel) e fechamento/revisão do Marco 3 (`Cap. 12`, Luis).
-  - **Próximo ciclo (`Seg 23/11` a `Seg 30/11`):** `HU-03+` (Arthur), `DT-01` (Arthur) e consolidação final (`Cap. 16`, Luis).
+- **Classificação por Pontos e Capacidade Semanal:** A equipe avalia cada tarefa antes do ciclo e a classifica em pontos de esforço (`1 pt` = ajuste/revisão, `2 pts` = funcionalidade ou refatoração média, `3 pts` = funcionalidade ponta a ponta com banco + API + UI), mantendo a meta de **2 a 3 pontos por semana** no planejamento.
+  - **Ciclo em andamento (`Seg 16/11` a `Seg 23/11`):** `DT-03` (`2 pts`, Arthur), `HU-04` (`2 pts`, Samuel) e fechamento/revisão do Marco 3 (`Cap. 12`, `1 pt`, Luis).
+  - **Próximo ciclo (`Seg 23/11` a `Seg 30/11`):** `HU-03+` (`1 pt`, Arthur), `DT-01` (`2 pts`, Arthur — fechando `3 pts`) e consolidação final (`Cap. 16`, `1 pt`, Luis).
 
 | Item | Pontos | Responsável principal | Prazo (Segunda a Segunda) |
 | --- | ---: | --- | --- |
 | `DT-03` Treino multiexercício, autocomplete, sessão anterior e CRUD | 2 | Arthur Sidarta | Ciclo atual (`16/11` a `23/11`) |
 | `HU-04` Gráfico de evolução (`Carga Máxima`, `1RM` Epley, `Volume Total`) e filtros | 2 | Samuel Andrade | Ciclo atual (`16/11` a `23/11`) |
 | `Cap. 12` Revisão final e conferência cruzada do Marco 3 | 1 | Luis Henrique | Ciclo atual (`16/11` a `23/11`) |
-| `HU-03+` Painel semanal de água/sono, sono decimal/cochilo, desfazer e modal de metas | 2 | Arthur Sidarta | Próximo ciclo (`23/11` a `30/11`) |
+| `HU-03+` Painel semanal de água/sono, sono decimal/cochilo, desfazer e modal de metas | 1 | Arthur Sidarta | Próximo ciclo (`23/11` a `30/11`) |
 | `DT-01` Extrair camada de consultas SQLite do `main.py` para módulo próprio | 2 | Arthur Sidarta | Próximo ciclo (`23/11` a `30/11`) |
 | `Cap. 16` Conferência cruzada final e roteiro da Review Final | 1 | Luis Henrique | Próximo ciclo (`23/11` a `30/11`) |
 
