@@ -1,5 +1,19 @@
 # Iterações
 
+## Iteração 4 — Planejamento da Próxima Semana (Evolução — Cap. 15 e 16)
+
+- **Meta:** Evoluir a plataforma com gráficos de progressão de exercícios (`HU-04`), suporte a treinos multiexercício e CRUD (`DT-03`), acompanhamento visual semanal de água e sono (`HU-03+`), pagamento da dívida técnica `DT-01` e consolidação final (`Cap. 16`).
+
+| Item | Pontos | Responsável principal | Escopo previsto |
+| --- | ---: | --- | --- |
+| `HU-04` Gráfico de evolução de cargas (`Carga Máxima`, `1RM` Epley, `Volume Total`) e filtros | 2 | Samuel Andrade | Próxima semana (Cap. 15) |
+| `DT-03` Treino multiexercício, autocomplete, sessão anterior e CRUD | 2 | Arthur Sidarta | Próxima semana (Cap. 15) |
+| `HU-03+` Painel semanal de água/sono, sono decimal/cochilo, desfazer e modal de metas | 2 | Arthur Sidarta | Próxima semana (Cap. 15) |
+| `DT-01` Extrair camada de consultas SQLite do `main.py` para módulo próprio | 2 | Arthur Sidarta | Próxima semana |
+| `Cap. 16` Conferência cruzada final e roteiro da Review Final | 1 | Luis Henrique | Próxima semana (Cap. 16) |
+
+---
+
 ## Iteração 3 (Encontros 10 a 12 — Marco: Qualidade Verificada)
 
 - **Meta:** Implementar o acompanhamento de metas de água e sono (`HU-03`), estruturar a verificação e validação (`TESTES.md`), registrar e controlar dívida técnica, e ativar a suíte de testes automatizados (`pytest`) e integração contínua (`GitHub Actions`).
@@ -10,7 +24,27 @@
 | `HU-03` Cadastrar e atualizar progresso de metas de água e sono (`META`) | 3 | Arthur Sidarta | Sim |
 | `Cap. 10` Lista de verificação de revisão, template de PR, GQM e dívida técnica | 1 | Luis Henrique | Sim |
 | `Cap. 11` Inspeção de requisitos e criação do `TESTES.md` (partições e limites) | 2 | Samuel Andrade | Sim |
-| `Cap. 12` Suíte automatizada (`pytest`), estilo (`ruff`) e CI (`.github/workflows/`) | 2 | Arthur Sidarta / Luis Henrique | Sim |
+| `Cap. 12` Suíte automatizada (`pytest`), estilo (`ruff`), CI e revisão dos `TCs` | 2 | Arthur Sidarta / Luis Henrique | Sim |
+
+### Burndown Chart — Iteração 3
+
+Diagrama em [`diagrams/burndown-iteracao3.mmd`](diagrams/burndown-iteracao3.mmd).
+
+```mermaid
+xychart-beta
+    title "Burndown Chart - Iteração 3 (Marco: Qualidade Verificada)"
+    x-axis ["29/10 (Enc. 10)", "02/11", "05/11 (Enc. 11)", "09/11", "12/11 (Enc. 12)", "18/11 (Atual)"]
+    y-axis "Pontos restantes" 0 --> 8
+    bar [8, 8, 5, 5, 1, 1]
+    line [8, 6.4, 4.8, 3.2, 1.6, 0]
+```
+
+- **Barras (Real):** `[8, 8, 5, 5, 1, 1]` — acompanhamento pelos marcos de entrega no repositório (`7` de `8` pontos concluídos até `18/11`, restando apenas `1 pt` em revisão final por Luis):
+  - `29/10 (Enc. 10)`: `8 pts` planejados no início da iteração.
+  - `05/11 (Enc. 11)`: `5 pts` restantes após entrega de `HU-03` (`-3 pts`, commit `a374913`).
+  - `12/11 (Enc. 12)`: `1 pt` restante após entrega de `Cap. 10` (`-1 pt`), `Cap. 11` (`-2 pts`) e suíte/CI de `Cap. 12` (`-1 pt`, commits `19c2f11` a `89a7d13`).
+  - `18/11 (Atual)`: `1 pt` restante na conferência cruzada final do Marco 3 (`Cap. 12` em revisão no `QUADRO_TAREFAS.md`), com quadro Kanban em Mermaid e Burndown Chart atualizados para a apresentação.
+- **Linha (Ideal):** `[8, 6.4, 4.8, 3.2, 1.6, 0]` — queima linear esperada dos 8 pontos planejados ao longo do ciclo.
 
 ### Dívidas Técnicas Registradas (Cap. 10)
 
