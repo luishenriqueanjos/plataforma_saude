@@ -7,25 +7,25 @@
 
 ```mermaid
 kanban
-  todo["A Fazer — Próxima Semana (Cap. 15 / Evolução)"]
-    dt03["Treino multiexercício, autocomplete, sessão anterior e CRUD"]@{ ticket: "DT-03 (2 pts)", assigned: "Arthur Sidarta", priority: "High" }
-    hu03_evol["Painel semanal de água e sono, sono decimal/cochilo e modal de metas"]@{ ticket: "HU-03+ (2 pts)", assigned: "Arthur Sidarta", priority: "High" }
-    dt01["Extrair consultas SQLite do main.py para módulo próprio"]@{ ticket: "DT-01 (2 pts)", assigned: "Arthur Sidarta", priority: "Low" }
-    cap16["Revisão final de documentação, conferência cruzada e roteiro final"]@{ ticket: "Cap. 16 (1 pt)", assigned: "Luis Henrique", priority: "High" }
-  inProgress["Em Andamento (In Progress)"]
-    hu04["Gráfico de evolução de cargas (Carga Máxima, 1RM e Volume) com filtros"]@{ ticket: "HU-04 (2 pts)", assigned: "Samuel Andrade", priority: "High" }
-  inReview["Em Revisão (In Review)"]
-    cap12_rev["Conferência cruzada final do Marco 3 e revisão dos PRs de testes"]@{ ticket: "Cap. 12 (1 pt)", assigned: "Luis Henrique", priority: "High" }
-  done["Concluído (Done)"]
-    hu01["Modelagem SQLite, rota POST /api/treinos e tela de recusa 400"]@{ ticket: "HU-01 (3 pts)", assigned: "Arthur Sidarta", priority: "Very High" }
-    hu02["Cálculo automático de volume e histórico de treinos"]@{ ticket: "HU-02 (2 pts)", assigned: "Samuel Andrade", priority: "Very High" }
-    arch["Definição da arquitetura, contrato da API e roteiro da Review Parcial"]@{ ticket: "ARCH (2 pts)", assigned: "Luis Henrique", priority: "High" }
-    hu03["Cadastro e progresso de metas de água e sono na tabela META"]@{ ticket: "HU-03 (3 pts)", assigned: "Arthur Sidarta", priority: "High" }
-    cap10_rev["Checklist de revisão de código, template de PR e métricas GQM"]@{ ticket: "Cap. 10 (1 pt)", assigned: "Luis Henrique", priority: "High" }
-    cap10_dt["Mapeamento de dívida técnica com estimativa em pontos"]@{ ticket: "Cap. 10 (DT)", assigned: "Samuel Andrade", priority: "Low" }
-    cap11["Inspeção de requisitos e casos de teste no TESTES.md"]@{ ticket: "Cap. 11 (2 pts)", assigned: "Samuel Andrade", priority: "High" }
-    cap12_qa["Suíte pytest, verificador ruff, CI verde e testes de metas (CA-03.1–03.3)"]@{ ticket: "Cap. 12 (2 pts)", assigned: "Arthur e Luis", priority: "Very High" }
-    kanban_bd["Quadro Kanban em Mermaid e Burndown Chart da Iteração 3"]@{ ticket: "Gestão (18/11)", assigned: "Arthur Sidarta", priority: "High" }
+  todo["A Fazer (Próxima Semana)"]
+    dt03["Treino multiexercício, autocomplete, sessão anterior e CRUD (2 pts)"]@{ ticket: "DT-03", assigned: "Arthur", priority: "High" }
+    hu03_evol["Painel semanal de água e sono, sono decimal/cochilo e modal de metas (2 pts)"]@{ ticket: "HU-03+", assigned: "Arthur", priority: "High" }
+    dt01["Extrair consultas SQLite do main.py para módulo próprio (2 pts)"]@{ ticket: "DT-01", assigned: "Arthur", priority: "Low" }
+    cap16["Revisão final de documentação, conferência cruzada e roteiro final (1 pt)"]@{ ticket: "Cap. 16", assigned: "Luis", priority: "High" }
+  inProgress["Em Andamento"]
+    hu04["Gráfico de evolução de cargas: Carga Máxima, 1RM e Volume (2 pts)"]@{ ticket: "HU-04", assigned: "Samuel", priority: "High" }
+  inReview["Em Revisão"]
+    cap12_rev["Conferência cruzada final do Marco 3 e revisão dos PRs de testes (1 pt)"]@{ ticket: "Cap. 12", assigned: "Luis", priority: "High" }
+  done["Concluído"]
+    hu01["Modelagem SQLite, rota POST /api/treinos e tela de recusa 400 (3 pts)"]@{ ticket: "HU-01", assigned: "Arthur", priority: "Very High" }
+    hu02["Cálculo automático de volume e histórico de treinos (2 pts)"]@{ ticket: "HU-02", assigned: "Samuel", priority: "Very High" }
+    arch["Arquitetura, contrato da API e roteiro da Review Parcial (2 pts)"]@{ ticket: "ARCH", assigned: "Luis", priority: "High" }
+    hu03["Cadastro e progresso de metas de água e sono na tabela META (3 pts)"]@{ ticket: "HU-03", assigned: "Arthur", priority: "High" }
+    cap10_rev["Checklist de revisão de código, template de PR e métricas GQM (1 pt)"]@{ ticket: "Cap. 10", assigned: "Luis", priority: "High" }
+    cap10_dt["Mapeamento de dívida técnica com estimativa em pontos (1 pt)"]@{ ticket: "DT", assigned: "Samuel", priority: "Low" }
+    cap11["Inspeção de requisitos e casos de teste no TESTES.md (2 pts)"]@{ ticket: "Cap. 11", assigned: "Samuel", priority: "High" }
+    cap12_qa["Suíte pytest, verificador ruff, CI verde e testes de metas (2 pts)"]@{ ticket: "Cap. 12", assigned: "Arthur", priority: "Very High" }
+    kanban_bd["Quadro Kanban em Mermaid e Burndown Chart da Iteração 3"]@{ ticket: "18/11", assigned: "Arthur", priority: "High" }
 ```
 
 ---
